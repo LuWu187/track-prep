@@ -377,9 +377,12 @@
           <input id="scanWeight" type="text" inputmode="decimal" placeholder="Gewicht kg" style="flex:1;min-width:0;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
           <input id="scanFatKg" type="text" inputmode="decimal" placeholder="Fett kg" style="flex:1;min-width:0;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
         </div>
-        <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <div style="display:flex;gap:6px;margin-bottom:6px;">
           <input id="scanFatPct" type="text" inputmode="decimal" placeholder="KFA %" style="flex:1;min-width:0;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
           <input id="scanMuscle" type="text" inputmode="decimal" placeholder="Muskel kg" style="flex:1;min-width:0;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:8px;">
+          <input id="scanHeight" type="text" inputmode="decimal" placeholder="Gr\u00f6\u00dfe cm (nur beim 1. Scan n\u00f6tig)" style="flex:1;min-width:0;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
         </div>
         <button class="wide-btn finish" id="saveScanBtn" style="justify-content:center;">Scan speichern — wird neuer Nullpunkt</button>
       </div>
@@ -674,7 +677,7 @@
     if(!appState.days) appState.days = {};
     if(!appState.checks) appState.checks = {};
     if(!appState.history) appState.history = [];
-    if(!appState.inbodyScans) appState.inbodyScans = [JSON.parse(JSON.stringify(INBODY_SEED))];
+    if(!appState.inbodyScans) appState.inbodyScans = [];
     let scansChanged = false;
     NEW_SCANS.forEach(s=>{
       if(!appState.inbodyScans.some(x=>x.date===s.date)){
@@ -1315,8 +1318,13 @@
 
   // ---- Statistik & Erwartungs-Score ----
   function tdeeRatio(){
-    const s = latestScan();
-    return (s && s.weight) ? (s.weight / INBODY_SEED.weight) : 1;
+    // Skaliert TDEE relativ zum EIGENEN ersten Scan des Nutzers (kein fester Referenzwert im Code noetig)
+    if(!appState.inbodyScans || appState.inbodyScans.length < 1) return 1;
+    const sorted = [...appState.inbodyScans].sort((a,b)=> a.date.localeCompare(b.date));
+    const first = sorted[0];
+    const latest = sorted[sorted.length-1];
+    if(!first.weight || !latest.weight) return 1;
+    return latest.weight / first.weight;
   }
   function currentTDEERef(){ return Math.round(2500 * tdeeRatio()); }
   function currentTDEEByGoal(){
@@ -1324,10 +1332,10 @@
     return {1800: Math.round(2200*r), 1950: Math.round(2600*r), 2100: Math.round(2800*r)};
   }
 
-  const INBODY_SEED = {date:'2026-07-06', weight:65.0, fatKg:9.8, fatPct:15.1, muscle:31.6};
+  const INBODY_SEED = null; // keine Personendaten im öffentlichen Quellcode — jeder Nutzer trägt seinen eigenen ersten Scan in der App ein
 
   function latestScan(){
-    if(!appState.inbodyScans || !appState.inbodyScans.length) appState.inbodyScans = [JSON.parse(JSON.stringify(INBODY_SEED))];
+    if(!appState.inbodyScans || !appState.inbodyScans.length) return null;
     return [...appState.inbodyScans].sort((a,b)=> b.date.localeCompare(a.date))[0];
   }
 
@@ -1336,6 +1344,7 @@
 
   function projectionData(){
     const base = latestScan();
+    if(!base) return null;
     const days = appState.history.map(h=>h.date).filter(d=> d >= base.date).sort();
     if(!days.length) return null;
     let deficit = 0;
@@ -1371,6 +1380,12 @@
       b.style.borderColor = active ? 'rgba(209,165,61,0.4)' : '';
     });
     const base = latestScan();
+    if(!base){
+      el.innerHTML = '<div class="empty" style="display:block;text-align:left;padding:8px 0;">Noch kein Scan hinterlegt \u2014 trag unten bei \u201eInBody-Verlauf\u201c deinen ersten Scan ein, dann erscheint hier dein K\u00f6rper-Status.</div>';
+      foot.textContent = '';
+      tag.textContent = 'Kein Scan';
+      return;
+    }
     let v, diff = null;
     if(bodyMode === 'ist'){
       tag.textContent = 'Scan ' + fmtDate(base.date);
@@ -1389,7 +1404,8 @@
       diff = {weight:p.weight-base.weight, fatKg:p.fatKg-base.fatKg, fatPct:p.fatPct-base.fatPct};
       foot.textContent = 'Wenn es im Schnitt so weiterl\u00e4uft wie bisher (\u00d8 ' + Math.round(p.avgPerDay) + ' kcal Defizit/Tag \u00fcber ' + p.days + ' Tage) \u2014 hochgerechnet auf ~30 Tage nach dem Scan. Muskel: Planziel Erhalt.';
     }
-    const bmi = v.weight / (1.69*1.69);
+    const heightM = (base.heightCm || (appState.profile && appState.profile.heightCm) || null);
+    const bmi = heightM ? v.weight / ((heightM/100)*(heightM/100)) : null;
     const dTxt = (x, unit, dec)=>{
       if(diff === null) return '';
       const val = diff[x];
@@ -1429,7 +1445,7 @@
         </div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--chalk-dim);">BMI ${bmi.toFixed(1)} \u00b7 169 cm</div>`;
+    ${bmi ? '<div style="text-align:center;margin-top:10px;font-size:11px;color:var(--chalk-dim);">BMI ' + bmi.toFixed(1) + ' \u00b7 ' + heightM + ' cm</div>' : ''}`;
   }
 
   document.querySelectorAll('.bodymode-btn').forEach(b=>{
@@ -1440,9 +1456,13 @@
     const list = document.getElementById('inbodyList');
     const tag = document.getElementById('inbodyTag');
     if(!list) return;
-    if(!appState.inbodyScans || !appState.inbodyScans.length) appState.inbodyScans = [JSON.parse(JSON.stringify(INBODY_SEED))];
+    if(!appState.inbodyScans) appState.inbodyScans = [];
     const sorted = [...appState.inbodyScans].sort((a,b)=> b.date.localeCompare(a.date));
-    tag.textContent = sorted.length + ' Scan' + (sorted.length>1?'s':'');
+    tag.textContent = sorted.length + ' Scan' + (sorted.length===1?'':'s');
+    if(!sorted.length){
+      list.innerHTML = '<div class="empty" style="display:block;text-align:left;padding:8px 0;">Noch kein Scan eingetragen \u2014 tippe unten auf \u201e+ Neuen Scan eintragen\u201c, um deinen ersten InBody-Wert zu hinterlegen.</div>';
+      return;
+    }
     list.innerHTML = sorted.map((s,i)=>{
       const prev = sorted[i+1];
       let diff = '';
@@ -1462,6 +1482,8 @@
     const f = document.getElementById('scanForm');
     f.style.display = f.style.display === 'none' ? 'block' : 'none';
     document.getElementById('scanDate').value = todayStr();
+    const h = appState.profile && appState.profile.heightCm;
+    if(h) document.getElementById('scanHeight').value = h;
   });
 
   document.getElementById('saveScanBtn').addEventListener('click', async ()=>{
@@ -1470,17 +1492,24 @@
     const fatKg = parseFloat(document.getElementById('scanFatKg').value.replace(',','.'));
     const fatPct = parseFloat(document.getElementById('scanFatPct').value.replace(',','.'));
     const muscle = parseFloat(document.getElementById('scanMuscle').value.replace(',','.')) || null;
+    const heightCm = parseFloat(document.getElementById('scanHeight').value.replace(',','.')) || null;
     if(isNaN(weight) || isNaN(fatKg) || isNaN(fatPct)){ return; }
-    if(!appState.inbodyScans) appState.inbodyScans = [JSON.parse(JSON.stringify(INBODY_SEED))];
+    if(!appState.inbodyScans) appState.inbodyScans = [];
+    if(heightCm){
+      if(!appState.profile) appState.profile = {};
+      appState.profile.heightCm = heightCm; // einmal gesetzt, gilt fuer alle künftigen Scans
+    }
     appState.inbodyScans = appState.inbodyScans.filter(s=>s.date!==date);
-    appState.inbodyScans.push({date, weight, fatKg, fatPct, muscle});
+    appState.inbodyScans.push({date, weight, fatKg, fatPct, muscle, heightCm: heightCm || (appState.profile && appState.profile.heightCm) || null});
     await saveState();
     document.getElementById('scanForm').style.display = 'none';
-    ['scanWeight','scanFatKg','scanFatPct','scanMuscle'].forEach(id=>document.getElementById(id).value='');
+    ['scanWeight','scanFatKg','scanFatPct','scanMuscle','scanHeight'].forEach(id=>document.getElementById(id).value='');
     renderInbodyList();
     renderExpectation();
+    renderBodyCard();
   });
   let statsRange = 7;
+
 
   document.querySelectorAll('.stats-range').forEach(b=>{
     b.addEventListener('click', ()=>{
@@ -1626,6 +1655,10 @@
     const el = document.getElementById('expectBody');
     if(!el) return;
     const base = latestScan();
+    if(!base){
+      el.innerHTML = 'Noch kein InBody-Scan hinterlegt \u2014 trag oben deinen ersten Scan ein, dann rechne ich dir hier deine Erwartung f\u00fcr den n\u00e4chsten Scan hoch.';
+      return;
+    }
     // Kumuliertes Defizit seit dem NEUESTEN Scan aus allen ABGESCHLOSSENEN Tagen
     const days = appState.history.map(h=>h.date).filter(d=> d >= base.date).sort(); // Scan-Tag zaehlt mit (Scan morgens)
     if(!days.length){
