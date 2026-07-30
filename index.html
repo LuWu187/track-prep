@@ -528,6 +528,8 @@
   });
 
   // ---- Spieltag-Widget: nur Sonntags ab Saisonstart sichtbar ----
+  const SEASON_START = new Date('2026-07-21T00:00:00');
+
   function renderSpielWidget(){
     const card = document.getElementById('spielCard');
     if(!card) return;
@@ -543,7 +545,7 @@
     document.getElementById('spielAssists').value = dayData.spiel.assists || '';
     const min = Number(dayData.spiel.min) || 0;
     const hint = document.getElementById('spielHint');
-    hint.textContent = (min > 0 && min < 60) ? '\u2192 Weniger als 60 Min. gespielt: optionaler Zusatz (Lauf/Gym) k\u00f6nnte sich lohnen \u2014 siehe Haken im Split-Reiter.' : '';
+    hint.textContent = (min > 0 && min < 60) ? '\u2192 Weniger als 60 Min. gespielt: optionaler Zusatz (Lauf/Gym) k\u00f6nnte sich lohnen.' : '';
   }
   let spielTimer = null;
   ['spielMin','spielTore','spielAssists'].forEach(id=>{
