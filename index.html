@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-<title>Matchday Prep</title>
+<title>Rekomp</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Matchday">
+<meta name="apple-mobile-web-app-title" content="Rekomp">
 <meta name="theme-color" content="#14231a">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Matchday">
+<meta name="apple-mobile-web-app-title" content="Rekomp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -238,11 +238,11 @@
 <body>
 
 <header>
-  <div class="eyebrow"><span class="dot"></span> MATCHDAY PREP</div>
+  <div class="eyebrow"><span class="dot"></span> REKOMP</div>
   <div class="score">
     <div>
       <div class="num" id="countdownNum">--</div>
-      <div class="lbl" id="countdownLbl">Tage bis Vereinsstart</div>
+      <div class="lbl" id="countdownLbl">Tage seit dem letzten Scan</div>
     </div>
   </div>
   <div class="score sub" id="dateLabel"></div>
@@ -319,25 +319,6 @@
       <button class="wide-btn finish" id="finishDayBtn">✓ Tag abschließen &amp; speichern</button>
       <div style="font-size:11px;color:var(--chalk-dim);text-align:center;" id="finishHint"></div>
       <div class="empty" id="formError" style="display:none; color:#e3897a; font-style:normal;"></div>
-    </div>
-
-    <div class="card" id="spielCard" style="display:none;">
-      <h2>Spieltag ⚽</h2>
-      <div style="display:flex; gap:8px; margin-bottom:4px;">
-        <div style="flex:1;">
-          <div style="font-size:11px;color:var(--chalk-dim);margin-bottom:4px;">Minuten gespielt</div>
-          <input id="spielMin" type="text" inputmode="numeric" placeholder="z.B. 60" style="width:100%;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:9px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:center;">
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:11px;color:var(--chalk-dim);margin-bottom:4px;">Tore</div>
-          <input id="spielTore" type="text" inputmode="numeric" placeholder="0" style="width:100%;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:9px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:center;">
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:11px;color:var(--chalk-dim);margin-bottom:4px;">Vorlagen</div>
-          <input id="spielAssists" type="text" inputmode="numeric" placeholder="0" style="width:100%;background:rgba(242,237,225,0.06);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:9px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:center;">
-        </div>
-      </div>
-      <div id="spielHint" style="font-size:11.5px;color:var(--gold);margin-top:8px;"></div>
     </div>
 
     <div class="card">
@@ -420,7 +401,7 @@
       </div>
       <div id="statsBody" style="font-size:13px; line-height:1.9; color:var(--chalk-dim);"></div>
       <hr class="rule">
-      <div style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:12.5px;color:var(--gold);letter-spacing:0.06em;margin-bottom:6px;">Erwartung vs. InBody (06.07.)</div>
+      <div style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:12.5px;color:var(--gold);letter-spacing:0.06em;margin-bottom:6px;" id="expectHead">Erwartung vs. InBody</div>
       <div id="expectBody" style="font-size:12.5px; line-height:1.8; color:var(--chalk-dim);"></div>
     </div>
 
@@ -432,11 +413,16 @@
     <div class="card">
       <h2>Daten-Backup <span class="tag">wichtig vor Updates</span></h2>
       <div style="font-size:12px;color:var(--chalk-dim);line-height:1.6;margin-bottom:10px;">
-        Vor jeder neuen Version des Trackers: <b style="color:var(--chalk)">Backup erstellen</b> → Text kopieren. In der neuen Version: einfügen → <b style="color:var(--chalk)">Wiederherstellen</b>. So bleibt alles erhalten.
+        Vor jeder neuen Version: <b style="color:var(--chalk)">Als Datei sichern</b> → landet in deinen Downloads und bleibt dort liegen. Zum Zurückholen: <b style="color:var(--chalk)">Datei laden</b>. Der Textweg darunter ist nur der Notnagel.
       </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button class="backbtn" style="flex:1;margin:0;color:var(--turf);border-color:var(--turf);" id="backupFileBtn">⬇ Als Datei sichern</button>
+        <button class="backbtn" style="flex:1;margin:0;" id="restoreFileBtn">⬆ Datei laden</button>
+      </div>
+      <input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;">
       <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <button class="backbtn" style="flex:1;margin:0;color:var(--turf);border-color:var(--turf);" id="backupBtn">Backup erstellen</button>
-        <button class="backbtn" style="flex:1;margin:0;" id="restoreBtn">Wiederherstellen</button>
+        <button class="backbtn" style="flex:1;margin:0;font-size:11px;" id="backupBtn">Als Text kopieren</button>
+        <button class="backbtn" style="flex:1;margin:0;font-size:11px;" id="restoreBtn">Aus Text wiederherstellen</button>
       </div>
       <textarea id="backupArea" placeholder="Backup-Text erscheint hier / hier einfügen zum Wiederherstellen" style="width:100%;min-height:80px;background:rgba(242,237,225,0.05);border:1px solid var(--line);color:var(--chalk);border-radius:7px;padding:9px;font-size:11px;font-family:'JetBrains Mono',monospace;resize:vertical;"></textarea>
       <div style="font-size:11.5px;margin-top:6px;" id="backupStatus"></div>
@@ -471,6 +457,11 @@
 
 <script>
 (function(){
+  // Zentraler State — muss ganz oben stehen: Funktionen wie updateCountdown()
+  // laufen schon vor init() und greifen darauf zu.
+  let appState = {days:{}, checks:{}, history:[]};
+  let dayData = null;
+
   const todayStr = () => {
     const d = new Date();
     return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -481,7 +472,9 @@
 
   // Neue InBody-Scans, die Claude auf Zuruf hier einträgt (z.B. {date:'2026-08-10', weight:64.2, fatKg:8.9, fatPct:13.9, muscle:31.8}).
   // Wird beim nächsten Start automatisch übernommen, ohne bestehende Geräte-Daten zu überschreiben.
-  const NEW_SCANS = [];
+  const NEW_SCANS = [
+    {date:'2026-08-10', weight:63.8, fatKg:9.3, fatPct:14.6, muscle:31.1}
+  ];
 
   let activeDate = todayStr();
 
@@ -509,7 +502,6 @@
     renderMeals();
     renderActivities();
     renderNote();
-    renderSpielWidget();
     if(typeof updateYesterdayHint === 'function') updateYesterdayHint();
     if(typeof renderFinishState === 'function') renderFinishState();
     document.getElementById('finishHint').textContent = '';
@@ -527,37 +519,6 @@
     noteTimer = setTimeout(()=>{ saveDay(); }, 500); // debounced speichern
   });
 
-  // ---- Spieltag-Widget: nur Sonntags ab Saisonstart sichtbar ----
-  const SEASON_START = new Date('2026-07-21T00:00:00');
-
-  function renderSpielWidget(){
-    const card = document.getElementById('spielCard');
-    if(!card) return;
-    const [y,m,d] = activeDate.split('-').map(Number);
-    const dt = new Date(y, m-1, d);
-    const isSunday = dt.getDay() === 0;
-    const inSeason = dt >= SEASON_START;
-    card.style.display = (isSunday && inSeason) ? 'block' : 'none';
-    if(!(isSunday && inSeason)) return;
-    if(!dayData.spiel) dayData.spiel = {min:'', tore:'', assists:''};
-    document.getElementById('spielMin').value = dayData.spiel.min || '';
-    document.getElementById('spielTore').value = dayData.spiel.tore || '';
-    document.getElementById('spielAssists').value = dayData.spiel.assists || '';
-    const min = Number(dayData.spiel.min) || 0;
-    const hint = document.getElementById('spielHint');
-    hint.textContent = (min > 0 && min < 60) ? '\u2192 Weniger als 60 Min. gespielt: optionaler Zusatz (Lauf/Gym) k\u00f6nnte sich lohnen.' : '';
-  }
-  let spielTimer = null;
-  ['spielMin','spielTore','spielAssists'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', ()=>{
-      if(!dayData.spiel) dayData.spiel = {};
-      dayData.spiel.min = document.getElementById('spielMin').value;
-      dayData.spiel.tore = document.getElementById('spielTore').value;
-      dayData.spiel.assists = document.getElementById('spielAssists').value;
-      clearTimeout(spielTimer);
-      spielTimer = setTimeout(()=>{ saveDay(); renderSpielWidget(); }, 500);
-    });
-  });
   function shiftDay(delta){
     const [y,m,d] = activeDate.split('-').map(Number);
     const dt = new Date(y, m-1, d);
@@ -581,20 +542,22 @@
   let lastKnownToday = todayStr();
   setInterval(ensureToday, 60000);
 
-  // ---- countdown: bis Vereinsstart, danach bis zum naechsten Spieltag (So) ----
+  // ---- Header-Zaehler: Tage seit dem letzten InBody-Scan ----
   function updateCountdown(){
     const now = new Date();
     const numEl = document.getElementById('countdownNum');
     const lblEl = document.getElementById('countdownLbl');
-    const start = new Date('2026-07-21T00:00:00');
-    if(now < start){
-      numEl.textContent = Math.max(0, Math.ceil((start - now) / 86400000));
-      lblEl.textContent = 'Tage bis Vereinsstart';
+    const scan = (typeof latestScan === 'function') ? latestScan() : null;
+    if(scan && scan.date){
+      const [y,m,d] = scan.date.split('-').map(Number);
+      const sd = new Date(y, m-1, d);
+      const today = new Date(now); today.setHours(0,0,0,0);
+      const days = Math.max(0, Math.round((today - sd) / 86400000));
+      numEl.textContent = days;
+      lblEl.textContent = days === 1 ? 'Tag seit dem letzten Scan' : 'Tage seit dem letzten Scan';
     } else {
-      const d = new Date(now); d.setHours(0,0,0,0);
-      const daysToSunday = (7 - d.getDay()) % 7;
-      numEl.textContent = daysToSunday;
-      lblEl.textContent = daysToSunday === 0 ? 'Heute Spieltag \u26bd' : 'Tage bis zum Spiel';
+      numEl.textContent = '\u2014';
+      lblEl.textContent = 'Noch kein Scan hinterlegt';
     }
     const opts = {weekday:'long', day:'2-digit', month:'long'};
     document.getElementById('dateLabel').textContent = 'Heute: ' + now.toLocaleDateString('de-DE', opts);
@@ -612,8 +575,6 @@
   });
 
   // ---- storage: EIN zentraler State in EINEM Key ----
-  let appState = {days:{}, checks:{}, history:[]};
-  let dayData = null;
 
   async function loadState(){
     await initStorageMode();
@@ -723,7 +684,7 @@
     if(dayData.meals.length === 0){ empty.style.display='block'; } else { empty.style.display='none'; }
     let kcal=0, prot=0;
     dayData.meals.forEach((m, idx)=>{
-      kcal += Number(m.kcal); prot += Number(m.protein);
+      kcal += num(m.kcal); prot += num(m.protein);
       const li = document.createElement('li');
       li.innerHTML = `<span class="m-name">${escapeHtml(m.name)}</span>
         <span class="m-meta">${m.kcal} kcal · ${m.protein}g P <button class="del" data-idx="${idx}">×</button></span>`;
@@ -950,14 +911,14 @@
     empty.style.display = acts.length ? 'none' : 'block';
     let burned = 0;
     acts.forEach((a, idx)=>{
-      burned += a.kcal;
+      burned += num(a.kcal);
       const li = document.createElement('li');
       li.innerHTML = `<span class="m-name">${ACT_TYPES[a.type] ? ACT_TYPES[a.type].label : a.type} \u00b7 ${a.min} Min.</span>
         <span class="m-meta">~${a.kcal} kcal <button class="del" data-aidx="${idx}">\u00d7</button></span>`;
       list.appendChild(li);
     });
     document.getElementById('burnTag').textContent = '~' + burned + ' kcal verbrannt';
-    const intake = (dayData.meals||[]).reduce((s,m)=>s+Number(m.kcal),0);
+    const intake = (dayData.meals||[]).reduce((s,m)=>s+num(m.kcal),0);
     const goal = dayData.kcalGoal || 1950;
     const net = intake - burned;
     document.getElementById('netLine').textContent = burned
@@ -1027,9 +988,11 @@
   });
 
   // ---- Tag abschliessen & Verlauf ----
+  function num(x){ const n = Number(x); return isFinite(n) ? n : 0; }
+
   function dayTotals(data){
-    const kcal = (data.meals||[]).reduce((s,m)=>s+Number(m.kcal),0);
-    const prot = (data.meals||[]).reduce((s,m)=>s+Number(m.protein),0);
+    const kcal = (data.meals||[]).reduce((s,m)=>s+num(m.kcal),0);
+    const prot = (data.meals||[]).reduce((s,m)=>s+num(m.protein),0);
     return {kcal: Math.round(kcal), prot: Math.round(prot)};
   }
 
@@ -1135,10 +1098,6 @@
     });
     const extras = document.getElementById('histExtras');
     let ex = '';
-    if(histDayData.spiel && (histDayData.spiel.min || histDayData.spiel.tore || histDayData.spiel.assists)){
-      ex += '<div style="margin-top:10px;font-size:12.5px;color:var(--chalk-dim);">\u26bd <b style="color:var(--chalk)">' +
-        (histDayData.spiel.min||0) + ' Min.</b> \u00b7 ' + (histDayData.spiel.tore||0) + ' Tore \u00b7 ' + (histDayData.spiel.assists||0) + ' Vorlagen</div>';
-    }
     if(histDayData.note && histDayData.note.trim()){
       ex += '<div style="margin-top:8px;padding:9px 11px;background:rgba(242,237,225,0.04);border-left:2px solid var(--gold);border-radius:0 7px 7px 0;font-size:12.5px;color:var(--chalk-dim);white-space:pre-wrap;">' + escapeHtml(histDayData.note) + '</div>';
     }
@@ -1171,14 +1130,63 @@
   });
 
   // ---- Backup / Restore ----
+  function backupPayload(){
+    return JSON.stringify({version:3, exported:new Date().toISOString(), state:appState});
+  }
+  function backupSummary(){
+    const nMeals = Object.values(appState.days).reduce((s,d)=>s+(d.meals?d.meals.length:0),0);
+    return Object.keys(appState.days).length + ' Tage, ' + nMeals + ' Mahlzeiten, ' +
+           Object.keys(appState.checks).length + ' Haken, ' + appState.history.length + ' abgeschlossene Tage';
+  }
+
+  // Echte Datei statt Zwischenablage \u2014 die haelt, auch wenn du zwischendurch was anderes kopierst.
+  document.getElementById('backupFileBtn').addEventListener('click', ()=>{
+    const status = document.getElementById('backupStatus');
+    try{
+      const txt = backupPayload();
+      const d = new Date();
+      const stamp = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      const blob = new Blob([txt], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'rekomp-backup-' + stamp + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 2000);
+      status.style.color = 'var(--turf)';
+      status.textContent = '\u2713 Datei gespeichert (' + Math.round(txt.length/1024) + ' kB) \u2014 ' + backupSummary() + '.';
+    }catch(err){
+      status.style.color = 'var(--rust)';
+      status.textContent = 'Datei-Download nicht m\u00f6glich: ' + err.message + ' \u2014 nimm den Textweg darunter.';
+    }
+  });
+
+  document.getElementById('restoreFileBtn').addEventListener('click', ()=>{
+    document.getElementById('restoreFileInput').click();
+  });
+  document.getElementById('restoreFileInput').addEventListener('change', (e)=>{
+    const status = document.getElementById('backupStatus');
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      document.getElementById('backupArea').value = String(reader.result || '');
+      status.style.color = 'var(--gold)';
+      status.textContent = 'Datei gelesen \u2014 jetzt \u201eAus Text wiederherstellen\u201c antippen.';
+    };
+    reader.onerror = ()=>{
+      status.style.color = 'var(--rust)';
+      status.textContent = 'Datei konnte nicht gelesen werden.';
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
   document.getElementById('backupBtn').addEventListener('click', async ()=>{
     const status = document.getElementById('backupStatus');
     try{
-      const nDays = Object.keys(appState.days).length;
-      const nMeals = Object.values(appState.days).reduce((s,d)=>s+(d.meals?d.meals.length:0),0);
-      const txt = JSON.stringify({version:3, exported:new Date().toISOString(), state:appState});
+      const txt = backupPayload();
       document.getElementById('backupArea').value = txt;
-      let msg = '\u2713 Gesichert: ' + nDays + ' Tage, ' + nMeals + ' Mahlzeiten, ' + Object.keys(appState.checks).length + ' Haken, ' + appState.history.length + ' abgeschlossene Tage.';
+      let msg = '\u2713 Gesichert: ' + backupSummary() + '.';
       try{ await navigator.clipboard.writeText(txt); msg += ' In Zwischenablage kopiert.'; }
       catch(e){ msg += ' Text oben manuell kopieren.'; }
       status.style.color = 'var(--turf)';
@@ -1252,30 +1260,35 @@
   // ---- Koerper-Status: InBody-artige Visualisierung, Ist vs. Prognose ----
   let bodyMode = 'ist';
 
+  // Anteil des Defizits, der real aus Fett kommt. Der Rest geht auf Magermasse
+  // und Wasser \u2014 100 % Fett anzusetzen macht jede Prognose systematisch zu optimistisch.
+  const FAT_FRACTION = 0.78;
+  const KCAL_PER_KG_FAT = 7700;
+
+  // EINE gemeinsame Rechenbasis fuer Koerper-Status und Erwartungs-Karte.
+  // Beide Kacheln zeigen denselben Stand \u2014 kumuliertes Defizit seit dem letzten Scan.
   function projectionData(){
     const base = latestScan();
     if(!base) return null;
     const days = appState.history.map(h=>h.date).filter(d=> d >= base.date).sort();
     if(!days.length) return null;
+    const tdeeMap = currentTDEEByGoal();
     let deficit = 0;
     days.forEach(d=>{
       const day = getDay(d);
       const t = dayTotals(day);
-      const tdeeMap = currentTDEEByGoal();
       deficit += ((tdeeMap[day.kcalGoal || 1950] || tdeeMap[1950]) - t.kcal);
     });
     const avgPerDay = deficit / days.length;
-    const projDeficit = avgPerDay * 30; // Hochrechnung auf ~1 Monat Scan-Zyklus
-    const fatLost = projDeficit / 7700;
-    const weight = base.weight - fatLost;
+    const fatLost = (deficit * FAT_FRACTION) / KCAL_PER_KG_FAT;
+    // Der Rest des Defizits geht auf Magermasse \u2014 zaehlt beim Gewicht mit, nicht beim Fett.
+    const leanLost = (deficit * (1 - FAT_FRACTION)) / KCAL_PER_KG_FAT;
+    const weight = base.weight - fatLost - leanLost;
     const fatKg = Math.max(0, base.fatKg - fatLost);
     const fatPct = weight > 0 ? (fatKg / weight * 100) : 0;
-    // Zieldatum: Scan + 30 Tage
-    const [y,m,d] = base.date.split('-').map(Number);
-    const target = new Date(y, m-1, d + 30);
-    return {base, avgPerDay, days:days.length, fatLost, weight, fatKg, fatPct,
-            muscle: base.muscle || null,
-            targetStr: String(target.getDate()).padStart(2,'0') + '.' + String(target.getMonth()+1).padStart(2,'0') + '.'};
+    const muscle = base.muscle ? Math.max(0, base.muscle - leanLost) : null;
+    return {base, deficit, avgPerDay, days:days.length, fatLost, leanLost,
+            weight, fatKg, fatPct, muscle};
   }
 
   function renderBodyCard(){
@@ -1309,19 +1322,23 @@
         tag.textContent = 'Prognose';
         return;
       }
-      tag.textContent = 'Prognose ~' + p.targetStr;
+      tag.textContent = 'Stand heute';
       v = {weight:p.weight, fatKg:p.fatKg, fatPct:p.fatPct, muscle:p.muscle};
-      diff = {weight:p.weight-base.weight, fatKg:p.fatKg-base.fatKg, fatPct:p.fatPct-base.fatPct};
-      foot.textContent = 'Wenn es im Schnitt so weiterl\u00e4uft wie bisher (\u00d8 ' + Math.round(p.avgPerDay) + ' kcal Defizit/Tag \u00fcber ' + p.days + ' Tage) \u2014 hochgerechnet auf ~30 Tage nach dem Scan. Muskel: Planziel Erhalt.';
+      diff = {weight:p.weight-base.weight, fatKg:p.fatKg-base.fatKg, fatPct:p.fatPct-base.fatPct,
+              muscle: (p.muscle!=null && base.muscle!=null) ? p.muscle-base.muscle : null};
+      foot.textContent = 'Rechnerischer Stand aus ' + p.days + ' abgeschlossenen Tagen seit dem Scan (\u00d8 ' + Math.round(p.avgPerDay) + ' kcal Defizit/Tag). Angesetzt sind ' + Math.round(FAT_FRACTION*100) + ' % des Defizits als Fett, der Rest als Magermasse.';
     }
     const heightM = (base.heightCm || (appState.profile && appState.profile.heightCm) || null);
     const bmi = heightM ? v.weight / ((heightM/100)*(heightM/100)) : null;
     const dTxt = (x, unit, dec)=>{
-      if(diff === null) return '';
+      if(diff === null || diff[x] == null) return '';
       const val = diff[x];
       const s = (val>=0?'+':'') + val.toFixed(dec);
-      const good = x==='weight' ? val<=0 : val<=0;
-      return '<div style="font-size:10px;color:' + (good?'var(--turf)':'var(--rust)') + ';">' + s + unit + '</div>';
+      // Fett runter ist gut, Muskel runter ist schlecht, Gewicht allein sagt nichts aus
+      let col = 'var(--chalk-dim)';
+      if(x === 'fatKg' || x === 'fatPct') col = val <= 0 ? 'var(--turf)' : 'var(--rust)';
+      else if(x === 'muscle') col = val >= 0 ? 'var(--turf)' : 'var(--rust)';
+      return '<div style="font-size:10px;color:' + col + ';">' + s + unit + '</div>';
     };
     el.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
@@ -1346,7 +1363,7 @@
         <div style="margin-bottom:18px;">
           <div style="font-size:10px;color:var(--chalk-dim);letter-spacing:0.06em;">MUSKELMASSE</div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--chalk);">${v.muscle ? v.muscle.toFixed(1) : '\u2013'}<span style="font-size:10px;"> kg</span></div>
-          ${bodyMode==='proj' && v.muscle ? '<div style="font-size:10px;color:var(--chalk-dim);">\u00b10 (Erhalt)</div>' : ''}
+          ${dTxt('muscle',' kg',1)}
         </div>
         <div>
           <div style="font-size:10px;color:var(--chalk-dim);letter-spacing:0.06em;">FETTMASSE</div>
@@ -1565,34 +1582,25 @@
     const el = document.getElementById('expectBody');
     if(!el) return;
     const base = latestScan();
+    const head = document.getElementById('expectHead');
+    if(head) head.textContent = base ? ('Erwartung vs. InBody (' + fmtShort(base.date).replace(/^\S+\s/,'') + ')') : 'Erwartung vs. InBody';
     if(!base){
       el.innerHTML = 'Noch kein InBody-Scan hinterlegt \u2014 trag oben deinen ersten Scan ein, dann rechne ich dir hier deine Erwartung f\u00fcr den n\u00e4chsten Scan hoch.';
       return;
     }
-    // Kumuliertes Defizit seit dem NEUESTEN Scan aus allen ABGESCHLOSSENEN Tagen
-    const days = appState.history.map(h=>h.date).filter(d=> d >= base.date).sort(); // Scan-Tag zaehlt mit (Scan morgens)
-    if(!days.length){
+    const p = projectionData();
+    if(!p){
       el.innerHTML = 'Basis: Scan vom ' + fmtDate(base.date) + '.<br>Sobald du Tage danach abschlie\u00dft, rechne ich dir hier hoch, was beim n\u00e4chsten Scan rauskommen sollte.';
       return;
     }
-    let deficit = 0;
-    days.forEach(d=>{
-      const day = getDay(d);
-      const t = dayTotals(day);
-      const tdeeMap = currentTDEEByGoal();
-      const tdee = tdeeMap[day.kcalGoal || 1950] || tdeeMap[1950];
-      deficit += (tdee - t.kcal);
-    });
-    const fatLost = deficit / 7700; // kg
-    const expWeight = base.weight - fatLost;
-    const expFatKg = Math.max(0, base.fatKg - fatLost);
-    const expFatPct = expWeight > 0 ? (expFatKg / expWeight * 100) : 0;
-    const expMuscle = base.muscle || null; // Planziel: Muskelerhalt (Protein hoch + Krafttraining)
+    const muscleTxt = p.muscle != null
+      ? ' \u00b7 Muskel ~<b style="color:var(--chalk)">' + p.muscle.toFixed(1) + ' kg</b>'
+      : '';
     el.innerHTML =
-      'Basis: Scan vom ' + fmtDate(base.date) + ' \u00b7 ' + days.length + ' abgeschlossene Tage seither<br>' +
-      'Kumuliertes Defizit: <b style="color:var(--chalk)">~' + Math.round(deficit) + ' kcal</b> \u2192 <b style="color:var(--turf)">\u2212' + fatLost.toFixed(2) + ' kg Fett</b><br>' +
-      'Erwartung n\u00e4chster Scan: <b style="color:var(--chalk)">~' + expWeight.toFixed(1) + ' kg</b> \u00b7 Fettmasse ~' + expFatKg.toFixed(1) + ' kg \u00b7 KFA ~<b style="color:var(--chalk)">' + expFatPct.toFixed(1) + '%</b>' + (expMuscle ? ' \u00b7 Muskel ~<b style="color:var(--chalk)">' + expMuscle.toFixed(1) + ' kg</b> <span style="font-size:10.5px;">(Ziel: Erhalt \u2014 liegt der echte Wert klar drunter, war das Defizit zu hart)</span>' : '') + '<br>' +
-      '<span style="font-size:11px;">Sch\u00e4tzung \u2014 Wasser/Glykogen schwanken \u00b11 kg, nicht jede Abweichung ist Fett.</span>';
+      'Basis: Scan vom ' + fmtDate(base.date) + ' \u00b7 ' + p.days + ' abgeschlossene Tage seither<br>' +
+      'Kumuliertes Defizit: <b style="color:var(--chalk)">~' + Math.round(p.deficit) + ' kcal</b> \u2192 <b style="color:var(--turf)">\u2212' + p.fatLost.toFixed(2) + ' kg Fett</b> und \u2212' + p.leanLost.toFixed(2) + ' kg Magermasse<br>' +
+      'Erwartung n\u00e4chster Scan: <b style="color:var(--chalk)">~' + p.weight.toFixed(1) + ' kg</b> \u00b7 Fettmasse ~' + p.fatKg.toFixed(1) + ' kg \u00b7 KFA ~<b style="color:var(--chalk)">' + p.fatPct.toFixed(1) + '%</b>' + muscleTxt + '<br>' +
+      '<span style="font-size:11px;">Sch\u00e4tzung mit ' + Math.round(FAT_FRACTION*100) + ' % Fettanteil am Defizit \u2014 Wasser/Glykogen schwanken zus\u00e4tzlich \u00b11 kg. Krafttraining und hohes Protein verschieben den Fettanteil nach oben.</span>';
   }
 
   // ---- init ----
@@ -1604,10 +1612,10 @@
     renderMeals();
     renderActivities();
     renderNote();
-    renderSpielWidget();
     renderHistory();
     updateYesterdayHint();
     renderFinishState();
+    updateCountdown(); // erst jetzt sind die Scans geladen
   })();
 
 })();

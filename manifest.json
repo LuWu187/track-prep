@@ -1,6 +1,6 @@
 {
-  "name": "Matchday Prep",
-  "short_name": "Matchday",
+  "name": "Rekomp",
+  "short_name": "Rekomp",
   "description": "Persönlicher Fitness- & Ernährungstracker",
   "start_url": "./index.html",
   "scope": "./",
