@@ -135,10 +135,45 @@
   .std-btn b{display:block; color:var(--turf); font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:11.5px; margin-bottom:3px;}
   .std-btn span{color:var(--chalk-dim); font-family:'JetBrains Mono',monospace; font-size:11px;}
   .std-btn{position:relative;}
+  /* Kacheln mit Symbol unten rechts bekommen eine eigene Zeile dafuer */
+  .std-btn.has-flag{padding-bottom:30px;}
   .std-btn .recipe-flag{
     position:absolute; top:6px; right:8px; width:20px; height:20px; border-radius:50%;
     background:rgba(209,165,61,0.18); color:var(--gold); font-size:11px;
     display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .std-btn .amount-flag{
+    position:absolute; bottom:6px; right:8px; width:20px; height:20px; border-radius:50%;
+    background:rgba(139,197,63,0.20); color:var(--turf); font-size:11px;
+    display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .std-btn .size-flag{
+    position:absolute; bottom:6px; right:8px; height:18px; padding:0 7px; border-radius:9px;
+    max-width:calc(100% - 16px); overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+    background:rgba(139,197,63,0.20); color:var(--turf);
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.5px;
+    display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .size-list{display:flex; flex-direction:column; gap:8px; margin:10px 0 4px;}
+  .size-list button{
+    display:flex; justify-content:space-between; align-items:center; width:100%;
+    background:rgba(139,197,63,0.10); border:1px dashed rgba(139,197,63,0.4); color:var(--chalk);
+    border-radius:8px; padding:12px 14px; font-size:14px; cursor:pointer;
+  }
+  .size-list button b{color:var(--turf); font-family:'Oswald',sans-serif; font-size:15px;}
+  .size-list button span{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--chalk-dim);}
+  .amt-quick{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 12px;}
+  .amt-quick button{
+    background:rgba(139,197,63,0.10); border:1px dashed rgba(139,197,63,0.4); color:var(--chalk);
+    border-radius:8px; padding:7px 12px; font-size:13px; cursor:pointer;
+  }
+  .amt-quick button.active{background:rgba(139,197,63,0.28); border-style:solid; color:var(--turf);}
+  #amtInput{
+    width:100%; box-sizing:border-box; background:var(--pitch); border:1px solid var(--line);
+    color:var(--chalk); border-radius:8px; padding:10px; font-size:15px;
+  }
+  #amtPreview{
+    font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--turf); margin:12px 0 4px;
   }
 
   .modal-overlay{
@@ -356,6 +391,14 @@
       </div>
       <div id="bodyCanvas"></div>
       <div id="bodyFoot" style="font-size:11px;color:var(--chalk-dim);margin-top:8px;"></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line);">
+        <label for="tdeeInput" style="display:block;font-size:11px;color:var(--chalk-dim);margin-bottom:5px;">Grundumsatz-Referenz (kcal)</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input id="tdeeInput" type="text" inputmode="numeric" style="flex:1;min-width:0;background:var(--pitch);border:1px solid var(--line);color:var(--chalk);border-radius:8px;padding:9px;font-size:14px;">
+          <button class="backbtn" id="tdeeSave" style="margin:0;">Speichern</button>
+        </div>
+        <div id="tdeeHint" style="font-size:11px;color:var(--chalk-dim);margin-top:6px;"></div>
+      </div>
     </div>
 
     <div class="card">
@@ -589,6 +632,8 @@
     if(!appState.checks) appState.checks = {};
     if(!appState.history) appState.history = [];
     if(!appState.inbodyScans) appState.inbodyScans = [];
+    if(!appState.amounts) appState.amounts = {};
+    if(!appState.tdeeRef) appState.tdeeRef = 2500;
     let scansChanged = false;
     NEW_SCANS.forEach(s=>{
       if(!appState.inbodyScans.some(x=>x.date===s.date)){
@@ -738,83 +783,57 @@
   });
 
   const STANDARD_MEALS = [
-    {name:'Skyr-Frühstück (250g + Obst + 15g Leinsamen)', kcal:279, protein:30},
-    {name:'Prep my Meal – Gericht', kcal:550, protein:40},
+    {name:'Skyr-Frühstück (250g + Obst + 15g Leinsamen)', kcal:279, protein:30, portion:true},
+    {name:'Prep my Meal – Gericht', kcal:550, protein:40, portion:true},
     {name:'Aldi Skyr-Drink (339g Portion)', kcal:166, protein:27},
     {name:'Hähnchenbrustfilet (200g)', kcal:220, protein:46},
     {name:'Rinderhack Light Aldi (200g)', kcal:258, protein:42},
-    {name:'Rinderhack Light Aldi (50g)', kcal:65, protein:10.5},
     {name:'Bratkartoffeln Ölspray (100g)', kcal:90, protein:2},
-    {name:'Bratkartoffeln Ölspray (50g)', kcal:45, protein:1},
-    {name:'Bratkartoffeln Ölspray (10g)', kcal:9, protein:0.2},
     {name:'Kartoffelsalat (100g)', kcal:70, protein:2},
-    {name:'Kartoffelsalat (10g)', kcal:7, protein:0.2},
     {name:'Feta Light Patros (75g)', kcal:165, protein:15},
     {name:'Mozzarella Light Kugel (125g)', kcal:202, protein:25},
-    {name:'Mozzarella Light (20g)', kcal:32, protein:4},
     {name:'Proteinnudeln (100g trocken)', kcal:340, protein:30},
-    {name:'Vollkorn-Wrap Aldi (1 Stück)', kcal:180, protein:6},
-    {name:'Proteinbrötchen (1 Stück)', kcal:209, protein:16},
+    {name:'Vollkorn-Wrap Aldi (1 Stück, 62g)', kcal:185, protein:6, portion:true},
+    {name:'Proteinbrötchen (1 Stück)', kcal:209, protein:16, portion:true},
     {name:'Rote-Bete-Saft (250ml)', kcal:88, protein:2.5},
     {name:'Grillsoße Mittelwert (30g)', kcal:40, protein:0},
-    {name:'Spiegelei (1 Ei, Ölspray)', kcal:100, protein:8},
-    {name:'Gekochtes Ei (1 Stk)', kcal:90, protein:8},
-    {name:'Rührei (1 Ei, Ölspray)', kcal:100, protein:8},
-    {name:'Honig (1 TL)', kcal:21, protein:0},
-    {name:'Bier 0,5l', kcal:215, protein:2},
-    {name:'Bier 0,33l', kcal:140, protein:1},
-    {name:'Shot (2cl)', kcal:45, protein:0},
-    {name:'Protein-Burger 1x (ohne Käse)', kcal:407, protein:38.5},
-    {name:'Protein-Burger 1x (Mozzarella Light)', kcal:437, protein:42.5},
-    {name:'Protein-Burger 1x (Scheibletten-Käse)', kcal:472, protein:42},
-    {name:'Aldi Nur Natur Pizza (Ø ganze Packung)', kcal:560, protein:24},
-    {name:'Ofenkartoffeln 10g', kcal:9, protein:0.2},
-    {name:'Ofenkartoffeln 50g', kcal:45, protein:1},
-    {name:'Ofenkartoffeln 100g', kcal:90, protein:2},
-    {name:'Hähnchenschenkel Nur Natur (ganze Packung 350g)', kcal:480, protein:67},
-    {name:'Hähnchenschenkel Nur Natur (halbe Packung 175g)', kcal:240, protein:33},
-    {name:'Hähnchenschenkel Nur Natur 50g', kcal:69, protein:9.5},
-    {name:'Gemischter Salat klein (100g + 2 TL Öl)', kcal:100, protein:1},
-    {name:'Gemischter Salat mittel (150g + 3 TL Öl)', kcal:150, protein:1.5},
-    {name:'Gemischter Salat groß (200g + 4 TL Öl)', kcal:200, protein:2},
-    {name:'Salatgurke ganz (400g)', kcal:48, protein:2.4},
-    {name:'Salatgurke halb (200g)', kcal:24, protein:1.2},
-    {name:'Rote Paprika ganz (150g)', kcal:60, protein:2},
-    {name:'Rote Paprika halb (75g)', kcal:30, protein:1},
-    {name:'Tomate ganz (100g)', kcal:18, protein:0.9},
-    {name:'Tomate halb (50g)', kcal:9, protein:0.5},
-    {name:'Karotte ganz (80g)', kcal:33, protein:0.8},
-    {name:'Karotte halb (40g)', kcal:17, protein:0.4},
+    {name:'Spiegelei (1 Ei, Ölspray)', sizeTitle:'Eiergröße wählen · Standard ist M', kcal:84, protein:6.6, portion:true, sizes:[{label:'S',kcal:76,protein:5.8},{label:'M',kcal:84,protein:6.6},{label:'L',kcal:96,protein:7.6}]},
+    {name:'Gekochtes Ei (1 Stk)', sizeTitle:'Eiergröße wählen · Standard ist M', kcal:74, protein:6.6, portion:true, sizes:[{label:'S',kcal:66,protein:5.8},{label:'M',kcal:74,protein:6.6},{label:'L',kcal:86,protein:7.6}]},
+    {name:'Rührei (1 Ei, Ölspray)', sizeTitle:'Eiergröße wählen · Standard ist M', kcal:84, protein:6.6, portion:true, sizes:[{label:'S',kcal:76,protein:5.8},{label:'M',kcal:84,protein:6.6},{label:'L',kcal:96,protein:7.6}]},
+    {name:'Honig (1 TL)', kcal:21, protein:0, portion:true},
+    {name:'Bier 0,5l', kcal:215, protein:2, portion:true},
+    {name:'Bier 0,33l', kcal:140, protein:1, portion:true},
+    {name:'Shot (2cl)', kcal:45, protein:0, portion:true},
+    {name:'Protein-Burger 1x', kcal:407, protein:38.5, portion:true, sizeTitle:'Käse wählen', sizes:[{label:'ohne Käse',kcal:407,protein:38.5},{label:'Mozzarella Light',kcal:437,protein:42.5},{label:'Scheibletten-Käse',kcal:472,protein:42}]},
+    {name:'Aldi Nur Natur Pizza (Ø ganze Packung)', kcal:560, protein:24, portion:true},
+    {name:'Ofenkartoffeln (100g)', kcal:90, protein:2},
+    {name:'Hähnchenschenkel Nur Natur (350g)', kcal:480, protein:67},
+    {name:'Gemischter Salat klein (100g + 2 TL Öl)', kcal:100, protein:1, portion:true},
+    {name:'Gemischter Salat mittel (150g + 3 TL Öl)', kcal:150, protein:1.5, portion:true},
+    {name:'Gemischter Salat groß (200g + 4 TL Öl)', kcal:200, protein:2, portion:true},
+    {name:'Salatgurke (400g)', kcal:48, protein:2.4},
+    {name:'Rote Paprika (150g)', kcal:60, protein:2},
+    {name:'Tomate (100g)', kcal:18, protein:0.9},
+    {name:'Karotte (80g)', kcal:33, protein:0.8},
     {name:'Tiroler Schinkenspeck Streifen (45g)', kcal:135, protein:13.5},
-    {name:'Bio-Hähnchenbratwurst Aldi (halbe Packung 110g, 4 Stk)', kcal:259, protein:16.5},
-    {name:'Bio-Hähnchenbratwurst Aldi (ganze Packung 220g, 8 Stk)', kcal:517, protein:33},
-    {name:'Eiersalat (1 Portion, Skyr statt Mayo)', kcal:260, protein:20},
-    {name:'Döner mit Soße', kcal:625, protein:38},
-    {name:'Döner ohne Soße', kcal:515, protein:37},
-    {name:'Yufka/Dürüm mit Soße', kcal:650, protein:35},
-    {name:'Yufka/Dürüm ohne Soße', kcal:500, protein:35},
-    {name:'Spätzle fertig (500g Packung)', kcal:760, protein:36.5},
-    {name:'Spätzle fertig (250g Portion)', kcal:380, protein:18.2},
-    {name:'Kochsahne light 7% (250ml Packung)', kcal:218, protein:2.8},
-    {name:'Kochsahne light 7% (125ml)', kcal:109, protein:1.4},
+    {name:'Bio-Hähnchenbratwurst Aldi (220g, 8 Stk)', kcal:517, protein:33},
+    {name:'Eiersalat (1 Portion, Skyr statt Mayo)', kcal:260, protein:20, portion:true},
+    {name:'Döner', kcal:625, protein:38, portion:true, sizeTitle:'Soße wählen', sizes:[{label:'mit Soße',kcal:625,protein:38},{label:'ohne Soße',kcal:515,protein:37}]},
+    {name:'Yufka/Dürüm', kcal:650, protein:35, portion:true, sizeTitle:'Soße wählen', sizes:[{label:'mit Soße',kcal:650,protein:35},{label:'ohne Soße',kcal:500,protein:35}]},
+    {name:'Spätzle fertig (500g)', kcal:760, protein:36.5},
+    {name:'Kochsahne light 7% (250ml)', kcal:218, protein:2.8},
     {name:'Champignons frisch (250g)', kcal:55, protein:7.8},
-    {name:'Champignons frisch (125g)', kcal:28, protein:3.9},
-    {name:'Hähnchengeschnetzeltes mit Spätzle (1 Portion)', kcal:770, protein:70}
+    {name:'Hähnchengeschnetzeltes mit Spätzle (1 Portion)', kcal:770, protein:70, portion:true},
+    {name:'Räuchertofu-Curry mit Reis und Edamame (1 Portion)', kcal:829, protein:51, portion:true},
+    {name:'Reis (60g roh gewogen)', kcal:208, protein:4.2},
+    {name:'Edamame (100g)', kcal:120, protein:11}
   ];
 
   // ---- Rezepte für "fertige Gerichte"-Kacheln (Name muss exakt zu STANDARD_MEALS passen) ----
   const RECIPES = {
-    'Protein-Burger 1x (ohne Käse)': {
-      ingredients: ['1 Proteinbrötchen', '150g Rinderhack Light', 'Salat, Tomate, Gurke', 'Senf/Ketchup nach Geschmack'],
-      steps: ['Hack würzen (Salz, Pfeffer, Paprika) und als Patty formen.', 'Pfanne heiß, Patty von jeder Seite 3–4 Min. braten.', 'Brötchen aufschneiden, mit Salat/Tomate/Gurke belegen, Patty drauf, fertig.']
-    },
-    'Protein-Burger 1x (Mozzarella Light)': {
-      ingredients: ['1 Proteinbrötchen', '150g Rinderhack Light', '20g Mozzarella Light', 'Salat, Tomate, Gurke'],
-      steps: ['Hack würzen, Patty formen, scharf anbraten.', 'Letzte Minute Mozzarella auf dem Patty schmelzen lassen.', 'Brötchen belegen, Patty drauf, fertig.']
-    },
-    'Protein-Burger 1x (Scheibletten-Käse)': {
-      ingredients: ['1 Proteinbrötchen', '150g Rinderhack Light', '1 Scheibe Käse', 'Salat, Tomate, Gurke'],
-      steps: ['Hack würzen, Patty formen, scharf anbraten.', 'Letzte Minute Käsescheibe auflegen und schmelzen lassen.', 'Brötchen belegen, Patty drauf, fertig.']
+    'Protein-Burger 1x': {
+      ingredients: ['1 Proteinbrötchen', '150g Rinderhack Light', 'Salat, Tomate, Gurke', 'Senf/Ketchup nach Geschmack', 'optional: 20g Mozzarella Light oder 1 Scheibe Käse'],
+      steps: ['Hack würzen (Salz, Pfeffer, Paprika) und als Patty formen.', 'Pfanne heiß, Patty von jeder Seite 3–4 Min. braten.', 'Mit Käse: in der letzten Minute auflegen und schmelzen lassen.', 'Brötchen aufschneiden, mit Salat/Tomate/Gurke belegen, Patty drauf, fertig.']
     },
     'Kartoffelsalat (100g)': {
       ingredients: ['Kartoffeln', 'Brühe', 'Essig, Senf, Öl', 'rote Zwiebel', 'Salz, Pfeffer'],
@@ -830,6 +849,25 @@
     }
   };
 
+  // Zaehlt, wie oft eine Kachel schon geloggt wurde. Eintraege koennen Zusaetze
+  // tragen ("... (L)", "... \u2192 80g"), deshalb Praefix-Vergleich.
+  function mealUsageCounts(){
+    const counts = {};
+    const namen = STANDARD_MEALS.map(m=>m.name);
+    Object.values(appState.days || {}).forEach(d=>{
+      (d.meals || []).forEach(e=>{
+        const treffer = namen.filter(n => e.name === n || e.name.startsWith(n + ' '));
+        if(!treffer.length) return;
+        // laengster Treffer gewinnt, damit "Döner" nicht "Döner XL" schluckt
+        const n = treffer.reduce((a,b)=> b.length > a.length ? b : a);
+        counts[n] = (counts[n] || 0) + 1;
+      });
+    });
+    return counts;
+  }
+
+  const PREVIEW_COUNT = 10;   // Kacheln in der eingeklappten Vorschau
+
   function renderStandardMeals(){
     const wrap = document.getElementById('standardMeals');
     const expanded = wrap.dataset.expanded === '1';
@@ -837,10 +875,20 @@
     const q = (searchEl ? searchEl.value : '').trim().toLowerCase();
     let sorted = [...STANDARD_MEALS].sort((a,b)=> a.name.localeCompare(b.name, 'de'));
     if(q) sorted = sorted.filter(m=> m.name.toLowerCase().includes(q));
-    const visible = (expanded || q) ? sorted : sorted.slice(0,6);
+    // Vorschau: die meistgenutzten Kacheln. Die volle Liste bleibt alphabetisch.
+    let visible;
+    if(expanded || q){ visible = sorted; }
+    else {
+      const use = mealUsageCounts();
+      visible = [...sorted].sort((a,b)=>{
+        const d = (use[b.name]||0) - (use[a.name]||0);
+        return d !== 0 ? d : a.name.localeCompare(b.name, 'de');
+      }).slice(0, PREVIEW_COUNT);
+    }
     let html = '<div class="std-grid">' + visible.map(m=>{
       const hasRecipe = !!RECIPES[m.name];
-      return `<button class="std-btn" data-idx="${STANDARD_MEALS.indexOf(m)}">${hasRecipe ? `<span class="recipe-flag" data-recipe="${STANDARD_MEALS.indexOf(m)}">🍳</span>` : ''}<b>+ ${escapeHtml(m.name)}</b><span>${m.kcal} kcal · ${m.protein}g P</span></button>`;
+      const hasFlag = !!m.sizes || !m.portion;
+      return `<button class="std-btn${hasFlag ? ' has-flag' : ''}" data-idx="${STANDARD_MEALS.indexOf(m)}">${hasRecipe ? `<span class="recipe-flag" data-recipe="${STANDARD_MEALS.indexOf(m)}">🍳</span>` : ''}${m.sizes ? `<span class="size-flag" data-size="${STANDARD_MEALS.indexOf(m)}">${escapeHtml(sizeFlagLabel(m))}</span>` : (m.portion ? '' : `<span class="amount-flag" data-amount="${STANDARD_MEALS.indexOf(m)}">⚖</span>`)}<b>+ ${escapeHtml(m.name)}</b><span>${m.kcal} kcal · ${m.protein}g P</span></button>`;
     }).join('') + '</div>';
     if(q && !visible.length) html += '<div class="empty">Keine Kachel gefunden.</div>';
     if(!q) html += `<button class="quickbtn" id="stdToggle" style="text-align:center;">${expanded ? '▲ weniger anzeigen' : '▼ alle ' + STANDARD_MEALS.length + ' Standards anzeigen'}</button>`;
@@ -852,9 +900,23 @@
         openRecipeModal(m);
       });
     });
+    wrap.querySelectorAll('.size-flag').forEach(flag=>{
+      flag.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        openSizeModal(STANDARD_MEALS[Number(flag.dataset.size)]);
+      });
+    });
+    wrap.querySelectorAll('.amount-flag').forEach(flag=>{
+      flag.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        openAmountModal(STANDARD_MEALS[Number(flag.dataset.amount)]);
+      });
+    });
     wrap.querySelectorAll('.std-btn').forEach(b=>{
       b.addEventListener('click', async (e)=>{
         if(e.target.closest('.recipe-flag')) return;
+        if(e.target.closest('.amount-flag')) return;
+        if(e.target.closest('.size-flag')) return;
         const m = STANDARD_MEALS[Number(b.dataset.idx)];
         dayData.meals.push({name:m.name, kcal:m.kcal, protein:m.protein});
         await saveDay(dayData);
@@ -866,6 +928,134 @@
       wrap.dataset.expanded = expanded ? '0' : '1';
       renderStandardMeals();
     });
+  }
+
+  // Kurzes Kuerzel fuer das Kachel-Symbol: kurze Labels direkt, sonst Anzahl der Varianten
+  function sizeFlagLabel(meal){
+    const labels = (meal.sizes||[]).map(s=>s.label);
+    const joined = labels.join('·');
+    return joined.length <= 7 ? joined : labels.length + ' Varianten';
+  }
+
+  function openSizeModal(meal){
+    if(!meal || !meal.sizes || !meal.sizes.length) return;
+    const existing = document.getElementById('sizeModal');
+    if(existing) existing.remove();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.id = 'sizeModal';
+    const fmt = n => (Math.round(n*10)/10).toString().replace('.',',');
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>${escapeHtml(meal.name)}</h3>
+      <div class="modal-meta">${escapeHtml(meal.sizeTitle || 'Variante wählen')}</div>
+      <div class="size-list">${meal.sizes.map((sz,i)=>
+        `<button data-size-idx="${i}"><b>${escapeHtml(sz.label)}</b><span>${sz.kcal} kcal · ${fmt(sz.protein)}g P</span></button>`
+      ).join('')}</div>
+      <button class="modal-close" id="sizeCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelectorAll('.size-list button').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        const sz = meal.sizes[Number(b.dataset.sizeIdx)];
+        if(!sz) return;
+        const isBase = sz.kcal === meal.kcal && sz.protein === meal.protein;
+        const name = isBase ? meal.name : `${meal.name} (${sz.label})`;
+        dayData.meals.push({name, kcal: sz.kcal, protein: sz.protein});
+        await saveDay(dayData);
+        renderMeals();
+        overlay.remove();
+      });
+    });
+    document.getElementById('sizeCancel').addEventListener('click', ()=> overlay.remove());
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.remove(); });
+  }
+
+  // Liest eine Mengenangabe (g/ml) aus dem Kachelnamen, z.B. "Reis (60g roh gewogen)" -> 60 g
+  function parseBaseAmount(name){
+    const m = String(name).match(/(\d+(?:[.,]\d+)?)\s?(g|ml)\b/i);
+    if(!m) return null;
+    const amount = parseFloat(m[1].replace(',','.'));
+    if(!isFinite(amount) || amount <= 0) return null;
+    return { amount, unit: m[2].toLowerCase() };
+  }
+
+  function openAmountModal(meal){
+    if(meal && meal.portion) return;
+    const existing = document.getElementById('amountModal');
+    if(existing) existing.remove();
+    const base = parseBaseAmount(meal.name);
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.id = 'amountModal';
+    const quick = [25,50,75,100,150,200];
+    const fmt = n => (Math.round(n*10)/10).toString().replace('.',',');
+    const label = base ? `Menge in ${base.unit}` : 'Menge in %';
+    const merkt = appState.amounts && appState.amounts[meal.name];
+    const startVal = merkt != null ? fmt(merkt) : (base ? fmt(base.amount) : '100');
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>${escapeHtml(meal.name)}</h3>
+      <div class="modal-meta">Volle Portion: ${meal.kcal} kcal · ${meal.protein}g Protein</div>
+      <h4>${label}</h4>
+      <div class="amt-quick">${quick.map(q=>`<button data-q="${q}">${q}%</button>`).join('')}</div>
+      <input id="amtInput" type="text" inputmode="decimal" value="${startVal}">
+      <div id="amtPreview"></div>
+      <button class="modal-close" id="amtAdd">Hinzufügen</button>
+      <button class="modal-close" id="amtCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    const input = document.getElementById('amtInput');
+    const preview = document.getElementById('amtPreview');
+    function calc(){
+      const raw = parseFloat(String(input.value).replace(',','.'));
+      if(!isFinite(raw) || raw <= 0) return {valid:false};
+      const f = base ? raw/base.amount : raw/100;
+      return {
+        valid: true,
+        raw,
+        pct: Math.round(f*1000)/10,
+        kcal: Math.round(meal.kcal*f),
+        protein: Math.round(meal.protein*f*10)/10
+      };
+    }
+    function refresh(){
+      const c = calc();
+      if(!c.valid){ preview.textContent = 'Bitte Menge eingeben'; }
+      else {
+        const extra = base ? ` (${fmt(c.pct)}%)` : '';
+        preview.textContent = `${c.kcal} kcal · ${fmt(c.protein)}g Protein${extra}`;
+      }
+      overlay.querySelectorAll('.amt-quick button').forEach(b=>{
+        const q = Number(b.dataset.q);
+        b.classList.toggle('active', c.valid && Math.abs(c.pct - q) < 0.05);
+      });
+    }
+    input.addEventListener('input', refresh);
+    overlay.querySelectorAll('.amt-quick button').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const q = Number(b.dataset.q);
+        input.value = base ? fmt(base.amount * q/100) : String(q);
+        refresh();
+      });
+    });
+    refresh();
+    document.getElementById('amtAdd').addEventListener('click', async ()=>{
+      const c = calc();
+      if(!c.valid) return;
+      let name = meal.name;
+      if(base){
+        if(Math.abs(c.raw - base.amount) > 0.001) name = `${meal.name} → ${fmt(c.raw)}${base.unit}`;
+      } else if(Math.abs(c.pct - 100) > 0.001){
+        name = `${meal.name} (${fmt(c.pct)}%)`;
+      }
+      if(!appState.amounts) appState.amounts = {};
+      appState.amounts[meal.name] = c.raw;
+      dayData.meals.push({name, kcal: c.kcal, protein: c.protein});
+      await saveDay(dayData);
+      renderMeals();
+      overlay.remove();
+    });
+    document.getElementById('amtCancel').addEventListener('click', ()=> overlay.remove());
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.remove(); });
   }
 
   function openRecipeModal(meal){
@@ -1236,9 +1426,13 @@
       if(!appState.days) appState.days = {};
       if(!appState.checks) appState.checks = {};
       if(!appState.history) appState.history = [];
+      if(!appState.inbodyScans) appState.inbodyScans = [];
+      if(!appState.amounts) appState.amounts = {};
+      if(!appState.tdeeRef) appState.tdeeRef = TDEE_DEFAULT;
       await saveState();
       dayData = getDay(todayStr());
       renderMeals(); renderActivities(); renderHistory();
+      renderStandardMeals(); renderTdeeField(); renderBodyCard(); renderInbodyList(); renderStats();
       status.style.color='var(--turf)';
       status.textContent = '\u2713 Wiederhergestellt: ' + Object.keys(appState.days).length + ' Tage, ' + appState.history.length + ' abgeschlossene Tage.';
     }catch(err){
@@ -1257,10 +1451,17 @@
     if(!first.weight || !latest.weight) return 1;
     return latest.weight / first.weight;
   }
-  function currentTDEERef(){ return Math.round(2500 * tdeeRatio()); }
+  const TDEE_DEFAULT = 2500;
+  // Verhaeltnis der drei Zielstufen zum Referenzwert bleibt unveraendert (2200/2600/2800 zu 2500).
+  const GOAL_FACTORS = {1800: 2200/2500, 1950: 2600/2500, 2100: 2800/2500};
+  function tdeeBase(){
+    const v = Number(appState.tdeeRef);
+    return isFinite(v) && v > 0 ? v : TDEE_DEFAULT;
+  }
+  function currentTDEERef(){ return Math.round(tdeeBase() * tdeeRatio()); }
   function currentTDEEByGoal(){
-    const r = tdeeRatio();
-    return {1800: Math.round(2200*r), 1950: Math.round(2600*r), 2100: Math.round(2800*r)};
+    const r = tdeeRatio() * tdeeBase();
+    return {1800: Math.round(GOAL_FACTORS[1800]*r), 1950: Math.round(GOAL_FACTORS[1950]*r), 2100: Math.round(GOAL_FACTORS[2100]*r)};
   }
 
   const INBODY_SEED = null; // keine Personendaten im öffentlichen Quellcode — jeder Nutzer trägt seinen eigenen ersten Scan in der App ein
@@ -1302,6 +1503,16 @@
     const muscle = base.muscle ? Math.max(0, base.muscle - leanLost) : null;
     return {base, deficit, avgPerDay, days:days.length, fatLost, leanLost,
             weight, fatKg, fatPct, muscle};
+  }
+
+  function renderTdeeField(){
+    const inp = document.getElementById('tdeeInput');
+    const hint = document.getElementById('tdeeHint');
+    if(!inp || !hint) return;
+    inp.value = String(tdeeBase());
+    const g = currentTDEEByGoal();
+    hint.textContent = 'Nach Gewicht skaliert: ' + currentTDEERef() + ' kcal \u00b7 Zielstufen 1800/1950/2100 rechnen mit ' +
+      g[1800] + '/' + g[1950] + '/' + g[2100] + ' kcal.';
   }
 
   function renderBodyCard(){
@@ -1617,6 +1828,22 @@
   }
 
   // ---- init ----
+  document.getElementById('tdeeSave').addEventListener('click', async ()=>{
+    const inp = document.getElementById('tdeeInput');
+    const hint = document.getElementById('tdeeHint');
+    const v = parseInt(String(inp.value).replace(/[^0-9]/g,''), 10);
+    if(!isFinite(v) || v < 1000 || v > 5000){
+      hint.style.color = 'var(--rust)';
+      hint.textContent = 'Bitte einen Wert zwischen 1000 und 5000 eingeben.';
+      return;
+    }
+    appState.tdeeRef = v;
+    await saveState();
+    hint.style.color = 'var(--chalk-dim)';
+    renderTdeeField();
+    renderBodyCard(); renderStats();
+  });
+
   (async function init(){
     await loadState();
     dayData = getDay(todayStr());
@@ -1628,6 +1855,7 @@
     renderHistory();
     updateYesterdayHint();
     renderFinishState();
+    renderTdeeField();
     updateCountdown(); // erst jetzt sind die Scans geladen
   })();
 
