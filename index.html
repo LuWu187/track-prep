@@ -784,7 +784,21 @@
 
   const STANDARD_MEALS = [
     {name:'Skyr-Frühstück (250g + Obst + 15g Leinsamen)', kcal:279, protein:30, portion:true},
-    {name:'Prep my Meal – Gericht', kcal:550, protein:40, portion:true},
+    {name:'Prep my Meal XL (1 Portion)', kcal:550, protein:55, portion:true, chooseOnTap:true, alwaysLabel:true, sizeTitle:'Gericht wählen (Werte je Portion = halbe Tüte)', sizes:[
+      {label:'Hähnchen Bowl Thai',kcal:330,protein:50},
+      {label:'Süßkartoffel Hähnchen Bowl',kcal:405,protein:41},
+      {label:'Bratkartoffeln mit Hähnchen',kcal:410,protein:43},
+      {label:'Hähnchen, Reis, Brokkoli',kcal:455,protein:42},
+      {label:'Hähnchen Bowl Buffalo-Style',kcal:460,protein:41},
+      {label:'Paella',kcal:490,protein:40},
+      {label:'Noodles Asian Style',kcal:510,protein:48},
+      {label:'Hähnchen Fajita Bowl',kcal:550,protein:55},
+      {label:'Red Thai Curry',kcal:555,protein:43},
+      {label:'Asia Nudeln in Erdnusssauce',kcal:570,protein:43},
+      {label:'Protein Pasta All\'Alfredo',kcal:580,protein:60},
+      {label:'Gebratener Reis in Erdnusssauce',kcal:585,protein:43},
+      {label:'Butter Chicken',kcal:625,protein:45}
+    ]},
     {name:'Aldi Skyr-Drink (339g Portion)', kcal:166, protein:27},
     {name:'Hähnchenbrustfilet (200g)', kcal:220, protein:46},
     {name:'Rinderhack Light Aldi (200g)', kcal:258, protein:42},
@@ -918,6 +932,7 @@
         if(e.target.closest('.amount-flag')) return;
         if(e.target.closest('.size-flag')) return;
         const m = STANDARD_MEALS[Number(b.dataset.idx)];
+        if(m.chooseOnTap && m.sizes){ openSizeModal(m); return; }
         dayData.meals.push({name:m.name, kcal:m.kcal, protein:m.protein});
         await saveDay(dayData);
         renderMeals();
@@ -958,7 +973,7 @@
       b.addEventListener('click', async ()=>{
         const sz = meal.sizes[Number(b.dataset.sizeIdx)];
         if(!sz) return;
-        const isBase = sz.kcal === meal.kcal && sz.protein === meal.protein;
+        const isBase = !meal.alwaysLabel && sz.kcal === meal.kcal && sz.protein === meal.protein;
         const name = isBase ? meal.name : `${meal.name} (${sz.label})`;
         dayData.meals.push({name, kcal: sz.kcal, protein: sz.protein});
         await saveDay(dayData);
