@@ -831,6 +831,9 @@
     {name:'Honig (1 TL)', kcal:21, protein:0, portion:true},
     {name:'Bier 0,5l', kcal:215, protein:2, portion:true},
     {name:'Bier 0,33l', kcal:140, protein:1, portion:true},
+    {name:'Wein (0,7l)', kcal:581, protein:1.4, portion:true, components:[
+      {name:'Wein, trocken', amount:700, unit:'ml', kcal100:83, prot100:0.2}
+    ]},
     {name:'Shot (2cl)', kcal:45, protein:0, portion:true},
     {name:'Protein-Burger 1x', kcal:407, protein:38.5, portion:true, sizeTitle:'Käse wählen', sizes:[{label:'ohne Käse',kcal:407,protein:38.5},{label:'Mozzarella Light',kcal:437,protein:42.5},{label:'Scheibletten-Käse',kcal:472,protein:42}]},
     {name:'Aldi Nur Natur Pizza (Ø ganze Packung)', kcal:560, protein:24, portion:true},
@@ -1471,8 +1474,10 @@
   }
   function backupSummary(){
     const nMeals = Object.values(appState.days).reduce((s,d)=>s+(d.meals?d.meals.length:0),0);
+    const nChecks = Object.keys(appState.checks || {}).length;
+    // Haken gibt es in der App nicht mehr; aus Altbestaenden werden sie weiter gesichert
     return Object.keys(appState.days).length + ' Tage, ' + nMeals + ' Mahlzeiten, ' +
-           Object.keys(appState.checks).length + ' Haken, ' + appState.history.length + ' abgeschlossene Tage';
+           (nChecks ? nChecks + ' Haken, ' : '') + appState.history.length + ' abgeschlossene Tage';
   }
 
   // Echte Datei statt Zwischenablage \u2014 die haelt, auch wenn du zwischendurch was anderes kopierst.
@@ -1917,20 +1922,23 @@
     if(!days.length){
       body.innerHTML = streakHtml + '<span class="empty" style="display:block;text-align:left;padding:0;">Noch keine Daten in diesem Zeitraum.</span>';
     } else {
-      let sk=0, sp=0;
-      days.forEach(d=>{ const t=dayTotals(getDay(d)); sk+=t.kcal; sp+=t.prot; });
+      let sk=0, sp=0, sg=0;
+      days.forEach(d=>{
+        const t=dayTotals(getDay(d)); sk+=t.kcal; sp+=t.prot;
+        // Tagesziel: bevorzugt aus der Historie, sonst aus dem gespeicherten Tag
+        const h = appState.history.find(x=>x.date===d);
+        sg += (h && h.goal) ? h.goal : (getDay(d).kcalGoal || 1950);
+      });
       const avgK = Math.round(sk/days.length), avgP = Math.round(sp/days.length);
-      const checksInRange = Object.keys(appState.checks).filter(id=>{
-        if(!appState.checks[id]) return false;
-        const d = id.split(':')[0];
-        return days.length && d >= days[0];
-      }).length;
+      const offen = Math.round(sg - sk);
       const protOk = avgP >= 120;
       body.innerHTML = streakHtml +
         '<b style="color:var(--chalk)">' + days.length + '</b> Tage abgeschlossen \u00b7 ' +
         '\u00d8 <b style="color:var(--chalk)">' + avgK + '</b> kcal/Tag \u00b7 ' +
         '\u00d8 <b style="color:' + (protOk?'var(--turf)':'var(--gold)') + '">' + avgP + 'g</b> Protein/Tag<br>' +
-        '<b style="color:var(--chalk)">' + checksInRange + '</b> Einheiten abgehakt';
+        (offen >= 0
+          ? 'Ziel-Budget: <b style="color:var(--turf)">' + offen + ' kcal</b> unter deinen Zielen (' + sg + ' geplant, ' + sk + ' gegessen)'
+          : 'Ziel-Budget: <b style="color:var(--gold)">' + Math.abs(offen) + ' kcal</b> über deinen Zielen (' + sg + ' geplant, ' + sk + ' gegessen)');
     }
     renderExpectation();
   }
