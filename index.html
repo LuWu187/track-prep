@@ -927,12 +927,40 @@
     if(!t.kandidaten)  t.kandidaten = {};
     if(!t.phase)       t.phase = 'defizit';
     if(t.phasenWechsel === undefined) t.phasenWechsel = {ab:'2026-12-01', phase:'aufbau'};
+    if(!t.stand)       t.stand = {};      // Arbeitsgewicht je Uebung und Bereich
+    if(!t.version)     t.version = 0;      // Schemastand, siehe migriere()
     if(!t.sperren)     t.sperren = [];
     if(!t.krank)       t.krank = [];          // abgeschlossene Krankheitsphasen
     if(t.krankAktiv === undefined) t.krankAktiv = null;
     if(t.wiedereinstieg === undefined) t.wiedereinstieg = null;
     if(!t.prefs)       t.prefs = {ton:true, vibration:true, autoZielstufe:true};
     return t;
+  }
+
+  // ---- Arbeitsgewicht je Uebung ----------------------------------------
+  // Das Gewicht haengt an der Uebung und am Wiederholungsbereich, NICHT am
+  // Plan. Nur so ueberlebt es Planwechsel, neue Varianten und Updates.
+  // Beispiel Wadenpresse: 77 kg im 15-20er, 94 kg im 5-8er.
+  function standGewicht(uebungId, bereich, ersatz){
+    const t = tr();
+    const e = t.stand[uebungId];
+    if(e && typeof e[bereich] === 'number' && e[bereich] > 0) return e[bereich];
+    // Kein Wert fuer diesen Bereich: aus einem anderen umrechnen, statt bei 0
+    // anzufangen. Damit kostet ein Bereichswechsel kein neues Einstellen.
+    if(e){
+      const andere = Object.keys(e).filter(b => e[b] > 0);
+      if(andere.length){
+        const von = andere[0];
+        return gewichtFuerBereich(uebungId, e[von], von, bereich, 1);
+      }
+    }
+    return ersatz || 0;
+  }
+  function setzeStand(uebungId, bereich, kg){
+    const t = tr();
+    if(!(kg > 0)) return;
+    if(!t.stand[uebungId]) t.stand[uebungId] = {};
+    t.stand[uebungId][bereich] = kg;
   }
 
   // ---- Gewichtsmodell ------------------------------------------------
@@ -1181,11 +1209,13 @@
     const w = woche || ZYKLUS_WOCHEN[0];
     const we = wiedereinstiegAktiv(datum);
     return plan.map((p,i)=>{
-      const a = wochenAnpassung(p, w, datum);
+      // Gewicht kommt aus dem Uebungsstand, nicht aus dem Plan.
+      const basisKg = standGewicht(p.id, p.bereich, p.kg || 0);
+      const a = wochenAnpassung({...p, kg: basisKg}, w, datum);
       // Beim Wiedereinstieg zusaetzlich ein Satz weniger je Uebung.
       const n = we ? Math.max(1, saetze[i] - 1) : saetze[i];
       return {id:p.id, saetze:n, bereich:p.bereich, kg:a.kg, warm:p.warm,
-              zielRir:w.rir, basisSaetze:p.saetze, basisKg:p.kg,
+              zielRir:w.rir, basisSaetze:p.saetze, basisKg:basisKg,
               log: erzeugeSaetze(p.id, n, p.bereich, a.kg, p.warm, w.rir)};
     });
   }
@@ -1325,20 +1355,59 @@
     return out;
   }
 
-  // Alte Plaene ohne Variantenbuchstaben auf die erste Variante umziehen.
-  function planeMigrieren(){
+  // ---- Migration ---------------------------------------------------------
+  // Eine Kette, die bei jedem Start laeuft. Jeder Schritt hebt t.version um 1.
+  // Neue Schritte werden hinten angehaengt, alte NIE geaendert - sonst laufen
+  // sie bei Bestandsdaten erneut oder gar nicht.
+  const SCHEMA_STAND = 2;
+
+  function migriere(){
     const t = tr();
-    if(!t.zyklus || !t.plaene) return false;
     let geaendert = false;
-    SPLITS[t.zyklus.split].einheiten.forEach(typ=>{
-      if(t.plaene[typ] && !t.plaene[typ + ' A']){
-        t.plaene[typ + ' A'] = t.plaene[typ];
-        delete t.plaene[typ];
+
+    // 1: Plaene ohne Variantenbuchstaben auf "<Typ> A" umziehen.
+    if(t.version < 1){
+      const typen = new Set();
+      Object.values(SPLITS).forEach(sp => sp.einheiten.forEach(x => typen.add(x)));
+      Object.keys(t.plaene || {}).forEach(k=>{
+        if(!typen.has(k)) return;                 // hat schon einen Buchstaben
+        if(!t.plaene[k + ' A']) t.plaene[k + ' A'] = t.plaene[k];
+        delete t.plaene[k];
         geaendert = true;
-      }
-    });
+      });
+      // Bestehende Einheiten zeigen noch auf den alten Schluessel.
+      Object.values(t.einheiten || {}).forEach(e=>{
+        if(e && e.planId && typen.has(e.planId)){ e.planId = e.planId + ' A'; geaendert = true; }
+      });
+      t.version = 1; geaendert = true;
+    }
+
+    // 2: Gewichte aus den Plaenen in den Uebungsstand heben.
+    if(t.version < 2){
+      Object.values(t.plaene || {}).forEach(pl=>{
+        (pl || []).forEach(p=>{
+          if(p && p.kg > 0) setzeStand(p.id, p.bereich || '8-12', p.kg);
+        });
+      });
+      // Auch aus abgeschlossenen Einheiten, falls der Plan leer war.
+      Object.values(t.einheiten || {}).forEach(e=>{
+        (e && e.uebungen || []).forEach(u=>{
+          const arbeit = (u.log || []).filter(x=>!x.warmup && !x.offen && x.kg > 0);
+          if(arbeit.length && !standGewicht(u.id, u.bereich)){
+            const best = arbeit.reduce((a,b)=> b.kg > a.kg ? b : a, arbeit[0]);
+            setzeStand(u.id, u.bereich || '8-12', best.kg);
+          }
+        });
+      });
+      t.version = 2; geaendert = true;
+    }
+
+    if(t.version !== SCHEMA_STAND) t.version = SCHEMA_STAND;
     return geaendert;
   }
+
+  // Altname, damit bestehende Aufrufe weiter funktionieren.
+  function planeMigrieren(){ return migriere(); }
 
   // ---- Krankheit --------------------------------------------------------
   function warKrank(datum){
@@ -1545,7 +1614,7 @@
       if(HOHE_WDH.includes(u.g)) bereich = (variante % 2 === 1) ? '5-8' : '15-20';
       else if(i === 0 && u.warm) bereich = '5-8';
 
-      plan.push({id, saetze, bereich, kg:0, warm: !!u.warm, klein});
+      plan.push({id, saetze, bereich, warm: !!u.warm, klein});
     });
 
     const gesamt = () => plan.reduce((sum,p)=> sum + uebungsDauer(p.id, p.saetze, p.bereich, p.warm), 0);
@@ -2085,11 +2154,11 @@
             <span class="tr-plangroup">${escapeHtml(u ? MUSKELGRUPPEN[u.g] : '')}</span>
           </div>
           <div class="tr-planctrl">
-            <label>Sätze<input type="text" inputmode="numeric" data-pf="sätze" data-i="${i}" value="${p.saetze}"></label>
+            <label>Sätze<input type="text" inputmode="numeric" data-pf="saetze" data-i="${i}" value="${p.saetze}"></label>
             ${u && u.bw ? '<span class="tr-bw">Körpergewicht</span>'
-              : `<label>kg<input type="text" inputmode="decimal" data-pf="kg" data-i="${i}" value="${String(p.kg).replace('.',',')}"></label>`}
+              : `<label>kg<input type="text" inputmode="decimal" data-pf="kg" data-i="${i}" value="${String(standGewicht(p.id, p.bereich, p.kg||0)).replace('.',',')}"></label>`}
           </div>
-          ${(!u || !u.bw) && !(p.kg > 0) ? '<div class="tr-hint">Gewicht noch eintragen</div>' : ''}
+          ${(!u || !u.bw) && !(standGewicht(p.id, p.bereich, p.kg||0) > 0) ? '<div class="tr-hint">Gewicht noch eintragen</div>' : ''}
           <div style="display:none">
           </div>
           <div class="tr-ranges">${Object.keys(WDH_BEREICHE).map(k=>
@@ -2122,14 +2191,18 @@
         if(f === 'warm'){ plan[i].warm = inp.checked; }
         else {
           const v = parseFloat(String(inp.value).replace(',','.'));
-          if(isFinite(v)) plan[i][f === 'sätze' ? 'sätze' : 'kg'] = f === 'sätze' ? Math.max(1, Math.round(v)) : v;
+          if(isFinite(v)){
+            if(f === 'saetze') plan[i].saetze = Math.max(1, Math.round(v));
+            else { plan[i].kg = v; setzeStand(plan[i].id, plan[i].bereich, v); }
+          }
         }
         saveState();
       }));
       listEl.querySelectorAll('[data-range]').forEach(b=>b.addEventListener('click', async ()=>{
         const i = Number(b.dataset.i), neu = b.dataset.range, p = plan[i];
         if(p.bereich !== neu && !(UEB[p.id]||{}).bw){
-          p.kg = gewichtFuerBereich(p.id, p.kg, p.bereich, neu, 1);
+          const alt = standGewicht(p.id, p.bereich, p.kg || 0);
+          if(alt > 0) setzeStand(p.id, neu, gewichtFuerBereich(p.id, alt, p.bereich, neu, 1));
         }
         p.bereich = neu;
         await saveState(); zeichne();
@@ -2277,7 +2350,7 @@
       overlay.querySelectorAll('[data-nh]').forEach(cb=>{
         if(!cb.checked) return;
         const k = kandidaten[Number(cb.dataset.nh)];
-        const a = wochenAnpassung(k.eintrag, woche);
+        const a = wochenAnpassung({...k.eintrag, kg: standGewicht(k.id, k.eintrag.bereich, k.eintrag.kg || 0)}, woche);
         const n = Math.max(1, a.saetze-1);
         eh.uebungen.push({id:k.id, saetze:n, bereich:k.eintrag.bereich, kg:a.kg,
                           warm:k.eintrag.warm, zielRir:a.rir, basisSaetze:k.eintrag.saetze,
@@ -2734,14 +2807,22 @@
       eh.dauerMin = dauer;
       eh.punkte = belastungspunkte(dauer, rpe);
       eh.saetzeGesamt = eh.uebungen.reduce((a,u)=>a + arbeitSaetze(u.log).length, 0);
+      // Arbeitsgewicht nachziehen: was du gehoben hast, ist ab jetzt der Stand.
+      eh.uebungen.forEach(u=>{
+        const arbeit = arbeitSaetze(u.log).filter(x=>x.kg > 0);
+        if(!arbeit.length) return;
+        const schwerster = arbeit.reduce((a,b)=> b.kg > a.kg ? b : a, arbeit[0]);
+        setzeStand(u.id, u.bereich, schwerster.kg);
+      });
 
-      // Gewichtsvorschlaege in den Plan uebernehmen
+      // Gewichtsvorschlaege in den Uebungsstand schreiben - damit gelten sie
+      // in jeder Variante, in der die Übung in diesem Bereich vorkommt.
       const plan = t.plaene[eh.planId] || [];
       overlay.querySelectorAll('[data-vs]').forEach(cb=>{
         if(!cb.checked) return;
         const v = vorschlaege[Number(cb.dataset.vs)];
-        const p = plan.find(x=>x.id===v.id);
-        if(p) p.kg = v.neu;
+        const u = eh.uebungen.find(x=>x.id===v.id);
+        setzeStand(v.id, u ? u.bereich : '8-12', v.neu);
       });
       // Nachgeholte Uebungen bleiben einmalig und gehen nie in den Plan.
       // Strukturaenderungen nur auf Wunsch
@@ -4112,7 +4193,7 @@
       dayData = getDay(todayStr());
       renderMeals(); renderActivities(); renderHistory();
       tr();
-      if(planeMigrieren()) saveState();
+      if(migriere()) saveState();
       renderTraining();
       renderStandardMeals(); renderTdeeField(); renderBodyCard(); renderInbodyList(); renderStats(); tr(); renderTraining();
       status.style.color='var(--turf)';
