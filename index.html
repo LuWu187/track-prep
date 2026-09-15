@@ -927,6 +927,7 @@
     if(!t.kandidaten)  t.kandidaten = {};
     if(!t.phase)       t.phase = 'defizit';
     if(t.phasenWechsel === undefined) t.phasenWechsel = {ab:'2026-12-01', phase:'aufbau'};
+    if(!t.sperren)     t.sperren = [];
     if(!t.krank)       t.krank = [];          // abgeschlossene Krankheitsphasen
     if(t.krankAktiv === undefined) t.krankAktiv = null;
     if(t.wiedereinstieg === undefined) t.wiedereinstieg = null;
@@ -1290,6 +1291,55 @@
     return treffer ? treffer[0] : null;
   }
 
+  // ---- Gesperrte Muskelgruppen ------------------------------------------
+  // Fuer Beschwerden: eine Gruppe wird zeitweise ausgesetzt, der Generator
+  // laesst ihre Uebungen weg und fuellt mit Oberkoerper auf.
+  function aktiveSperren(datum){
+    const t = tr();
+    const tag = datum || todayStr();
+    return (t.sperren || []).filter(x => !x.bis || tag <= x.bis);
+  }
+  function istGesperrt(uebungId, datum){
+    const u = UEB[uebungId];
+    if(!u) return false;
+    return aktiveSperren(datum).some(x => x.gruppe === u.g);
+  }
+
+  // ---- Varianten je Trainingstag ----------------------------------------
+  // Jeder Trainingstag bekommt eine eigene Variante, damit Montag, Mittwoch
+  // und Freitag nicht identisch sind. Bei mehreren Einheitstypen im Split
+  // wechseln sich Typ und Variante ab.
+  function variantenListe(){
+    const t = tr();
+    if(!t.zyklus) return [];
+    const namen = SPLITS[t.zyklus.split].einheiten;
+    const tage = (t.zyklus.tage || []).length;
+    const out = [];
+    const zaehler = {};
+    for(let i = 0; i < tage; i++){
+      const typ = namen[i % namen.length];
+      zaehler[typ] = (zaehler[typ] || 0);
+      const nr = zaehler[typ]++;
+      out.push({planId: typ + ' ' + BUCHSTABEN[nr % BUCHSTABEN.length], typ, variante: nr, tagIndex: i});
+    }
+    return out;
+  }
+
+  // Alte Plaene ohne Variantenbuchstaben auf die erste Variante umziehen.
+  function planeMigrieren(){
+    const t = tr();
+    if(!t.zyklus || !t.plaene) return false;
+    let geaendert = false;
+    SPLITS[t.zyklus.split].einheiten.forEach(typ=>{
+      if(t.plaene[typ] && !t.plaene[typ + ' A']){
+        t.plaene[typ + ' A'] = t.plaene[typ];
+        delete t.plaene[typ];
+        geaendert = true;
+      }
+    });
+    return geaendert;
+  }
+
   // ---- Krankheit --------------------------------------------------------
   function warKrank(datum){
     const t = tr();
@@ -1351,11 +1401,10 @@
     const k = WOCHENTAGE[(d.getDay()+6)%7].k;
     const idx = (t.zyklus.tage||[]).indexOf(k);
     if(idx < 0) return null;
-    const namen = SPLITS[t.zyklus.split].einheiten;
-    const start = new Date(t.zyklus.start + 'T12:00:00');
-    const woche = Math.floor(Math.round((d - start)/86400000)/7);
-    const einheitName = namen[(idx + woche*(t.zyklus.tage.length)) % namen.length];
-    return {tag:k, name:einheitName, planId:einheitName};
+    const liste = variantenListe();
+    const v = liste[idx];
+    if(!v) return null;
+    return {tag:k, name:v.planId, planId:v.planId, typ:v.typ};
   }
 
   // ---- Ton und Vibration ---------------------------------------------
@@ -1394,14 +1443,55 @@
   // ---- Plangenerator ----------------------------------------------------
   // Vorlagen je Einheitstyp, geordnet nach Prioritaet: schwere Grunduebungen
   // zuerst, Isolation zuletzt. Wird bei Zeitmangel von hinten gekuerzt.
+  // Vorlagen je Einheitstyp. Mehrere Varianten, damit nicht jeder Trainingstag
+  // gleich aussieht. Unterschieden nach Bewegungsmuster: A drueckend/schwer,
+  // B ziehend, C gemischt. Jede Variante trifft trotzdem alle grossen Gruppen.
+  // Bizeps, Trizeps und Bauch stehen hier NICHT drin - die verteilt der
+  // Generator ueber die Woche (siehe KLEINE_GRUPPEN).
   const VORLAGEN = {
-    'Ganzkoerper': ['beinpresse','beinbeuger_sitz','latzug','brustpresse','schulterpresse','kabelrudern','seitheben_sitz','wadenpresse_sitz','bauchpresse','trizepsdruecken','curl_kh'],
-    'Oberkoerper': ['bankdruecken','kabelrudern','latzug','schulterpresse','butterfly','rudern_hintere','seitheben_sitz','bauchpresse','trizepsdruecken','curl_kh'],
-    'Unterkoerper':['beinpresse','beinbeuger_sitz','hipthrust','beinstrecker','abduktion','wadenpresse_sitz','rdl','bauchpresse'],
-    'Push':        ['bankdruecken','schulterpresse','brustpresse','butterfly','seitheben_sitz','bauchpresse','trizepsdruecken','dips'],
-    'Pull':        ['latzug','kabelrudern','rudern_hintere','ueberzuege','curl_kh','hammer','hyperext'],
-    'Beine':       ['beinpresse','beinbeuger_sitz','rdl','beinstrecker','hipthrust','abduktion','wadenpresse_sitz','bauchpresse']
+    'Ganzkoerper': [
+      ['beinpresse','bankdruecken','kabelrudern','schulterpresse','wadenpresse_sitz'],
+      ['beinbeuger_sitz','latzug','brustpresse','rudern_hintere','hipthrust'],
+      ['beinpresse_eng','butterfly','rudermaschine','seitheben_sitz','beinstrecker','wadenheben_steh']
+    ],
+    'Oberkoerper': [
+      ['bankdruecken','kabelrudern','schulterpresse','latzug'],
+      ['brustpresse','rudermaschine','seitheben_sitz','rudern_hintere','butterfly']
+    ],
+    'Unterkoerper': [
+      ['beinpresse','beinbeuger_sitz','wadenpresse_sitz','abduktion'],
+      ['rdl','beinstrecker','hipthrust','wadenheben_steh','beinpresse_eng']
+    ],
+    'Push': [
+      ['bankdruecken','schulterpresse','butterfly','seitheben_sitz'],
+      ['brustpresse','kh_schulterdruecken','fliegende_kabel','seitheben_kabel']
+    ],
+    'Pull': [
+      ['latzug','kabelrudern','rudern_hintere','ueberzuege'],
+      ['klimmzug','rudermaschine','facepull','hyperext']
+    ],
+    'Beine': [
+      ['beinpresse','beinbeuger_sitz','hipthrust','wadenpresse_sitz'],
+      ['rdl','beinstrecker','abduktion','wadenheben_steh','beinpresse_eng']
+    ]
   };
+
+  // Diese Gruppen gehoeren nicht in jede Einheit, sondern ueber die Woche
+  // verteilt auf ihr Wochenvolumen. Sie werden nach dem Grundgeruest
+  // zugeteilt und beim Zuschnitt zuletzt angetastet.
+  const KLEINE_GRUPPEN = {
+    bizeps:  ['curl_kh','curl_kabel','hammer','curl_lh'],
+    trizeps: ['trizepsdruecken','trizeps_masch','ueberkopf_trizeps','dips'],
+    bauch:   ['bauchpresse','crunch_kabel','pallof','plank']
+  };
+  // Wie oft pro Woche jede kleine Gruppe drankommt (Anteil der Trainingstage).
+  const KLEINE_ANTEIL = 0.6;
+
+  // Ersatzuebungen fuer den Oberkoerper, wenn Gruppen gesperrt sind.
+  const NACHRUECKER = ['brustpresse','latzug','rudermaschine','seitheben_sitz',
+                       'butterfly','rudern_hintere','ueberzuege','facepull','kh_bank','schulterpresse'];
+
+  const BUCHSTABEN = ['A','B','C','D','E','F','G'];
 
   // Gruppen, die im hohen Wiederholungsbereich besser laufen.
   const HOHE_WDH = ['waden','bauch'];
@@ -1418,71 +1508,121 @@
 
   // Erzeugt fuer jede Einheit des Splits einen Vorschlag.
   // saetzeZiel = Sollsaetze je grosser Muskelgruppe in Woche 1.
-  function erzeugePlan(einheitName, dauerMin, einheitenProWoche, index){
-    const vorlage = VORLAGEN[einheitName] || VORLAGEN['Ganzkoerper'];
-    const zielSaetze = ZYKLUS_WOCHEN[0].saetze;   // Woche 1
-    const budget = dauerMin * 60 * 0.92;          // Rest fuer Wege und Umbau
+  // Erzeugt eine Einheit aus einer Variantenvorlage.
+  // pflichtIds sind die zugeteilten kleinen Gruppen - die werden beim
+  // Zuschnitt zuletzt angetastet, damit Bizeps, Trizeps und Bauch nicht
+  // regelmaessig hinten rausfallen.
+  function erzeugePlan(typ, variante, dauerMin, einheitenProWoche, pflichtIds, datum){
+    const vorlagen = VORLAGEN[typ] || VORLAGEN['Ganzkoerper'];
+    const vorlage = vorlagen[variante % vorlagen.length].slice();
+    const zielSaetze = ZYKLUS_WOCHEN[0].saetze;
+    const budget = dauerMin * 60 * 0.92;
     const MIN_UEBUNGEN = 3;
 
-    // 1. Wunschplan aus der Vorlage
+    // Gesperrte Gruppen entfernen und mit Oberkoerper auffuellen.
+    const gesperrt = vorlage.filter(id => istGesperrt(id, datum));
+    let liste = vorlage.filter(id => !istGesperrt(id, datum));
+    if(gesperrt.length){
+      NACHRUECKER.forEach(id=>{
+        if(liste.length >= vorlage.length) return;
+        if(liste.includes(id) || istGesperrt(id, datum) || !UEB[id]) return;
+        liste.push(id);
+      });
+    }
+    // Zugeteilte kleine Gruppen anhaengen, sofern nicht gesperrt.
+    const pflicht = (pflichtIds || []).filter(id => UEB[id] && !istGesperrt(id, datum) && !liste.includes(id));
+    liste = liste.concat(pflicht);
+
     const plan = [];
-    vorlage.forEach((id, i)=>{
+    liste.forEach((id, i)=>{
       const u = UEB[id]; if(!u) return;
       const treffer = haeufigkeitGruppe(u.g, einheitenProWoche);
       let saetze = Math.max(2, Math.min(4, Math.round(zielSaetze / treffer)));
+      const klein = pflicht.includes(id);
+      if(klein) saetze = Math.min(saetze, 3);
 
-      // Wiederholungsbereich: erste schwere Grunduebung schwer, Waden und Bauch hoch.
-      // Wiederholt sich eine Uebung in der Woche, wechselt der Bereich bewusst
-      // zwischen schwer und leicht - wie bei deiner Wadenpresse mit 94 und 77 kg.
       let bereich = '8-12';
-      if(HOHE_WDH.includes(u.g)) bereich = (index % 2 === 1) ? '5-8' : '15-20';
+      if(HOHE_WDH.includes(u.g)) bereich = (variante % 2 === 1) ? '5-8' : '15-20';
       else if(i === 0 && u.warm) bereich = '5-8';
 
-      plan.push({id, saetze, bereich, kg:0, warm: !!u.warm});
+      plan.push({id, saetze, bereich, kg:0, warm: !!u.warm, klein});
     });
 
     const gesamt = () => plan.reduce((sum,p)=> sum + uebungsDauer(p.id, p.saetze, p.bereich, p.warm), 0);
 
-    // 2. Auf die Zeit zuschneiden: erst Saetze kuerzen, dann Uebungen streichen.
+    // Zuschnitt: erst Saetze der grossen Uebungen kuerzen, dann die kleinen,
+    // dann grosse Uebungen streichen, und erst ganz zuletzt die kleinen.
     let schutz = 0;
-    while(gesamt() > budget && schutz++ < 200){
-      const kuerzbar = [];
-      for(let i = plan.length-1; i >= 0; i--) if(plan[i].saetze > 2) kuerzbar.push(i);
-      if(kuerzbar.length){ plan[kuerzbar[0]].saetze -= 1; continue; }
-      if(plan.length > MIN_UEBUNGEN){ plan.pop(); continue; }
-      break;  // Minimum erreicht, mehr geht nicht
+    while(gesamt() > budget && schutz++ < 300){
+      let gesetzt = false;
+      for(let i = plan.length-1; i >= 0; i--){
+        if(!plan[i].klein && plan[i].saetze > 2){ plan[i].saetze--; gesetzt = true; break; }
+      }
+      if(gesetzt) continue;
+      for(let i = plan.length-1; i >= 0; i--){
+        if(plan[i].klein && plan[i].saetze > 2){ plan[i].saetze--; gesetzt = true; break; }
+      }
+      if(gesetzt) continue;
+      const grosseIdx = plan.map((p,i)=>({p,i})).filter(x=>!x.p.klein).map(x=>x.i);
+      if(grosseIdx.length > MIN_UEBUNGEN){ plan.splice(grosseIdx[grosseIdx.length-1],1); continue; }
+      const kleineIdx = plan.map((p,i)=>({p,i})).filter(x=>x.p.klein).map(x=>x.i);
+      if(kleineIdx.length){ plan.splice(kleineIdx[kleineIdx.length-1],1); continue; }
+      break;
     }
 
     const minuten = Math.round(gesamt()/60);
-    return {plan, minuten, knapp: minuten > dauerMin};
+    return {plan: plan.map(({klein, ...rest})=>({...rest, klein})), minuten,
+            knapp: minuten > dauerMin, gesperrt: gesperrt.length};
   }
 
   // Wie oft kommt eine Muskelgruppe im Wochenplan vor?
   function haeufigkeitGruppe(gruppe, einheitenProWoche){
-    const t = tr();
-    const namen = SPLITS[t.zyklus ? t.zyklus.split : 'ganzkoerper'].einheiten;
+    const liste = variantenListe();
+    if(!liste.length) return 1;
     let treffer = 0;
-    for(let i=0; i<einheitenProWoche; i++){
-      const n = namen[i % namen.length];
-      const v = VORLAGEN[n] || [];
-      if(v.some(id => UEB[id] && UEB[id].g === gruppe)) treffer++;
-    }
+    liste.forEach(v=>{
+      const vorlagen = VORLAGEN[v.typ] || [];
+      const vorlage = vorlagen[v.variante % vorlagen.length] || [];
+      if(vorlage.some(id => UEB[id] && UEB[id].g === gruppe)) treffer++;
+    });
     return Math.max(1, treffer);
   }
 
-  // Legt fuer alle Einheiten des Splits Vorschlaege an. Bestehende Plaene
-  // werden nur ueberschrieben, wenn ueberschreiben=true.
+  // Verteilt Bizeps, Trizeps und Bauch ueber die Woche: jede Gruppe kommt an
+  // einem Teil der Trainingstage dran, versetzt gegeneinander, damit nicht
+  // alles am selben Tag landet.
+  function kleineGruppenVerteilen(anzahlVarianten, datum){
+    const zuteilung = Array.from({length: anzahlVarianten}, ()=>[]);
+    if(anzahlVarianten < 1) return zuteilung;
+    const gruppen = Object.keys(KLEINE_GRUPPEN);
+    const proGruppe = Math.max(1, Math.round(anzahlVarianten * KLEINE_ANTEIL));
+    gruppen.forEach((g, gi)=>{
+      const pool = KLEINE_GRUPPEN[g].filter(id => UEB[id] && !istGesperrt(id, datum));
+      if(!pool.length) return;
+      const schritt = anzahlVarianten / proGruppe;
+      for(let k = 0; k < proGruppe; k++){
+        const idx = Math.floor((gi + k * schritt)) % anzahlVarianten;
+        const uebung = pool[k % pool.length];
+        if(!zuteilung[idx].includes(uebung)) zuteilung[idx].push(uebung);
+      }
+    });
+    return zuteilung;
+  }
+
+  // Legt fuer jede Variante einen Vorschlag an.
   function planeVorschlagen(ueberschreiben){
     const t = tr();
     if(!t.zyklus) return [];
-    const namen = SPLITS[t.zyklus.split].einheiten;
-    const tage = t.zyklus.tage.length;
+    planeMigrieren();
+    const liste = variantenListe();
+    const tage = liste.length;
+    const zuteilung = kleineGruppenVerteilen(tage, todayStr());
     const bericht = [];
-    namen.forEach((n, i)=>{
-      if(!ueberschreiben && t.plaene[n] && t.plaene[n].length) return;
-      const r = erzeugePlan(n, t.zyklus.dauer, tage, i);
-      t.plaene[n] = r.plan;
-      bericht.push({name:n, anzahl:r.plan.length, minuten:r.minuten, knapp:r.knapp});
+    liste.forEach((v, i)=>{
+      if(!ueberschreiben && t.plaene[v.planId] && t.plaene[v.planId].length) return;
+      const r = erzeugePlan(v.typ, v.variante, t.zyklus.dauer, tage, zuteilung[i], todayStr());
+      t.plaene[v.planId] = r.plan;
+      bericht.push({name:v.planId, anzahl:r.plan.length, minuten:r.minuten, knapp:r.knapp, gesperrt:r.gesperrt});
     });
     return bericht;
   }
@@ -1584,6 +1724,7 @@
           <div class="tr-session-head"><b>${escapeHtml(zeigeName(plan.name))}</b><span>${p.length} Übungen \u00b7 ${saetzeSumme} Sätze</span></div>
           <div class="tr-ex-preview">${p.length ? p.map(x=>escapeHtml(UEB[x.id] ? UEB[x.id].name : x.id)).join(' \u00b7 ') : 'Noch keine Übungen'}</div>
           <button class="wide-btn" id="ehStart">Einheit starten</button>
+          <button class="wide-btn ghost" id="ehAnderer">Anderen Plan wählen</button>
           <button class="wide-btn ghost" id="ehEdit">Plan bearbeiten</button>
         </div>`;
     } else if(!fertigeHeute.length){
@@ -1613,6 +1754,11 @@
           <button class="wide-btn" id="zyklusWeiter">Nächsten Zyklus starten</button>` : ''}
         ${hinweisHtml}
       </div>
+
+      ${aktiveSperren().length ? `<div class="card">
+        <div class="tr-banner info"><b>Ausgesetzt</b><ul>${aktiveSperren().map(x=>
+          `<li>${escapeHtml(MUSKELGRUPPEN[x.gruppe] || x.gruppe)} bis ${escapeHtml(datumLang(x.bis))}</li>`).join('')}</ul></div>
+      </div>` : ''}
 
       ${t.krankAktiv ? `<div class="card">
         <div class="tr-banner warn"><b>Krankgemeldet</b>
@@ -1652,14 +1798,21 @@
       starteEinheit(e.planId, e.titel);
     }));
     bind('ehEdit',  ()=>openPlanEdit(plan.planId, plan.name));
+    bind('ehAnderer', ()=>{
+      const namen = variantenListe().map(v=>v.planId);
+      if(!namen.length) return;
+      openAuswahl('Welchen Plan heute?', namen, (n)=>starteEinheit(n, n));
+    });
     bind('ehExtra', ()=>openExtraEinheit());
     bind('fbBtn',   openFussball);
     bind('gewichteBtn', ()=>openGewichte());
     bind('planAlle', ()=>{
-      const namen = SPLITS[t.zyklus.split].einheiten;
+      const namen = variantenListe().map(v=>v.planId);
+      if(!namen.length) return;
       if(namen.length === 1){ openPlanEdit(namen[0], namen[0]); return; }
       openAuswahl('Welche Einheit?', namen, (n)=>openPlanEdit(n, n));
     });
+    bind('sperrenBtn', openSperren);
     bind('tdeeUebernehmen', async ()=>{
       const el = wrap.querySelector('#tdeeUebernehmen');
       const v = parseInt(el && el.dataset.tdee, 10);
@@ -1725,6 +1878,7 @@
         <div class="tr-weekinfo">Seit über vier Wochen keine neue Bestleistung. Das ist das Warnsignal für zu viel Gesamtbelastung aus Gym und Fußball \u2014 oder für ein zu tiefes Defizit.</div>` : ''}
       <hr class="rule">
       ${td.ok ? `<button class="wide-btn ghost" id="tdeeUebernehmen" data-tdee="${td.tdee}">Errechneten Verbrauch übernehmen</button>` : ''}
+      <button class="wide-btn ghost" id="sperrenBtn">Muskelgruppe aussetzen</button>
       <button class="wide-btn ghost" id="verlaufBtn">Übungsverlauf</button>
       <button class="wide-btn ghost" id="phaseBtn">Phase ändern</button>
     </div>`;
@@ -1811,6 +1965,7 @@
       <div class="modal-meta">Vorschlag für ${t.zyklus.dauer} Min je Einheit \u2014 alles nachtraeglich aenderbar</div>
       ${bericht.map(b=>`<div class="tr-volrow"><span>${escapeHtml(zeigeName(b.name))}</span><span class="mono">${b.anzahl} Übungen \u00b7 ~${b.minuten} Min</span></div>`).join('')}
       ${bericht.some(b=>b.knapp) ? '<div class="tr-hint">Bei dieser Trainingsdauer passt selbst das Minimum nicht ganz \u2014 rechne mit etwas Überzug oder nimm mehr Zeit.</div>' : ''}
+      ${bericht.some(b=>b.gesperrt) ? '<div class="tr-hint">Gesperrte Gruppen wurden weggelassen und durch Oberkörperübungen ersetzt.</div>' : ''}
       <div class="tr-hint">Die Gewichte stehen noch auf 0 \u2014 trag sie bei der ersten Einheit ein, danach steigert die App selbst.</div>
       <button class="modal-close" id="pbEdit">Plan ansehen</button>
       <button class="modal-close" id="pbOk">Passt</button>
@@ -2614,7 +2769,7 @@
   // ---- Zusaetzliche Einheit ---------------------------------------------
   function openExtraEinheit(){
     const t = tr();
-    const namen = SPLITS[t.zyklus.split].einheiten;
+    const namen = variantenListe().map(v=>v.planId);
     openAuswahl('Zusätzliche Einheit', namen, (n)=>starteEinheit(n, n + ' (zusätzlich)', true));
   }
   function openAuswahl(titel, optionen, cb){
@@ -2779,6 +2934,52 @@
       if(ab && !/^\d{4}-\d{2}-\d{2}$/.test(ab)){ alert('Datum bitte als JJJJ-MM-TT.'); return; }
       await saveState(); overlay.remove(); renderTraining();
       if(typeof renderMeals === 'function') renderMeals();
+    });
+  }
+
+  // ---- Muskelgruppe aussetzen ---------------------------------------------
+  function openSperren(){
+    const t = tr();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    const aktiv = aktiveSperren();
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Muskelgruppe aussetzen</h3>
+      <div class="modal-meta">Bei Beschwerden oder hoher Belastung aus dem Fußball</div>
+      ${aktiv.length ? `<div class="tr-label">Aktuell ausgesetzt</div>
+        ${aktiv.map((x,i)=>`<div class="tr-volrow"><span>${escapeHtml(MUSKELGRUPPEN[x.gruppe] || x.gruppe)}</span>
+          <span class="mono">bis ${escapeHtml(datumLang(x.bis))} <button class="tr-mini del" data-weg="${escapeHtml(x.gruppe)}">aufheben</button></span></div>`).join('')}` : ''}
+      <div class="tr-label">Gruppe</div>
+      <div class="size-list">${Object.entries(MUSKELGRUPPEN).map(([k,n])=>
+        `<button class="tr-opt ${aktiv.some(x=>x.gruppe===k)?'on':''}" data-gr="${k}">${escapeHtml(n)}</button>`).join('')}</div>
+      <div class="tr-label">Wie lange</div>
+      <div class="tr-chips">${[7,14,28].map((d,i)=>
+        `<button class="tr-chip ${i===0?'on':''}" data-dauer="${d}">${d} Tage</button>`).join('')}</div>
+      <div class="tr-weekinfo">Der Plan lässt die Übungen dieser Gruppe weg und füllt mit Oberkörper auf. Nach Ablauf kommt sie von selbst zurück. Wichtig: Danach „Plan neu vorschlagen" antippen, sonst bleiben die alten Einheiten stehen.</div>
+      <button class="modal-close" id="spOk">Aussetzen</button>
+      <button class="modal-close" id="spCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    let gruppe = null, dauer = 7;
+    overlay.querySelectorAll('[data-gr]').forEach(b=>b.addEventListener('click', ()=>{
+      gruppe = b.dataset.gr;
+      overlay.querySelectorAll('[data-gr]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelectorAll('[data-dauer]').forEach(b=>b.addEventListener('click', ()=>{
+      dauer = Number(b.dataset.dauer);
+      overlay.querySelectorAll('[data-dauer]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelectorAll('[data-weg]').forEach(b=>b.addEventListener('click', async ()=>{
+      t.sperren = (t.sperren||[]).filter(x=>x.gruppe !== b.dataset.weg);
+      await saveState(); overlay.remove(); renderTraining();
+    }));
+    overlay.querySelector('#spCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#spOk').addEventListener('click', async ()=>{
+      if(!gruppe){ alert('Bitte eine Gruppe wählen.'); return; }
+      t.sperren = (t.sperren||[]).filter(x=>x.gruppe !== gruppe);
+      t.sperren.push({gruppe, bis: tagKey(null, -(dauer-1)), seit: todayStr()});
+      const b = planeVorschlagen(true);
+      await saveState(); overlay.remove(); renderTraining(); zeigePlanBericht(b);
     });
   }
 
@@ -3911,6 +4112,7 @@
       dayData = getDay(todayStr());
       renderMeals(); renderActivities(); renderHistory();
       tr();
+      if(planeMigrieren()) saveState();
       renderTraining();
       renderStandardMeals(); renderTdeeField(); renderBodyCard(); renderInbodyList(); renderStats(); tr(); renderTraining();
       status.style.color='var(--turf)';
