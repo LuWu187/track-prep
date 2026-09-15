@@ -281,6 +281,133 @@
   .hist-row .h-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--chalk-dim);}
   .hist-row .h-meta b{color:var(--turf);}
   .backbtn{background:none; border:1px solid var(--line); color:var(--chalk-dim); border-radius:7px; padding:7px 14px; font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:11.5px; cursor:pointer; margin-bottom:12px;}
+  /* ---- Trainingsmodul ---- */
+  .tr-week{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .tr-week-nr{font-size:19px; color:var(--turf); font-weight:600;}
+  .tr-week-meta{font-size:11.5px; color:var(--chalk-dim); text-align:right;}
+  .tr-weekbar{display:flex; gap:5px; margin-bottom:4px;}
+  .tr-dot{flex:1; height:6px; border-radius:3px; background:rgba(242,237,225,0.12);}
+  .tr-dot.on{background:var(--turf);}
+  .tr-dot.overreach.on{background:var(--gold);}
+  .tr-dot.peak.on{background:var(--rust);}
+  .tr-dot.deload.on{background:var(--turf-dark);}
+  .tr-banner{border-radius:9px; padding:9px 12px; margin-top:10px; font-size:12px;}
+  .tr-banner.info{background:rgba(209,165,61,0.12); border:1px solid rgba(209,165,61,0.35); color:#e2c274;}
+  .tr-banner.warn{background:rgba(192,69,46,0.13); border:1px solid rgba(192,69,46,0.4); color:#e3897a;}
+  .tr-banner b{display:block; margin-bottom:3px; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em;}
+  .tr-banner ul{margin:0; padding-left:16px;}
+  .tr-session-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px;}
+  .tr-session-head b{font-size:15px;}
+  .tr-session-head span{font-size:11.5px; color:var(--chalk-dim);}
+  .tr-ex-preview{font-size:12px; color:var(--chalk-dim); line-height:1.5; margin-bottom:11px;}
+  .tr-done{font-size:12.5px; color:var(--turf); padding:7px 0;}
+  .tr-load{font-size:30px; color:var(--chalk); line-height:1;}
+  .tr-load-meta{font-size:11.5px; color:var(--chalk-dim); margin-top:3px;}
+  .tr-label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--chalk-dim); margin:13px 0 6px;}
+  .tr-days{display:flex; gap:5px; margin-bottom:4px;}
+  .tr-day{flex:1; padding:9px 0; border-radius:8px; border:1px solid var(--line); background:rgba(242,237,225,0.04);
+          color:var(--chalk-dim); font-family:'Oswald',sans-serif; font-size:12.5px; cursor:pointer;}
+  .tr-day.on{background:rgba(139,197,63,0.16); border-color:var(--turf); color:var(--turf);}
+  .tr-opt{padding:11px 13px; border-radius:8px; border:1px solid var(--line); background:rgba(242,237,225,0.04);
+          color:var(--chalk); font-family:'Oswald',sans-serif; font-size:13px; text-align:left; cursor:pointer;}
+  .tr-opt.on{background:rgba(139,197,63,0.16); border-color:var(--turf); color:var(--turf);}
+  .tr-gwrow{display:flex; gap:6px; align-items:flex-end; margin-bottom:7px;}
+  .tr-gwrow label{flex:1; font-size:10.5px; color:var(--chalk-dim); display:flex; flex-direction:column; gap:3px;}
+  .tr-gwrow input{width:100%; background:rgba(242,237,225,0.06); border:1px solid var(--line); color:var(--chalk);
+                  border-radius:7px; padding:8px; font-family:'JetBrains Mono',monospace; font-size:13px; text-align:center;}
+  .tr-del{background:none; border:1px solid var(--line); color:#e3897a; border-radius:7px; padding:8px 10px; cursor:pointer;}
+  .tr-ladder{display:flex; flex-wrap:wrap; gap:4px; max-height:96px; overflow-y:auto;}
+  .tr-lad{font-size:11px; font-family:'JetBrains Mono',monospace; background:rgba(242,237,225,0.06);
+          border-radius:5px; padding:3px 7px; color:var(--chalk-dim);}
+  .tr-lad.dim{opacity:.6; font-style:italic;}
+  .tr-planrow{border:1px solid var(--line); border-radius:9px; padding:10px; margin-bottom:8px;}
+  .tr-planhead{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .tr-planname{font-size:13.5px; color:var(--chalk);}
+  .tr-plangroup{font-size:10.5px; color:var(--chalk-dim); text-transform:uppercase; letter-spacing:.05em;}
+  .tr-planctrl{display:flex; gap:8px; margin:8px 0;}
+  .tr-planctrl label{flex:1; font-size:10.5px; color:var(--chalk-dim); display:flex; flex-direction:column; gap:3px;}
+  .tr-planctrl input{background:rgba(242,237,225,0.06); border:1px solid var(--line); color:var(--chalk);
+                     border-radius:7px; padding:7px; font-family:'JetBrains Mono',monospace; font-size:13px; text-align:center;}
+  .tr-bw{flex:1; font-size:11.5px; color:var(--chalk-dim); align-self:flex-end; padding-bottom:8px;}
+  .tr-ranges{display:flex; gap:5px;}
+  .tr-range{flex:1; padding:7px 0; border-radius:7px; border:1px solid var(--line); background:rgba(242,237,225,0.04);
+            color:var(--chalk-dim); font-family:'JetBrains Mono',monospace; font-size:12px; cursor:pointer;}
+  .tr-range.on{background:rgba(139,197,63,0.16); border-color:var(--turf); color:var(--turf);}
+  .tr-planfoot{display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:8px;}
+  .tr-check{font-size:11.5px; color:var(--chalk-dim); display:flex; align-items:center; gap:5px; cursor:pointer;}
+  .tr-check.block{display:block; padding:8px 0; border-bottom:1px dashed var(--line); font-size:12.5px; color:var(--chalk);}
+  .tr-reason{display:block; font-size:11px; color:var(--chalk-dim); margin-top:2px;}
+  .tr-mini{background:rgba(242,237,225,0.06); border:1px solid var(--line); color:var(--chalk-dim); border-radius:6px;
+           padding:6px 10px; font-family:'Oswald',sans-serif; font-size:11px; text-transform:uppercase; cursor:pointer;}
+  .tr-mini.prim{background:rgba(139,197,63,0.18); border-color:var(--turf); color:var(--turf);}
+  .tr-mini.del{color:#e3897a;}
+  .tr-volume{margin-top:10px;}
+  .tr-volrow{display:flex; justify-content:space-between; font-size:12px; color:var(--chalk-dim); padding:3px 0;}
+  .tr-volrow.over{color:#e3897a;}
+  .tr-volrow.under{color:#e2c274;}
+  .tr-search{width:100%; background:rgba(242,237,225,0.06); border:1px solid var(--line); color:var(--chalk);
+             border-radius:8px; padding:9px 11px; font-family:'Oswald',sans-serif; font-size:13px; margin-bottom:6px;}
+  .tr-pick{display:flex; justify-content:space-between; align-items:center; width:100%; text-align:left;
+           background:rgba(242,237,225,0.04); border:1px solid var(--line); color:var(--chalk); border-radius:8px;
+           padding:10px 12px; font-family:'Oswald',sans-serif; font-size:13px; margin-bottom:5px; cursor:pointer;}
+  .tr-pick span{font-size:10.5px; color:var(--chalk-dim);}
+  .tr-sheet{max-height:86vh;}
+  .tr-runhead{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .tr-runhead b{font-size:16px;}
+  .tr-runhead span{font-size:12px; color:var(--chalk-dim);}
+  .tr-exbox{border:1px solid var(--line); border-radius:9px; padding:10px; margin-bottom:9px;}
+  .tr-exbox.done{border-color:rgba(139,197,63,0.4); background:rgba(139,197,63,0.05);}
+  .tr-exhead{display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:6px;}
+  .tr-exhead span:first-child{font-size:13.5px;}
+  .tr-exmeta{font-size:11px; color:var(--chalk-dim);}
+  .tr-sets{width:100%; border-collapse:collapse; margin-bottom:7px; font-family:'JetBrains Mono',monospace; font-size:12px;}
+  .tr-sets th{font-size:10px; color:var(--chalk-dim); text-transform:uppercase; letter-spacing:.05em; font-weight:400; padding-bottom:3px;}
+  .tr-sets td{text-align:center; padding:3px 0; color:var(--chalk);}
+  .tr-sets tr.warm td{color:var(--chalk-dim); font-style:italic;}
+  .tr-sets tr.offen td{color:var(--chalk-dim); opacity:.75;}
+  .tr-sets tr.fertig td{color:var(--chalk);}
+  .tr-sets tr.fertig .tr-haken{color:var(--turf);}
+  .tr-chart{display:flex; align-items:flex-end; gap:4px; height:66px; margin:6px 0 12px;
+            padding-bottom:2px; border-bottom:1px solid var(--line);}
+  .tr-bar{flex:1; display:flex; align-items:flex-end;}
+  .tr-bar span{display:block; width:100%; background:var(--turf); border-radius:3px 3px 0 0; opacity:.8;}
+  .tr-bar:last-child span{opacity:1;}
+  .tag-quelle{font-size:9px; text-transform:uppercase; letter-spacing:.06em; color:var(--turf);
+              border:1px solid rgba(139,197,63,0.35); border-radius:4px; padding:1px 5px; margin-left:5px;}
+  .tr-letzte{font-size:11px; color:var(--chalk-dim); margin:-2px 0 6px; font-family:'JetBrains Mono',monospace;}
+  .tr-haken{cursor:pointer; width:26px; font-size:15px; text-align:center;}
+  .tr-haken:active{background:rgba(139,197,63,0.18);}
+  .tr-setedit{cursor:pointer;}
+  .tr-setedit{color:var(--chalk-dim); font-size:12px; width:24px; text-align:center;}
+  .tr-entry{display:flex; gap:7px; margin-bottom:7px;}
+  .tr-entry label{flex:1; font-size:10.5px; color:var(--chalk-dim); display:flex; flex-direction:column; gap:3px;}
+  .tr-entry input{background:rgba(242,237,225,0.06); border:1px solid var(--line); color:var(--chalk);
+                  border-radius:7px; padding:8px; font-family:'JetBrains Mono',monospace; font-size:14px; text-align:center; width:100%;}
+  .tr-exbtns{display:flex; gap:5px; flex-wrap:wrap;}
+  .tr-pause{position:fixed; left:12px; right:12px; bottom:70px; z-index:120; display:flex; justify-content:space-between;
+            align-items:center; gap:10px; background:var(--pitch-2); border:1px solid var(--turf); border-radius:10px;
+            padding:11px 14px; box-shadow:0 6px 20px rgba(0,0,0,0.45);}
+  .tr-pause span{font-size:16px; color:var(--turf);}
+  .tr-pause button{background:none; border:1px solid var(--line); color:var(--chalk-dim); border-radius:7px;
+                   padding:6px 12px; font-family:'Oswald',sans-serif; font-size:11.5px; text-transform:uppercase; cursor:pointer;}
+  .tr-chips{display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 2px;}
+  .tr-chip{padding:9px 14px; border-radius:8px; border:1px solid var(--line); background:rgba(242,237,225,0.04);
+           color:var(--chalk-dim); font-family:'Oswald',sans-serif; font-size:13px; cursor:pointer;}
+  .tr-chip.on{background:rgba(139,197,63,0.16); border-color:var(--turf); color:var(--turf);}
+  .tr-histrow{display:flex; justify-content:space-between; align-items:baseline; width:100%; gap:8px; text-align:left;
+              background:rgba(242,237,225,0.04); border:1px solid var(--line); border-radius:8px;
+              padding:10px 12px; margin-bottom:6px; cursor:pointer;}
+  .tr-histname{font-family:'Oswald',sans-serif; font-size:13px; color:var(--chalk);}
+  .tr-histmeta{font-size:11px; color:var(--chalk-dim);}
+  .tr-reopen{background:rgba(209,165,61,0.12); border:1px solid rgba(209,165,61,0.3); color:#e2c274;
+             border-radius:8px; padding:8px 11px; font-size:11.5px; margin-bottom:9px;}
+  .tr-weekinfo{font-size:11.5px; color:var(--chalk-dim); background:rgba(242,237,225,0.05);
+               border-radius:8px; padding:7px 10px; margin-bottom:9px;}
+  .tr-tag{font-size:9.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--gold);
+          border:1px solid rgba(209,165,61,0.4); border-radius:4px; padding:1px 5px; margin-left:4px;}
+  .tr-hint{font-size:11px; color:var(--gold); margin-top:4px;}
+  .wide-btn.ghost{background:none; border:1px solid var(--line); color:var(--chalk-dim);}
+
   .footer-note{text-align:center; font-size:11px; color:var(--chalk-dim); margin-top:6px; padding-bottom:6px;}
 </style>
 </head>
@@ -390,6 +517,7 @@
       </div>
       <ul class="meal-list" id="actList"></ul>
       <div class="empty" id="actEmpty">Noch keine Aktivität geloggt.</div>
+      <div style="font-size:11px; color:var(--chalk-dim); margin:8px 0 2px;">Gym und Fußball erfasst du im Reiter Training — hier nur zusätzliche Bewegung wie Rad oder Gehen.</div>
       <div style="font-size:11.5px; color:var(--chalk-dim); margin-top:10px; line-height:1.5;" id="netLine"></div>
     </div>
 
@@ -503,12 +631,15 @@
     </div>
   </div>
 
+  <div class="view" id="view-training"></div>
+
   <div class="footer-note" id="storageBadge"></div>
 </main>
 
 <nav class="tabs">
   <button class="active" data-view="heute"><span class="ic">🍽</span>Heute</button>
   <button data-view="verlauf"><span class="ic">📅</span>Verlauf</button>
+  <button data-view="training"><span class="ic">🏋</span>Training</button>
 </nav>
 
 
@@ -621,6 +752,2160 @@
   }
   updateCountdown();
 
+
+  // ===================================================================
+  // TRAININGSMODUL
+  // Regeln und Herkunft sind in trainingslogik.md dokumentiert.
+  // ===================================================================
+
+  // Muskelgruppen: Kuerzel -> Anzeigename. Reihenfolge = Sortierung im Katalog.
+  const MUSKELGRUPPEN = {
+    beine:'Beine', po:'Po', waden:'Waden', ruecken:'Rücken', brust:'Brust',
+    schulter:'Schulter', bizeps:'Bizeps', trizeps:'Trizeps', bauch:'Bauch'
+  };
+
+  // Uebungskatalog.
+  // rest  = Standardpause in Sekunden (schwer 150 / mittel 120 / Isolation 90)
+  // warm  = Aufwaermsaetze standardmaessig an
+  // bw    = Koerpergewichtsuebung (kein kg-Feld)
+  // alt   = Alternativen fuers Tauschen
+  const UEBUNGEN = [
+    // ---- Beine ----
+    {id:'beinpresse',      name:'Beinpresse',                 g:'beine', rest:150, warm:true,  alt:['kniebeuge','hackenschmidt','beinstrecker']},
+    {id:'beinpresse_eng',  name:'Beinpresse (enger Stand)',   g:'beine', rest:150, warm:true,  alt:['beinpresse','beinstrecker']},
+    {id:'kniebeuge',       name:'Kniebeuge',                  g:'beine', rest:180, warm:true,  alt:['beinpresse','goblet','hackenschmidt']},
+    {id:'goblet',          name:'Goblet Squat',               g:'beine', rest:120, warm:true,  alt:['kniebeuge','beinpresse']},
+    {id:'hackenschmidt',   name:'Hackenschmidt-Maschine',     g:'beine', rest:150, warm:true,  alt:['beinpresse','kniebeuge']},
+    {id:'beinstrecker',    name:'Beinstrecker',               g:'beine', rest:90,  warm:false, alt:['beinpresse','beinpresse_eng']},
+    {id:'beinbeuger_sitz', name:'Beinbeuger im Sitzen',       g:'beine', rest:120, warm:false, alt:['beinbeuger_lieg','rdl','beinbeuger_steh']},
+    {id:'beinbeuger_lieg', name:'Beinbeuger im Liegen',       g:'beine', rest:120, warm:false, alt:['beinbeuger_sitz','rdl']},
+    {id:'beinbeuger_steh', name:'Beinbeuger im Stehen',       g:'beine', rest:90,  warm:false, alt:['beinbeuger_sitz','beinbeuger_lieg']},
+    {id:'rdl',             name:'Rumänisches Kreuzheben',    g:'beine', rest:150, warm:true,  alt:['beinbeuger_sitz','hipthrust','goodmorning']},
+    {id:'goodmorning',     name:'Good Morning',               g:'beine', rest:120, warm:true,  alt:['rdl','beinbeuger_sitz']},
+    {id:'ausfallschritt',  name:'Ausfallschritte',            g:'beine', rest:120, warm:false, alt:['bulgarian','beinpresse']},
+    {id:'bulgarian',       name:'Bulgarian Split Squat',      g:'beine', rest:120, warm:false, alt:['ausfallschritt','beinpresse']},
+    {id:'beinpresse_1bein',name:'Einbeinige Beinpresse',      g:'beine', rest:120, warm:false, alt:['beinpresse','bulgarian']},
+    // ---- Po ----
+    {id:'hipthrust',       name:'Hip Thrust',                 g:'po', rest:150, warm:true,  alt:['glutebridge','glute_kabel','rdl']},
+    {id:'glutebridge',     name:'Glute Bridge',               g:'po', rest:90,  warm:false, alt:['hipthrust','glute_kabel']},
+    {id:'abduktion',       name:'Abduktionsmaschine',         g:'po', rest:90,  warm:false, alt:['gluteband','glute_kabel']},
+    {id:'adduktion',       name:'Adduktionsmaschine',         g:'po', rest:90,  warm:false, alt:['abduktion']},
+    {id:'gluteband',       name:'Abduktion mit Band',         g:'po', rest:60,  warm:false, bw:true, alt:['abduktion']},
+    {id:'glute_kabel',     name:'Kickback am Kabel',          g:'po', rest:90,  warm:false, alt:['hipthrust','abduktion']},
+    // ---- Waden ----
+    {id:'wadenpresse_sitz',name:'Sitzende Wadenpresse',       g:'waden', rest:90, warm:false, alt:['wadenheben_steh','wadenpresse_bp']},
+    {id:'wadenheben_steh', name:'Wadenheben im Stehen',       g:'waden', rest:90, warm:false, alt:['wadenpresse_sitz','wadenpresse_bp']},
+    {id:'wadenpresse_bp',  name:'Wadendrücken an der Beinpresse', g:'waden', rest:90, warm:false, alt:['wadenpresse_sitz','wadenheben_steh']},
+    // ---- Ruecken ----
+    {id:'latzug',          name:'Latzug',                     g:'ruecken', rest:150, warm:true,  alt:['latzug_masch','chinups','klimmzug']},
+    {id:'latzug_masch',    name:'Latzug Maschine',            g:'ruecken', rest:150, warm:true,  alt:['latzug','chinups']},
+    {id:'klimmzug',        name:'Klimmzüge',                 g:'ruecken', rest:150, warm:false, bw:true, alt:['latzug','latzug_masch','chinups']},
+    {id:'kabelrudern',     name:'Kabelrudern',                g:'ruecken', rest:150, warm:true,  alt:['rudermaschine','langhantelrudern','kh_rudern']},
+    {id:'rudermaschine',   name:'Rudermaschine',              g:'ruecken', rest:150, warm:true,  alt:['kabelrudern','langhantelrudern']},
+    {id:'langhantelrudern',name:'Langhantelrudern',           g:'ruecken', rest:150, warm:true,  alt:['kabelrudern','kh_rudern']},
+    {id:'kh_rudern',       name:'Kurzhantelrudern',           g:'ruecken', rest:120, warm:false, alt:['kabelrudern','langhantelrudern']},
+    {id:'tbar',            name:'T-Bar-Rudern',               g:'ruecken', rest:150, warm:true,  alt:['kabelrudern','langhantelrudern']},
+    {id:'ueberzuege',      name:'Überzüge am Kabel',        g:'ruecken', rest:90,  warm:false, alt:['latzug','latzug_masch']},
+    {id:'hyperext',        name:'Rückenstrecker',            g:'ruecken', rest:90,  warm:false, bw:true, alt:['rdl','goodmorning']},
+    // ---- Brust ----
+    {id:'bankdruecken',    name:'Bankdrücken',               g:'brust', rest:150, warm:true,  alt:['brustpresse','kh_bank','bank_schraeg']},
+    {id:'bank_schraeg',    name:'Schrägbankdrücken',        g:'brust', rest:150, warm:true,  alt:['bankdruecken','kh_bank_schraeg','brustpresse']},
+    {id:'bank_eng',        name:'Enges Bankdrücken',         g:'brust', rest:150, warm:true,  alt:['bankdruecken','trizepsdruecken']},
+    {id:'kh_bank',         name:'Kurzhantelbankdrücken',     g:'brust', rest:150, warm:true,  alt:['bankdruecken','brustpresse','kh_bank_schraeg']},
+    {id:'kh_bank_schraeg', name:'Kurzhantel Schrägbank',     g:'brust', rest:150, warm:true,  alt:['bank_schraeg','kh_bank']},
+    {id:'brustpresse',     name:'Brustpresse',                g:'brust', rest:120, warm:true,  alt:['bankdruecken','kh_bank','butterfly']},
+    {id:'butterfly',       name:'Butterfly',                  g:'brust', rest:90,  warm:false, alt:['fliegende_kabel','brustpresse']},
+    {id:'fliegende_kabel', name:'Fliegende am Kabel',         g:'brust', rest:90,  warm:false, alt:['butterfly','brustpresse']},
+    {id:'dips_brust',      name:'Dips (Brust)',               g:'brust', rest:120, warm:false, bw:true, alt:['bankdruecken','brustpresse','dips']},
+    {id:'liegestuetz',     name:'Liegestütze',               g:'brust', rest:90,  warm:false, bw:true, alt:['bankdruecken','brustpresse']},
+    // ---- Schulter ----
+    {id:'schulterpresse',  name:'Schulterpresse',             g:'schulter', rest:120, warm:true,  alt:['kh_schulterdruecken','military']},
+    {id:'kh_schulterdruecken', name:'Schulterdrücken Kurzhantel', g:'schulter', rest:120, warm:true, alt:['schulterpresse','military']},
+    {id:'military',        name:'Military Press',             g:'schulter', rest:150, warm:true,  alt:['schulterpresse','kh_schulterdruecken']},
+    {id:'seitheben',       name:'Seitheben',                  g:'schulter', rest:90, warm:false, alt:['seitheben_sitz','seitheben_kabel','seitheben_masch']},
+    {id:'seitheben_sitz',  name:'Sitzendes Seitheben',        g:'schulter', rest:90, warm:false, alt:['seitheben','seitheben_kabel','seitheben_masch']},
+    {id:'seitheben_kabel', name:'Seitheben am Kabel',         g:'schulter', rest:90, warm:false, alt:['seitheben','seitheben_sitz']},
+    {id:'seitheben_masch', name:'Seithebemaschine',           g:'schulter', rest:90, warm:false, alt:['seitheben_sitz','seitheben']},
+    {id:'reverse_fly',     name:'Reverse Flys',               g:'schulter', rest:90, warm:false, alt:['facepull','rudern_hintere','reverse_masch']},
+    {id:'reverse_masch',   name:'Reverse-Butterfly-Maschine', g:'schulter', rest:90, warm:false, alt:['reverse_fly','facepull','rudern_hintere']},
+    {id:'facepull',        name:'Face Pulls',                 g:'schulter', rest:90, warm:false, alt:['reverse_fly','rudern_hintere']},
+    {id:'rudern_hintere',  name:'Rudern hintere Schulter am Kabel im Sitzen', g:'schulter', rest:90, warm:false, alt:['facepull','reverse_fly','reverse_masch']},
+    {id:'frontheben',      name:'Frontheben',                 g:'schulter', rest:90, warm:false, alt:['schulterpresse','seitheben']},
+    {id:'shrugs',          name:'Shrugs',                     g:'schulter', rest:90, warm:false, alt:['kabelrudern']},
+    // ---- Bizeps ----
+    {id:'chinups',         name:'Chin Ups',                   g:'bizeps', rest:120, warm:false, bw:true, alt:['latzug','curl_lh','klimmzug']},
+    {id:'curl_lh',         name:'Langhantelcurls',            g:'bizeps', rest:90, warm:false, alt:['curl_kh','curl_kabel','curl_masch']},
+    {id:'curl_kh',         name:'Kurzhantelcurls',            g:'bizeps', rest:90, warm:false, alt:['curl_lh','curl_kabel','hammer']},
+    {id:'curl_kabel',      name:'Curls am Kabel',             g:'bizeps', rest:90, warm:false, alt:['curl_kh','curl_lh']},
+    {id:'curl_masch',      name:'Curlmaschine',               g:'bizeps', rest:90, warm:false, alt:['curl_kh','curl_kabel']},
+    {id:'hammer',          name:'Hammercurls',                g:'bizeps', rest:90, warm:false, alt:['curl_kh','curl_kabel']},
+    {id:'scottcurl',       name:'Scottcurls',                 g:'bizeps', rest:90, warm:false, alt:['curl_lh','curl_masch']},
+    // ---- Trizeps ----
+    {id:'dips',            name:'Dips',                       g:'trizeps', rest:120, warm:false, bw:true, alt:['trizepsdruecken','trizeps_masch','bank_eng']},
+    {id:'trizepsdruecken', name:'Trizepsdrücken am Kabel',   g:'trizeps', rest:90, warm:false, alt:['trizeps_masch','ueberkopf_trizeps','dips']},
+    {id:'trizeps_masch',   name:'Trizepsmaschine',            g:'trizeps', rest:90, warm:false, alt:['trizepsdruecken','dips']},
+    {id:'ueberkopf_trizeps',name:'Überkopf-Trizepsdrücken', g:'trizeps', rest:90, warm:false, alt:['trizepsdruecken','skullcrusher']},
+    {id:'skullcrusher',    name:'Skull Crusher',              g:'trizeps', rest:90, warm:false, alt:['ueberkopf_trizeps','trizepsdruecken']},
+    // ---- Bauch ----
+    {id:'bauchpresse',     name:'Bauchpresse',                g:'bauch', rest:90, warm:false, alt:['crunch_kabel','crunch','bauchroller']},
+    {id:'crunch_kabel',    name:'Crunches am Kabel',          g:'bauch', rest:90, warm:false, alt:['bauchpresse','crunch']},
+    {id:'crunch',          name:'Crunches',                   g:'bauch', rest:60, warm:false, bw:true, alt:['crunch_kabel','bauchpresse']},
+    {id:'bauchroller',     name:'Bauchroller',                g:'bauch', rest:90, warm:false, bw:true, alt:['bauchpresse','crunch_kabel']},
+    {id:'plank',           name:'Plank',                      g:'bauch', rest:60, warm:false, bw:true, alt:['crunch','pallof']},
+    {id:'pallof',          name:'Pallof Press',               g:'bauch', rest:60, warm:false, alt:['plank','crunch_kabel']},
+    {id:'beinheben',       name:'Beinheben',                  g:'bauch', rest:90, warm:false, bw:true, alt:['crunch','bauchpresse']}
+  ];
+  const UEB = {};
+  UEBUNGEN.forEach(u => UEB[u.id] = u);
+
+  // Wiederholungsbereiche. Der Faktor ist der Anteil des geschaetzten 1RM,
+  // mit dem die Mitte des Bereichs ungefaehr erreicht wird.
+  const WDH_BEREICHE = {
+    '5-8':   {min:5,  max:8,  mitte:6.5, ziel:6,  restPlus:30,  aufwaermen:[[0.50,10],[0.70,5],[0.85,3]]},
+    '8-12':  {min:8,  max:12, mitte:10,  ziel:10, restPlus:0,   aufwaermen:[[0.50,10],[0.70,5]]},
+    '15-20': {min:15, max:20, mitte:17.5,ziel:18, restPlus:-30, aufwaermen:[[0.55,12]]}
+  };
+
+  // Zykluswochen. saetze = Sollsaetze je grosser Muskelgruppe und Woche,
+  // rir = Ziel-Wiederholungen in Reserve, last = Anteil des Arbeitsgewichts.
+  const ZYKLUS_WOCHEN = [
+    {nr:1, typ:'aufbau',    label:'Woche 1',    saetze:10, rir:3,   last:1.00},
+    {nr:2, typ:'aufbau',    label:'Woche 2',    saetze:11, rir:2,   last:1.00},
+    {nr:3, typ:'aufbau',    label:'Woche 3',    saetze:13, rir:2,   last:1.00},
+    {nr:4, typ:'aufbau',    label:'Woche 4',    saetze:14, rir:1,   last:1.00},
+    {nr:5, typ:'overreach', label:'Overreach',  saetze:16, rir:0.5, last:1.00},
+    {nr:6, typ:'peak',      label:'Peak Week',  saetze:11, rir:0,   last:1.00},
+    {nr:7, typ:'deload',    label:'Deload',     saetze:7,  rir:3.5, last:0.90}
+  ];
+  const ZYKLUS_LAENGE = 7;
+
+  // Phasen. Die Satzobergrenze haengt daran: im Defizit ist die Erholung
+  // begrenzt, im Aufbau darf mehr Volumen gefahren werden.
+  const PHASEN = {
+    defizit: {name:'Defizit',  saetzeMax:16, protein:[1.8, 2.2]},
+    erhalt:  {name:'Erhalt',   saetzeMax:18, protein:[1.6, 2.0]},
+    aufbau:  {name:'Aufbau',   saetzeMax:20, protein:[1.6, 2.0]}
+  };
+  function aktuellePhase(){
+    const t = tr();
+    // Geplanter Wechsel: ab dem hinterlegten Datum gilt die neue Phase.
+    if(t.phasenWechsel && todayStr() >= t.phasenWechsel.ab) return PHASEN[t.phasenWechsel.phase] ? t.phasenWechsel.phase : 'defizit';
+    return PHASEN[t.phase] ? t.phase : 'defizit';
+  }
+  function saetzeMax(){ return PHASEN[aktuellePhase()].saetzeMax; }
+  // Rueckwaertskompatibel: frueher eine Konstante.
+  const SAETZE_MAX = 16;
+
+  const WOCHENTAGE = [
+    {k:'MO', name:'Mo'}, {k:'DI', name:'Di'}, {k:'MI', name:'Mi'},
+    {k:'DO', name:'Do'}, {k:'FR', name:'Fr'}, {k:'SA', name:'Sa'}, {k:'SO', name:'So'}
+  ];
+
+  // Die Plannamen sind Datenschluessel im gespeicherten Zustand und bleiben
+  // deshalb ohne Umlaute. Fuer die Anzeige werden sie hier uebersetzt.
+  const zeigeName = n => String(n)
+    .replace(/Ganzkoerper/g, 'Ganzk\u00f6rper')
+    .replace(/Oberkoerper/g, 'Oberk\u00f6rper')
+    .replace(/Unterkoerper/g, 'Unterk\u00f6rper')
+    .replace(/zusaetzlich/g, 'zus\u00e4tzlich');
+
+  const SPLITS = {
+    ganzkoerper: {name:'Ganzkörper', einheiten:['Ganzkoerper']},
+    ok_uk:       {name:'Ober-/Unterkörper', einheiten:['Oberkoerper','Unterkoerper']},
+    push_pull:   {name:'Push / Pull / Beine', einheiten:['Push','Pull','Beine']}
+  };
+
+  // ---- State-Zugriff -------------------------------------------------
+  function tr(){
+    if(!appState.training) appState.training = {};
+    const t = appState.training;
+    if(!t.gewichte)    t.gewichte = {global:[{von:1, bis:200, schritt:1}], proUebung:{}};
+    if(!t.zyklus)      t.zyklus = null;
+    if(!t.plaene)      t.plaene = {};
+    if(!t.einheiten)   t.einheiten = {};
+    if(!t.fussball)    t.fussball = {};
+    if(!t.kandidaten)  t.kandidaten = {};
+    if(!t.phase)       t.phase = 'defizit';
+    if(t.phasenWechsel === undefined) t.phasenWechsel = {ab:'2026-12-01', phase:'aufbau'};
+    if(!t.krank)       t.krank = [];          // abgeschlossene Krankheitsphasen
+    if(t.krankAktiv === undefined) t.krankAktiv = null;
+    if(t.wiedereinstieg === undefined) t.wiedereinstieg = null;
+    if(!t.prefs)       t.prefs = {ton:true, vibration:true, autoZielstufe:true};
+    return t;
+  }
+
+  // ---- Gewichtsmodell ------------------------------------------------
+  // Liefert die aufsteigend sortierte Liste verfuegbarer Gewichte.
+  function gewichtsleiter(uebungId){
+    const t = tr();
+    const reihen = (uebungId && t.gewichte.proUebung[uebungId]) || t.gewichte.global;
+    const out = [];
+    reihen.forEach(r=>{
+      const von = Number(r.von), bis = Number(r.bis), schritt = Number(r.schritt);
+      if(!(schritt > 0) || !(bis >= von)) return;
+      for(let w = von; w <= bis + 1e-9; w += schritt) out.push(Math.round(w*100)/100);
+    });
+    return [...new Set(out)].sort((a,b)=>a-b);
+  }
+
+  // Rundet auf die naechste verfuegbare Stufe. richtung: 0 nah, 1 auf, -1 ab.
+  function rundeGewicht(wert, uebungId, richtung){
+    const leiter = gewichtsleiter(uebungId);
+    if(!leiter.length) return Math.round(wert*2)/2;
+    if(richtung === 1){
+      const t = leiter.find(w => w > wert + 1e-9);
+      return t !== undefined ? t : leiter[leiter.length-1];
+    }
+    if(richtung === -1){
+      const kleiner = leiter.filter(w => w < wert - 1e-9);
+      return kleiner.length ? kleiner[kleiner.length-1] : leiter[0];
+    }
+    return leiter.reduce((a,b)=> Math.abs(b-wert) < Math.abs(a-wert) ? b : a, leiter[0]);
+  }
+
+  // ---- Kraftschaetzung -----------------------------------------------
+  // Epley, erweitert um RIR: die Reserve zaehlt wie zusaetzliche Wiederholungen.
+  function schaetze1RM(gewicht, wdh, rir){
+    const eff = Number(wdh) + Number(rir || 0);
+    if(!(gewicht > 0) || !(eff > 0)) return 0;
+    if(eff <= 1) return gewicht;
+    return gewicht * (1 + eff/30);
+  }
+  // Umkehrung: welches Gewicht passt zu einer Zielwiederholungszahl?
+  function gewichtFuer(rm, zielWdh, rir){
+    const eff = Number(zielWdh) + Number(rir || 0);
+    if(!(rm > 0) || !(eff > 0)) return 0;
+    return rm / (1 + eff/30);
+  }
+
+  // Gewichtsvorschlag beim Wechsel des Wiederholungsbereichs.
+  function gewichtFuerBereich(uebungId, altGewicht, altBereich, neuBereich, rir){
+    const a = WDH_BEREICHE[altBereich], b = WDH_BEREICHE[neuBereich];
+    if(!a || !b) return altGewicht;
+    const rm = schaetze1RM(altGewicht, a.mitte, rir);
+    return rundeGewicht(gewichtFuer(rm, b.mitte, rir), uebungId, 0);
+  }
+
+  // ---- Progression ---------------------------------------------------
+  // Bewertet eine abgeschlossene Uebung und liefert den Vorschlag fuers naechste Mal.
+  // Hoch nur nach Bestaetigung, runter erst nach zweimaligem Reissen.
+  function bewerteUebung(uebungId, bereichKey, saetze, zielRir){
+    const t = tr();
+    const b = WDH_BEREICHE[bereichKey];
+    const alleArbeit = saetze.filter(s => !s.warmup && !s.offen && s.wdh > 0);
+    if(!b || !alleArbeit.length) return null;
+
+    // Arbeitsgewicht ist das schwerste geloggte Gewicht, nicht das des ersten
+    // Satzes. Wer sich innerhalb der Uebung hocharbeitet, wuerde sonst auf dem
+    // Einstiegsgewicht bewertet. Bewertet werden nur die Saetze mit diesem Gewicht.
+    const gewicht = alleArbeit.reduce((max,s)=> s.kg > max ? s.kg : max, alleArbeit[0].kg);
+    const arbeit = alleArbeit.filter(s => Math.abs(s.kg - gewicht) < 0.001);
+
+    const alleOben  = arbeit.every(s => s.wdh >= b.max && (s.rir === undefined || s.rir <= zielRir));
+    const gerissen  = arbeit.some(s => s.wdh < b.min);
+
+    // Zaehler je Uebung UND Wiederholungsbereich: dieselbe Uebung laeuft bei dir
+    // an einem Tag im 5-8er und an einem anderen im 15-20er Bereich. Ein
+    // gemeinsamer Zaehler wuerde die beiden Verlaeufe vermischen.
+    const schluessel = uebungId + '|' + bereichKey;
+    const kand = t.kandidaten[schluessel] || {hoch:0, runter:0};
+
+    if(alleOben){
+      kand.runter = 0; kand.hoch += 1;
+      t.kandidaten[schluessel] = kand;
+      if(kand.hoch >= 2){
+        t.kandidaten[schluessel] = {hoch:0, runter:0};
+        return {richtung:'hoch', neu:rundeGewicht(gewicht, uebungId, 1), grund:'Zielwiederholungen zweimal erreicht'};
+      }
+      return {richtung:'halten', neu:gewicht, grund:'Einmal oben \u2014 beim nächsten Mal bestaetigen'};
+    }
+    if(gerissen){
+      kand.hoch = 0; kand.runter += 1;
+      t.kandidaten[schluessel] = kand;
+      if(kand.runter >= 2){
+        t.kandidaten[schluessel] = {hoch:0, runter:0};
+        return {richtung:'runter', neu:rundeGewicht(gewicht, uebungId, -1), grund:'Zweimal unter dem Zielbereich'};
+      }
+      return {richtung:'halten', neu:gewicht, grund:'Einmal gerissen \u2014 Gewicht bleibt'};
+    }
+    t.kandidaten[schluessel] = {hoch:0, runter:0};
+    return {richtung:'halten', neu:gewicht, grund:'Im Zielbereich'};
+  }
+
+  // ---- Belastung (Session-RPE) ---------------------------------------
+  // Minuten x gefuehlte Anstrengung. Gleiche Waehrung fuer Gym und Fussball.
+  function belastungspunkte(minuten, rpe){ return Math.round(Number(minuten||0) * Number(rpe||0)); }
+
+  // Tagesschluessel wie im Rest der App. Ohne Argument: heute laut todayStr().
+  function tagKey(basis, minusTage){
+    const d = new Date((basis || todayStr()) + 'T12:00:00');
+    d.setDate(d.getDate() - (Number(minusTage) || 0));
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+
+  function belastungWoche(bisDatum){
+    const t = tr();
+    let summe = 0;
+    for(let i=0; i<7; i++){
+      const key = tagKey(bisDatum, i);
+      einheitenAmTag(key).forEach(([,e]) => { if(e.punkte) summe += e.punkte; });
+      const f = t.fussball[key];
+      if(f && f.punkte) summe += f.punkte;
+    }
+    return summe;
+  }
+
+  // Sollsaetze der aktuellen Zykluswoche, gedeckelt.
+  function wochenSaetzeSoll(){
+    const w = aktuelleZyklusWoche();
+    if(!w) return SAETZE_MAX;
+    return Math.min(w.saetze, w.typ === 'deload' ? w.saetze : saetzeMax());
+  }
+
+  function aktuelleZyklusWoche(){
+    const t = tr();
+    if(!t.zyklus || !t.zyklus.start) return null;
+    const start = new Date(t.zyklus.start + 'T12:00:00');
+    const heute = new Date(todayStr() + 'T12:00:00');
+    const tage = Math.round((heute - start) / 86400000);
+    if(tage < 0) return null;
+    const nr = Math.floor(tage/7) + 1;
+    if(nr > ZYKLUS_LAENGE) return null;
+    return ZYKLUS_WOCHEN[nr-1];
+  }
+
+  // Hinweis analog zum Overreaching-Banner: aus Zykluswoche, Belastung und Defizit.
+  function belastungsHinweis(){
+    const w = aktuelleZyklusWoche();
+    const punkte = belastungWoche();
+    const gruende = [];
+    let stufe = 'ok';
+
+    if(w && w.typ === 'overreach'){ stufe = 'warn'; gruende.push('Overreach-Woche: hohe Belastung ist gewollt'); }
+    if(w && w.typ === 'peak')     { stufe = 'warn'; gruende.push('Peak Week: schwere Gewichte, wenig Reserve'); }
+    if(w && w.typ === 'deload')   { gruende.push('Deload: halbes Volumen, 90 % des Gewichts'); }
+    if(wiedereinstiegAktiv()){
+      const we = tr().wiedereinstieg;
+      gruende.push('Wiedereinstieg nach Krankheit bis ' + we.bis + ': ' + Math.round(we.faktor*100) + ' % Gewicht, ein Satz weniger');
+    }
+
+    if(punkte > 2600){ stufe = 'warn'; gruende.push('Wochenbelastung sehr hoch ('+punkte+' Punkte)'); }
+    else if(punkte > 2000){ if(stufe==='ok') stufe = 'info'; gruende.push('Wochenbelastung erhöht ('+punkte+' Punkte)'); }
+
+    // Defizit aus der Ernaehrungsseite: letzte 7 Tage gegen das jeweilige Ziel.
+    let unter = 0;
+    for(let i=1; i<=7; i++){
+      const key = tagKey(null, i);
+      const h = (appState.history||[]).find(x=>x.date===key);
+      if(h && h.kcal && h.goal && h.kcal < h.goal - 250) unter++;
+    }
+    if(unter >= 5){ if(stufe==='ok') stufe = 'info'; gruende.push('Deutliches Defizit an '+unter+' der letzten 7 Tage — Erholung läuft langsamer'); }
+
+    return {stufe, gruende, punkte};
+  }
+
+  // ---- Wochensteuerung -------------------------------------------------
+  // Der gespeicherte Plan enthaelt die Werte fuer Woche 1. Fuer jede andere
+  // Woche wird daraus abgeleitet: Saetze im Verhaeltnis des Wochensolls,
+  // Gewicht ueber den Lastfaktor (nur der Deload senkt), RIR aus der Woche.
+  // Die Zyklustabelle ist auf das Defizit kalibriert: Woche 5 schoepft dort die
+  // Obergrenze von 16 genau aus. Fuer andere Phasen wird die ganze Tabelle im
+  // Verhaeltnis skaliert - eine hoehere Obergrenze allein wuerde nichts
+  // bewirken, weil keine Woche ueber 16 hinausgeht.
+  const BASIS_SAETZE_MAX = 16;
+  function wochenSoll(woche){
+    const w = woche || ZYKLUS_WOCHEN[0];
+    return Math.max(1, Math.round(w.saetze / BASIS_SAETZE_MAX * saetzeMax()));
+  }
+  function wochenFaktor(woche){
+    return wochenSoll(woche) / ZYKLUS_WOCHEN[0].saetze;
+  }
+
+  // Laeuft gerade ein Wiedereinstieg nach Krankheit? Liefert den Lastfaktor.
+  function wiedereinstiegFaktor(datum){
+    const t = tr();
+    const we = t.wiedereinstieg;
+    if(!we || !we.bis) return 1;
+    const tag = datum || todayStr();
+    return tag <= we.bis ? we.faktor : 1;
+  }
+  function wiedereinstiegAktiv(datum){ return wiedereinstiegFaktor(datum) !== 1; }
+
+  // Gewicht und Ziel-RIR einer einzelnen Uebung fuer die Woche.
+  function wochenAnpassung(eintrag, woche, datum){
+    const w = woche || ZYKLUS_WOCHEN[0];
+    const u = UEB[eintrag.id] || {};
+    const last = w.last * wiedereinstiegFaktor(datum);
+    let kg = eintrag.kg;
+    if(!u.bw && kg > 0 && Math.abs(last - 1) > 0.001) kg = rundeGewicht(kg * last, eintrag.id, 0);
+    return {saetze: Math.max(1, Math.round(eintrag.saetze * wochenFaktor(w))), kg, rir: w.rir};
+  }
+
+  // Satzverteilung ueber die ganze Einheit. Pro Uebung zu runden waere zu grob:
+  // bei 2 Basissaetzen ergaeben Faktor 1,0 und 1,2 dasselbe Ergebnis, und der
+  // Deload laege auf Wochenniveau 1. Deshalb wird die Zielsumme gebildet und
+  // die Differenz einzeln verteilt - aufgestockt wird vorne bei den
+  // Grunduebungen, gekuerzt hinten bei der Isolation.
+  function wochenSaetze(plan, woche){
+    const basis = plan.map(p => Math.max(1, Number(p.saetze) || 1));
+    if(!basis.length) return [];
+    const summe = basis.reduce((a,b)=>a+b, 0);
+    const ziel = Math.max(plan.length, Math.round(summe * wochenFaktor(woche)));
+    const out = basis.slice();
+    let diff = ziel - summe;
+    let schutz = 0;
+    while(diff > 0 && schutz++ < 400){
+      let gesetzt = false;
+      for(let i = 0; i < out.length && diff > 0; i++){
+        if(out[i] < basis[i] + 3){ out[i]++; diff--; gesetzt = true; }
+      }
+      if(!gesetzt) break;
+    }
+    schutz = 0;
+    while(diff < 0 && schutz++ < 400){
+      let gesetzt = false;
+      for(let i = out.length - 1; i >= 0 && diff < 0; i--){
+        if(out[i] > 1){ out[i]--; diff++; gesetzt = true; }
+      }
+      if(!gesetzt) break;
+    }
+    return out;
+  }
+
+  // Erzeugt die Uebungsliste einer Einheit aus dem Plan, skaliert auf die Woche.
+  function einheitAusPlan(planId, woche, datum){
+    const t = tr();
+    const plan = t.plaene[planId] || [];
+    const saetze = wochenSaetze(plan, woche);
+    const w = woche || ZYKLUS_WOCHEN[0];
+    const we = wiedereinstiegAktiv(datum);
+    return plan.map((p,i)=>{
+      const a = wochenAnpassung(p, w, datum);
+      // Beim Wiedereinstieg zusaetzlich ein Satz weniger je Uebung.
+      const n = we ? Math.max(1, saetze[i] - 1) : saetze[i];
+      return {id:p.id, saetze:n, bereich:p.bereich, kg:a.kg, warm:p.warm,
+              zielRir:w.rir, basisSaetze:p.saetze, basisKg:p.kg,
+              log: erzeugeSaetze(p.id, n, p.bereich, a.kg, p.warm, w.rir)};
+    });
+  }
+
+  // Erzeugt die fertigen Satzzeilen einer Uebung: erst Aufwaermsaetze aus dem
+  // Arbeitsgewicht, dann die Arbeitssaetze. Alle als "offen" markiert - du
+  // hakst sie ab, korrigierst sie oder loeschst sie.
+  function erzeugeSaetze(id, anzahl, bereichKey, kg, warm, zielRir){
+    const u = UEB[id] || {};
+    const b = WDH_BEREICHE[bereichKey] || WDH_BEREICHE['8-12'];
+    const zeilen = [];
+    // Aufwaermsaetze nur bei Gewichtsuebungen mit eingetragenem Arbeitsgewicht.
+    if(warm && !u.bw && kg > 0){
+      b.aufwaermen.forEach(([anteil, wdh])=>{
+        const w = rundeGewicht(kg * anteil, id, 0);
+        if(w > 0 && w < kg) zeilen.push({wdh, kg:w, warmup:true, offen:true, geplant:true});
+      });
+    }
+    for(let i = 0; i < anzahl; i++){
+      zeilen.push({wdh:b.ziel, kg: u.bw ? 0 : kg, rir: Math.round(zielRir), warmup:false, offen:true, geplant:true});
+    }
+    return zeilen;
+  }
+
+  // Bestaetigte Saetze - nur diese zaehlen fuer Volumen und Progression.
+  const erledigt = log => (log||[]).filter(s => !s.offen);
+  const arbeitSaetze = log => erledigt(log).filter(s => !s.warmup);
+
+  // Alle abgeschlossenen Einheiten, neueste zuerst.
+  function einheitenSortiert(){
+    const t = tr();
+    return Object.entries(t.einheiten)
+      .filter(([,e]) => e.fertig)
+      .sort((a,b) => b[0].localeCompare(a[0]));
+  }
+
+  // Letzter bestaetigter Arbeitssatz einer Uebung vor einem Datum.
+  function letzteLeistung(uebungId, vorSchluessel){
+    for(const [k, e] of einheitenSortiert()){
+      if(vorSchluessel && k >= vorSchluessel) continue;
+      for(const u of (e.uebungen || [])){
+        if(u.id !== uebungId) continue;
+        const arbeit = arbeitSaetze(u.log);
+        if(!arbeit.length) continue;
+        // schwerster Satz, bei Gleichstand der mit den meisten Wiederholungen
+        const best = arbeit.reduce((a,b)=> (b.kg > a.kg || (b.kg === a.kg && b.wdh > a.wdh)) ? b : a, arbeit[0]);
+        return {datum: tagVonSchluessel(k), kg: best.kg, wdh: best.wdh, rir: best.rir,
+                saetze: arbeit.length, bereich: u.bereich};
+      }
+    }
+    return null;
+  }
+
+  // Verlauf einer Uebung ueber alle Einheiten, aelteste zuerst.
+  function uebungsVerlauf(uebungId){
+    const out = [];
+    einheitenSortiert().slice().reverse().forEach(([k, e])=>{
+      (e.uebungen || []).forEach(u=>{
+        if(u.id !== uebungId) return;
+        const arbeit = arbeitSaetze(u.log);
+        if(!arbeit.length) return;
+        const volumen = arbeit.reduce((a,x)=> a + x.kg * x.wdh, 0);
+        const best = arbeit.reduce((a,b)=> schaetze1RM(b.kg,b.wdh,b.rir) > schaetze1RM(a.kg,a.wdh,a.rir) ? b : a, arbeit[0]);
+        out.push({datum: tagVonSchluessel(k), saetze: arbeit.length, volumen,
+                  kg: best.kg, wdh: best.wdh, rir: best.rir,
+                  e1rm: Math.round(schaetze1RM(best.kg, best.wdh, best.rir) * 10)/10,
+                  bereich: u.bereich});
+      });
+    });
+    return out;
+  }
+
+  // Bestleistung und Stagnationserkennung.
+  // Stagnation = seit mindestens vier Einheiten und 28 Tagen keine neue
+  // Bestleistung. Das ist das Warnsignal fuer zu viel Gesamtbelastung.
+  function uebungsBefund(uebungId){
+    const v = uebungsVerlauf(uebungId);
+    if(v.length < 4) return {verlauf:v, best:null, stagniert:false};
+    const best = v.reduce((a,b)=> b.e1rm > a.e1rm ? b : a, v[0]);
+    const seit = v.length - 1 - v.lastIndexOf(best);
+    const tage = tageZwischen(best.datum, v[v.length-1].datum) - 1;
+    return {verlauf:v, best, seitEinheiten:seit, seitTagen:tage,
+            stagniert: seit >= 4 && tage >= 28};
+  }
+
+  // ---- Mehrere Einheiten pro Tag ---------------------------------------
+  // Schluessel ist das Datum, eine zweite Einheit am selben Tag bekommt "#2".
+  function tagVonSchluessel(key){ return String(key).split('#')[0]; }
+  function einheitenAmTag(datum){
+    const t = tr();
+    return Object.entries(t.einheiten).filter(([k]) => tagVonSchluessel(k) === datum);
+  }
+  function neuerEinheitsSchluessel(datum){
+    const t = tr();
+    if(!t.einheiten[datum]) return datum;
+    let n = 2;
+    while(t.einheiten[datum + '#' + n] && n < 50) n++;
+    return datum + '#' + n;
+  }
+  // Offene (noch nicht abgeschlossene) Einheit des Tages, falls vorhanden.
+  function offeneEinheit(datum){
+    const treffer = einheitenAmTag(datum).find(([,e]) => !e.fertig);
+    return treffer ? treffer[0] : null;
+  }
+
+  // ---- Krankheit --------------------------------------------------------
+  function warKrank(datum){
+    const t = tr();
+    if(t.krankAktiv && datum >= t.krankAktiv.von) return true;
+    return (t.krank||[]).some(k => datum >= k.von && datum <= k.bis);
+  }
+
+  // Tage zwischen zwei Datumsangaben, beide eingeschlossen.
+  function tageZwischen(von, bis){
+    const a = new Date(von + 'T12:00:00'), b = new Date(bis + 'T12:00:00');
+    return Math.round((b - a)/86400000) + 1;
+  }
+
+  // Folgen einer Krankheitsphase. Schwellen sind in trainingslogik.md begruendet.
+  function krankheitsFolge(tage){
+    if(tage <= 3) return {
+      stufe:'kurz', zyklusZurueck:0, faktor:1, dauer:0,
+      text:'Bis zu drei Tage: keine Anpassung. Du steigst dort wieder ein, wo du warst.'
+    };
+    if(tage <= 10) return {
+      stufe:'mittel', zyklusZurueck:7, faktor:0.90, dauer:7,
+      text:'Vier bis zehn Tage: Der Zyklus geht eine Woche zurück. Eine Woche lang 90 % Gewicht und ein Satz weniger je Übung.'
+    };
+    return {
+      stufe:'lang', zyklusZurueck:null, faktor:0.85, dauer:10,
+      text:'Ueber zehn Tage: Der Zyklus startet neu bei Woche 1. Zehn Tage lang 85 % Gewicht und ein Satz weniger je Übung.'
+    };
+  }
+
+  // ---- Verpasste Einheiten ---------------------------------------------
+  // Trainingstage dieser Woche, die vorbei sind und keine Einheit haben.
+  function verpassteTage(datum){
+    const t = tr();
+    if(!t.zyklus) return [];
+    const d = new Date(datum + 'T12:00:00');
+    const wochentagIdx = (d.getDay()+6)%7;             // Mo = 0
+    const out = [];
+    const zyklusEnde = tagKey(t.zyklus.start, -(ZYKLUS_LAENGE * 7 - 1));
+    for(let i = 0; i < wochentagIdx; i++){
+      const k = WOCHENTAGE[i].k;
+      if(!(t.zyklus.tage||[]).includes(k)) continue;
+      const tag = tagKey(datum, wochentagIdx - i);
+      // Tage vor dem Zyklusstart oder nach dem Zyklusende zaehlen nicht als
+      // ausgefallen - da war schlicht kein Training geplant.
+      if(tag < t.zyklus.start || tag > zyklusEnde) continue;
+      if(warKrank(tag)) continue;                    // Krankheit ist kein Ausfall
+      if(einheitenAmTag(tag).length) continue;
+      const p = planFuerDatum(tag);
+      if(p) out.push({datum:tag, planId:p.planId, name:p.name});
+    }
+    return out;
+  }
+
+  // ---- Wochenplan ----------------------------------------------------
+  function planFuerDatum(datum){
+    const t = tr();
+    if(!t.zyklus) return null;
+    const d = new Date(datum + 'T12:00:00');
+    const k = WOCHENTAGE[(d.getDay()+6)%7].k;
+    const idx = (t.zyklus.tage||[]).indexOf(k);
+    if(idx < 0) return null;
+    const namen = SPLITS[t.zyklus.split].einheiten;
+    const start = new Date(t.zyklus.start + 'T12:00:00');
+    const woche = Math.floor(Math.round((d - start)/86400000)/7);
+    const einheitName = namen[(idx + woche*(t.zyklus.tage.length)) % namen.length];
+    return {tag:k, name:einheitName, planId:einheitName};
+  }
+
+  // ---- Ton und Vibration ---------------------------------------------
+  let audioCtx = null;
+  function piep(hoehe, dauer, laut){
+    const t = tr();
+    if(!t.prefs.ton) return;
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = hoehe;
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(laut || 0.25, audioCtx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dauer);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dauer + 0.02);
+    }catch(e){ /* Ton nicht verfuegbar — Vibration bleibt */ }
+  }
+  function vibriere(muster){
+    const t = tr();
+    if(!t.prefs.vibration) return;
+    try{ if(navigator.vibrate) navigator.vibrate(muster); }catch(e){}
+  }
+  function signalVorwarnung(){ piep(660, 0.12, 0.18); vibriere(80); }
+  function signalPauseEnde(){
+    piep(880, 0.16, 0.3);
+    setTimeout(()=>piep(880, 0.16, 0.3), 220);
+    vibriere([120, 90, 120]);
+  }
+
+
+
+  // ---- Plangenerator ----------------------------------------------------
+  // Vorlagen je Einheitstyp, geordnet nach Prioritaet: schwere Grunduebungen
+  // zuerst, Isolation zuletzt. Wird bei Zeitmangel von hinten gekuerzt.
+  const VORLAGEN = {
+    'Ganzkoerper': ['beinpresse','beinbeuger_sitz','latzug','brustpresse','schulterpresse','kabelrudern','seitheben_sitz','wadenpresse_sitz','bauchpresse','trizepsdruecken','curl_kh'],
+    'Oberkoerper': ['bankdruecken','kabelrudern','latzug','schulterpresse','butterfly','rudern_hintere','seitheben_sitz','bauchpresse','trizepsdruecken','curl_kh'],
+    'Unterkoerper':['beinpresse','beinbeuger_sitz','hipthrust','beinstrecker','abduktion','wadenpresse_sitz','rdl','bauchpresse'],
+    'Push':        ['bankdruecken','schulterpresse','brustpresse','butterfly','seitheben_sitz','bauchpresse','trizepsdruecken','dips'],
+    'Pull':        ['latzug','kabelrudern','rudern_hintere','ueberzuege','curl_kh','hammer','hyperext'],
+    'Beine':       ['beinpresse','beinbeuger_sitz','rdl','beinstrecker','hipthrust','abduktion','wadenpresse_sitz','bauchpresse']
+  };
+
+  // Gruppen, die im hohen Wiederholungsbereich besser laufen.
+  const HOHE_WDH = ['waden','bauch'];
+
+  // Geschaetzte Dauer einer Uebung in Sekunden: Arbeitssaetze plus Pausen,
+  // plus Aufwaermsaetze mit halber Pause. 45 s je Satz als Arbeitszeit.
+  function uebungsDauer(uebungId, saetze, bereich, warm){
+    const u = UEB[uebungId]; if(!u) return 0;
+    const pause = Math.max(30, u.rest + ((WDH_BEREICHE[bereich]||{}).restPlus || 0));
+    let sek = saetze * (45 + pause);
+    if(warm) sek += 2 * (30 + pause/2);
+    return sek;
+  }
+
+  // Erzeugt fuer jede Einheit des Splits einen Vorschlag.
+  // saetzeZiel = Sollsaetze je grosser Muskelgruppe in Woche 1.
+  function erzeugePlan(einheitName, dauerMin, einheitenProWoche, index){
+    const vorlage = VORLAGEN[einheitName] || VORLAGEN['Ganzkoerper'];
+    const zielSaetze = ZYKLUS_WOCHEN[0].saetze;   // Woche 1
+    const budget = dauerMin * 60 * 0.92;          // Rest fuer Wege und Umbau
+    const MIN_UEBUNGEN = 3;
+
+    // 1. Wunschplan aus der Vorlage
+    const plan = [];
+    vorlage.forEach((id, i)=>{
+      const u = UEB[id]; if(!u) return;
+      const treffer = haeufigkeitGruppe(u.g, einheitenProWoche);
+      let saetze = Math.max(2, Math.min(4, Math.round(zielSaetze / treffer)));
+
+      // Wiederholungsbereich: erste schwere Grunduebung schwer, Waden und Bauch hoch.
+      // Wiederholt sich eine Uebung in der Woche, wechselt der Bereich bewusst
+      // zwischen schwer und leicht - wie bei deiner Wadenpresse mit 94 und 77 kg.
+      let bereich = '8-12';
+      if(HOHE_WDH.includes(u.g)) bereich = (index % 2 === 1) ? '5-8' : '15-20';
+      else if(i === 0 && u.warm) bereich = '5-8';
+
+      plan.push({id, saetze, bereich, kg:0, warm: !!u.warm});
+    });
+
+    const gesamt = () => plan.reduce((sum,p)=> sum + uebungsDauer(p.id, p.saetze, p.bereich, p.warm), 0);
+
+    // 2. Auf die Zeit zuschneiden: erst Saetze kuerzen, dann Uebungen streichen.
+    let schutz = 0;
+    while(gesamt() > budget && schutz++ < 200){
+      const kuerzbar = [];
+      for(let i = plan.length-1; i >= 0; i--) if(plan[i].saetze > 2) kuerzbar.push(i);
+      if(kuerzbar.length){ plan[kuerzbar[0]].saetze -= 1; continue; }
+      if(plan.length > MIN_UEBUNGEN){ plan.pop(); continue; }
+      break;  // Minimum erreicht, mehr geht nicht
+    }
+
+    const minuten = Math.round(gesamt()/60);
+    return {plan, minuten, knapp: minuten > dauerMin};
+  }
+
+  // Wie oft kommt eine Muskelgruppe im Wochenplan vor?
+  function haeufigkeitGruppe(gruppe, einheitenProWoche){
+    const t = tr();
+    const namen = SPLITS[t.zyklus ? t.zyklus.split : 'ganzkoerper'].einheiten;
+    let treffer = 0;
+    for(let i=0; i<einheitenProWoche; i++){
+      const n = namen[i % namen.length];
+      const v = VORLAGEN[n] || [];
+      if(v.some(id => UEB[id] && UEB[id].g === gruppe)) treffer++;
+    }
+    return Math.max(1, treffer);
+  }
+
+  // Legt fuer alle Einheiten des Splits Vorschlaege an. Bestehende Plaene
+  // werden nur ueberschrieben, wenn ueberschreiben=true.
+  function planeVorschlagen(ueberschreiben){
+    const t = tr();
+    if(!t.zyklus) return [];
+    const namen = SPLITS[t.zyklus.split].einheiten;
+    const tage = t.zyklus.tage.length;
+    const bericht = [];
+    namen.forEach((n, i)=>{
+      if(!ueberschreiben && t.plaene[n] && t.plaene[n].length) return;
+      const r = erzeugePlan(n, t.zyklus.dauer, tage, i);
+      t.plaene[n] = r.plan;
+      bericht.push({name:n, anzahl:r.plan.length, minuten:r.minuten, knapp:r.knapp});
+    });
+    return bericht;
+  }
+
+  // Proteinkorridor aus dem letzten InBody-Scan und der aktuellen Phase.
+  // Faellt auf die bisherigen Festwerte zurueck, solange kein Scan vorliegt.
+  function proteinZiel(){
+    const scans = (appState.inbodyScans || []).slice().sort((a,b)=>a.date.localeCompare(b.date));
+    const letzter = scans[scans.length-1];
+    if(!letzter || !(letzter.weight > 0)) return {von:120, bis:140, quelle:'Standardwert'};
+    const [a, b] = PHASEN[aktuellePhase()].protein;
+    return {von: Math.round(letzter.weight * a), bis: Math.round(letzter.weight * b),
+            quelle: 'aus ' + letzter.weight + ' kg (' + PHASEN[aktuellePhase()].name + ')'};
+  }
+
+  // Rechnet den tatsaechlichen Verbrauch aus zwei InBody-Scans und den
+  // geloggten Kalorien dazwischen zurueck.
+  // Energiedichte: 7700 kcal je kg Fett, 1800 je kg Magermasse.
+  function tdeeRueckrechnung(){
+    const scans = (appState.inbodyScans || []).slice().sort((a,b)=>a.date.localeCompare(b.date));
+    if(scans.length < 2) return {ok:false, grund:'Mindestens zwei InBody-Scans nötig.'};
+    const a = scans[scans.length-2], b = scans[scans.length-1];
+    const tage = tageZwischen(a.date, b.date) - 1;
+    if(tage < 7) return {ok:false, grund:'Die letzten beiden Scans liegen zu dicht beieinander.'};
+
+    // Geloggte Kalorien im Zeitraum
+    let summe = 0, erfasst = 0;
+    (appState.history || []).forEach(h=>{
+      if(h.date > a.date && h.date <= b.date && h.kcal > 0){ summe += h.kcal; erfasst++; }
+    });
+    if(erfasst < tage * 0.6) return {ok:false, grund:'Nur ' + erfasst + ' von ' + tage + ' Tagen erfasst — zu lückenhaft.'};
+
+    const schnitt = summe / erfasst;
+    const dFett = (b.fatKg !== undefined && a.fatKg !== undefined) ? (b.fatKg - a.fatKg) : null;
+    const dGewicht = b.weight - a.weight;
+    const dMager = dFett !== null ? (dGewicht - dFett) : 0;
+    const bilanz = dFett !== null ? (dFett * 7700 + dMager * 1800) : (dGewicht * 7700);
+    const tdee = Math.round(schnitt - bilanz / tage);
+
+    return {ok:true, von:a.date, bis:b.date, tage, erfasst,
+            schnitt: Math.round(schnitt), dGewicht: Math.round(dGewicht*10)/10,
+            dFett: dFett !== null ? Math.round(dFett*10)/10 : null,
+            tdee, hinterlegt: appState.tdeeRef || 2500};
+  }
+
+  // ---- Rendern: Trainingsreiter ---------------------------------------
+  function renderTraining(){
+    const wrap = document.getElementById('view-training');
+    if(!wrap) return;
+    const t = tr();
+
+    if(!t.zyklus){
+      wrap.innerHTML = `<div class="card">
+        <div class="eyebrow">Training</div>
+        <p class="empty">Noch kein Zyklus angelegt.</p>
+        <button class="wide-btn" id="zyklusStart">Zyklus einrichten</button>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Gewichte</div>
+        <p style="font-size:12.5px;color:var(--chalk-dim);margin:6px 0 10px">Lege fest, welche Gewichte an deinen Geräten verfügbar sind. Die App schlägt dann nur Werte vor, die es wirklich gibt.</p>
+        <button class="wide-btn" id="gewichteBtn">Verfügbare Gewichte</button>
+      </div>`;
+      document.getElementById('zyklusStart').addEventListener('click', openZyklusSetup);
+      document.getElementById('gewichteBtn').addEventListener('click', ()=>openGewichte());
+      return;
+    }
+
+    const w = aktuelleZyklusWoche();
+    const hinweis = belastungsHinweis();
+    const heute = todayStr();
+    const plan = planFuerDatum(heute);
+    const tagesEinheiten = einheitenAmTag(heute);
+    const offenKey = offeneEinheit(heute);
+    const fertigeHeute = tagesEinheiten.filter(([,e]) => e.fertig);
+    const fb = t.fussball[heute];
+
+    const hinweisHtml = hinweis.gruende.length
+      ? `<div class="tr-banner ${hinweis.stufe}">
+           <b>${hinweis.stufe === 'warn' ? 'Erhöhte Belastung' : 'Hinweis'}</b>
+           <ul>${hinweis.gruende.map(g=>'<li>'+escapeHtml(g)+'</li>').join('')}</ul>
+         </div>` : '';
+
+    let heuteHtml = '';
+    if(fertigeHeute.length){
+      heuteHtml += fertigeHeute.map(([k,e])=>`<div class="tr-done">${escapeHtml(zeigeName(e.titel))} abgeschlossen \u2014 ${e.saetzeGesamt} Sätze, ${e.dauerMin} Min, ${e.punkte} Belastungspunkte</div>
+        <button class="wide-btn ghost" data-oeffne="${k}">Einheit öffnen und bearbeiten</button>`).join('');
+    }
+    if(offenKey){
+      const e = t.einheiten[offenKey];
+      heuteHtml += `<div class="tr-session-card">
+          <div class="tr-session-head"><b>${escapeHtml(zeigeName(e.titel))}</b><span>läuft</span></div>
+          <div class="tr-ex-preview">${e.uebungen.length ? e.uebungen.map(x=>escapeHtml(UEB[x.id] ? UEB[x.id].name : x.id)).join(' \u00b7 ') : 'Noch keine Übungen'}</div>
+          <button class="wide-btn" data-weiter="${offenKey}">Einheit fortsetzen</button>
+        </div>`;
+    } else if(plan && !fertigeHeute.some(([,e])=>e.planId === plan.planId)){
+      const p = t.plaene[plan.planId] || [];
+      const saetzeSumme = wochenSaetze(p, w).reduce((a,x)=>a+x, 0);
+      heuteHtml += `<div class="tr-session-card">
+          <div class="tr-session-head"><b>${escapeHtml(zeigeName(plan.name))}</b><span>${p.length} Übungen \u00b7 ${saetzeSumme} Sätze</span></div>
+          <div class="tr-ex-preview">${p.length ? p.map(x=>escapeHtml(UEB[x.id] ? UEB[x.id].name : x.id)).join(' \u00b7 ') : 'Noch keine Übungen'}</div>
+          <button class="wide-btn" id="ehStart">Einheit starten</button>
+          <button class="wide-btn ghost" id="ehEdit">Plan bearbeiten</button>
+        </div>`;
+    } else if(!fertigeHeute.length){
+      heuteHtml += '<p class="empty">Heute kein Gym-Training geplant.</p>';
+    }
+    const verpasst = verpassteTage(heute);
+    if(verpasst.length && (offenKey || plan)){
+      heuteHtml += `<div class="tr-weekinfo">Ausgefallen diese Woche: ${verpasst.map(v=>escapeHtml(datumLang(v.datum))).join(', ')} \u2014 beim Starten kannst du Übungen mitnehmen.</div>`;
+    }
+    heuteHtml += '<button class="wide-btn ghost" id="ehExtra">Zusätzliche Einheit</button>';
+
+    const fbHtml = fb
+      ? `<div class="tr-done">${fb.art === 'spiel' ? 'Spiel' : 'Fußballtraining'} erfasst — ${fb.minuten} Min, RPE ${fb.rpe}, ${fb.punkte} Punkte</div>`
+      : `<button class="wide-btn ghost" id="fbBtn">Fußball erfassen</button>`;
+
+    wrap.innerHTML = `
+      <div class="card">
+        <div class="eyebrow">Zyklus</div>
+        <div class="tr-week">
+          <span class="tr-week-nr mono">${w ? w.label : 'Zyklus beendet'}</span>
+          <span class="tr-week-meta">${w ? ('Soll ' + wochenSoll(w) + ' Sätze je Muskelgruppe \u00b7 RIR ' + w.rir) : 'Alle 7 Wochen durch'}</span>
+        </div>
+        <div class="tr-weekbar">${ZYKLUS_WOCHEN.map(x=>
+          `<span class="tr-dot ${w && x.nr===w.nr ? 'on':''} ${x.typ}" title="${escapeHtml(x.label)}"></span>`).join('')}</div>
+        ${!w ? `<div class="tr-banner info"><b>Zyklus abgeschlossen</b>
+          <ul><li>Die Einheiten laufen weiter auf den Werten von Woche 1, bis du einen neuen Zyklus startest.</li></ul></div>
+          <button class="wide-btn" id="zyklusWeiter">Nächsten Zyklus starten</button>` : ''}
+        ${hinweisHtml}
+      </div>
+
+      ${t.krankAktiv ? `<div class="card">
+        <div class="tr-banner warn"><b>Krankgemeldet</b>
+          <ul><li>Seit ${escapeHtml(datumLang(t.krankAktiv.von))} \u2014 diese Tage zählen nicht als ausgefallenes Training.</li></ul></div>
+        <button class="wide-btn" id="gesundBtn">Wieder fit</button>
+      </div>` : ''}
+
+      <div class="card">
+        <div class="eyebrow">Heute</div>
+        ${heuteHtml}
+        <hr class="rule">
+        ${fbHtml}
+      </div>
+
+      ${letzteEinheitenHtml()}
+
+      ${auswertungHtml()}
+
+      <div class="card">
+        <div class="eyebrow">Wochenbelastung</div>
+        <div class="tr-load mono">${hinweis.punkte}</div>
+        <div class="tr-load-meta">Punkte aus Gym und Fußball, letzte 7 Tage</div>
+        <hr class="rule">
+        <button class="wide-btn ghost" id="gewichteBtn">Verfügbare Gewichte</button>
+        ${t.krankAktiv ? '' : '<button class="wide-btn ghost" id="krankBtn">Krank melden</button>'}
+        <button class="wide-btn ghost" id="planAlle">Pläne bearbeiten</button>
+        <button class="wide-btn ghost" id="planNeu">Plan neu vorschlagen</button>
+        <button class="wide-btn ghost" id="zyklusNeu">Zyklus neu anlegen</button>
+        <button class="wide-btn ghost" id="trPrefs">Ton, Vibration, Zielstufe</button>
+      </div>`;
+
+    const bind = (id, fn) => { const el = document.getElementById(id); if(el) el.addEventListener('click', fn); };
+    bind('ehStart', ()=>{ if(plan) starteEinheit(plan.planId, plan.name); });
+    wrap.querySelectorAll('[data-oeffne]').forEach(b=>b.addEventListener('click', ()=>oeffneEinheit(b.dataset.oeffne)));
+    wrap.querySelectorAll('[data-weiter]').forEach(b=>b.addEventListener('click', ()=>{
+      const e = tr().einheiten[b.dataset.weiter];
+      starteEinheit(e.planId, e.titel);
+    }));
+    bind('ehEdit',  ()=>openPlanEdit(plan.planId, plan.name));
+    bind('ehExtra', ()=>openExtraEinheit());
+    bind('fbBtn',   openFussball);
+    bind('gewichteBtn', ()=>openGewichte());
+    bind('planAlle', ()=>{
+      const namen = SPLITS[t.zyklus.split].einheiten;
+      if(namen.length === 1){ openPlanEdit(namen[0], namen[0]); return; }
+      openAuswahl('Welche Einheit?', namen, (n)=>openPlanEdit(n, n));
+    });
+    bind('tdeeUebernehmen', async ()=>{
+      const el = wrap.querySelector('#tdeeUebernehmen');
+      const v = parseInt(el && el.dataset.tdee, 10);
+      if(!isFinite(v) || v < 1000 || v > 5000){ alert('Der errechnete Wert ist unplausibel.'); return; }
+      if(!confirm('Tagesverbrauch von ' + (appState.tdeeRef || 2500) + ' auf ' + v + ' kcal ändern? Damit verschieben sich alle drei Zielstufen.')) return;
+      appState.tdeeRef = v;
+      await saveState();
+      renderTraining();
+      if(typeof renderTdeeField === 'function') renderTdeeField();
+      if(typeof renderMeals === 'function') renderMeals();
+      if(typeof renderStats === 'function') renderStats();
+    });
+    bind('verlaufBtn', openVerlauf);
+    bind('phaseBtn', openPhase);
+    bind('krankBtn', openKrankMelden);
+    bind('gesundBtn', openGesundMelden);
+    bind('zyklusWeiter', openZyklusSetup);
+    bind('planNeu', async ()=>{
+      if(!confirm('Alle Einheiten neu vorschlagen? Deine bisherigen Pläne werden ersetzt.')) return;
+      const b = planeVorschlagen(true);
+      await saveState(); renderTraining(); zeigePlanBericht(b);
+    });
+    bind('zyklusNeu', openZyklusSetup);
+    bind('trPrefs', openTrPrefs);
+  }
+
+  function auswertungHtml(){
+    const t = tr();
+    const ph = PHASEN[aktuellePhase()];
+    const pz = proteinZiel();
+    const td = tdeeRueckrechnung();
+    const wechsel = t.phasenWechsel && todayStr() < t.phasenWechsel.ab ? t.phasenWechsel : null;
+
+    // Stagnation ueber alle Uebungen im aktuellen Plan
+    const geprueft = new Set();
+    const stagniert = [];
+    Object.values(t.plaene || {}).forEach(pl => pl.forEach(p=>{
+      if(geprueft.has(p.id)) return;
+      geprueft.add(p.id);
+      const bf = uebungsBefund(p.id);
+      if(bf.stagniert) stagniert.push({id:p.id, ...bf});
+    }));
+
+    return `<div class="card">
+      <div class="eyebrow">Auswertung</div>
+      <div class="tr-volrow"><span>Phase</span><span class="mono">${escapeHtml(ph.name)} \u00b7 max ${ph.saetzeMax} Sätze</span></div>
+      <div class="tr-volrow"><span>Proteinziel</span><span class="mono">${pz.von}\u2013${pz.bis} g</span></div>
+      <div class="tr-hint" style="color:var(--chalk-dim)">${escapeHtml(pz.quelle)}</div>
+      ${wechsel ? `<div class="tr-weekinfo">Geplanter Phasenwechsel am ${escapeHtml(datumLang(wechsel.ab))} auf ${escapeHtml(PHASEN[wechsel.phase].name)}. Danach steigt die Satzobergrenze auf ${PHASEN[wechsel.phase].saetzeMax}.</div>` : ''}
+      <hr class="rule">
+      <div class="tr-label">Tatsächlicher Verbrauch</div>
+      ${td.ok ? `
+        <div class="tr-volrow"><span>Zeitraum</span><span class="mono">${td.tage} Tage, ${td.erfasst} erfasst</span></div>
+        <div class="tr-volrow"><span>Schnitt gegessen</span><span class="mono">${td.schnitt} kcal</span></div>
+        <div class="tr-volrow"><span>Gewicht</span><span class="mono">${td.dGewicht > 0 ? '+' : ''}${String(td.dGewicht).replace('.',',')} kg${td.dFett !== null ? ' (Fett ' + (td.dFett>0?'+':'') + String(td.dFett).replace('.',',') + ')' : ''}</span></div>
+        <div class="tr-volrow"><span><b>Errechneter TDEE</b></span><span class="mono"><b>${td.tdee} kcal</b></span></div>
+        <div class="tr-volrow"><span>In der App hinterlegt</span><span class="mono">${td.hinterlegt} kcal</span></div>
+        ${Math.abs(td.tdee - td.hinterlegt) > 150 ? `<div class="tr-weekinfo">Abweichung von ${Math.abs(td.tdee - td.hinterlegt)} kcal. Bei nur zwei Scans ist das noch kein Beweis \u2014 ab dem vierten Scan wird die Rechnung belastbar.</div>` : ''}
+      ` : `<p class="empty">${escapeHtml(td.grund)}</p>`}
+      ${stagniert.length ? `<hr class="rule">
+        <div class="tr-label">Stagnation</div>
+        ${stagniert.map(x=>`<div class="tr-volrow under"><span>${escapeHtml(UEB[x.id] ? UEB[x.id].name : x.id)}</span><span class="mono">${x.seitEinheiten} Einheiten</span></div>`).join('')}
+        <div class="tr-weekinfo">Seit über vier Wochen keine neue Bestleistung. Das ist das Warnsignal für zu viel Gesamtbelastung aus Gym und Fußball \u2014 oder für ein zu tiefes Defizit.</div>` : ''}
+      <hr class="rule">
+      ${td.ok ? `<button class="wide-btn ghost" id="tdeeUebernehmen" data-tdee="${td.tdee}">Errechneten Verbrauch übernehmen</button>` : ''}
+      <button class="wide-btn ghost" id="verlaufBtn">Übungsverlauf</button>
+      <button class="wide-btn ghost" id="phaseBtn">Phase ändern</button>
+    </div>`;
+  }
+
+  // Letzte abgeschlossene Einheiten, neueste zuerst. Zum Nachbearbeiten.
+  function letzteEinheitenHtml(){
+    const t = tr();
+    const heute = todayStr();
+    const liste = Object.entries(t.einheiten)
+      .filter(([k,e]) => e.fertig && tagVonSchluessel(k) !== heute)
+      .sort((a,b) => b[0].localeCompare(a[0]))
+      .slice(0, 8);
+    if(!liste.length) return '';
+    return `<div class="card">
+      <div class="eyebrow">Letzte Einheiten</div>
+      ${liste.map(([k,e])=>`<button class="tr-histrow" data-oeffne="${k}">
+        <span class="tr-histname">${escapeHtml(zeigeName(e.titel || e.planId))}</span>
+        <span class="tr-histmeta mono">${escapeHtml(datumLang(tagVonSchluessel(k)))} \u00b7 ${e.saetzeGesamt||0} Sätze \u00b7 ${e.dauerMin||0} Min</span>
+      </button>`).join('')}
+    </div>`;
+  }
+
+  // ---- Zyklus einrichten ----------------------------------------------
+  function openZyklusSetup(){
+    const t = tr();
+    const vor = t.zyklus || {tage:['MO','MI','FR'], split:'ganzkoerper', dauer:75};
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Zyklus einrichten</h3>
+      <div class="modal-meta">7 Wochen: 4x Aufbau, Overreach, Peak, Deload</div>
+      <div class="tr-label">Trainingstage</div>
+      <div class="tr-days">${WOCHENTAGE.map(d=>
+        `<button class="tr-day ${vor.tage.includes(d.k)?'on':''}" data-day="${d.k}">${d.name}</button>`).join('')}</div>
+      <div class="tr-label">Split</div>
+      <div class="size-list">${Object.entries(SPLITS).map(([k,s])=>
+        `<button class="tr-opt ${vor.split===k?'on':''}" data-split="${k}">${escapeHtml(s.name)}</button>`).join('')}</div>
+      <div class="tr-label">Trainingsdauer je Einheit</div>
+      <div class="tr-chips">${[45,60,75,90].map(m=>
+        `<button class="tr-chip ${vor.dauer===m?'on':''}" data-dauer="${m}">${m} Min</button>`).join('')}</div>
+      <button class="modal-close" id="zykSave">Zyklus starten</button>
+      <button class="modal-close" id="zykCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    let tage = [...vor.tage], split = vor.split, dauer = vor.dauer;
+    overlay.querySelectorAll('[data-day]').forEach(b=>b.addEventListener('click', ()=>{
+      const k = b.dataset.day;
+      if(tage.includes(k)) tage = tage.filter(x=>x!==k); else tage.push(k);
+      b.classList.toggle('on');
+    }));
+    overlay.querySelectorAll('[data-split]').forEach(b=>b.addEventListener('click', ()=>{
+      split = b.dataset.split;
+      overlay.querySelectorAll('[data-split]').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+    }));
+    overlay.querySelectorAll('[data-dauer]').forEach(b=>b.addEventListener('click', ()=>{
+      dauer = Number(b.dataset.dauer);
+      overlay.querySelectorAll('[data-dauer]').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+    }));
+    overlay.querySelector('#zykCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#zykSave').addEventListener('click', async ()=>{
+      if(!tage.length){ alert('Mindestens ein Trainingstag.'); return; }
+      const reihenfolge = WOCHENTAGE.map(d=>d.k).filter(k=>tage.includes(k));
+      t.zyklus = {start: todayStr(), tage: reihenfolge, split, dauer};
+      SPLITS[split].einheiten.forEach(n=>{ if(!t.plaene[n]) t.plaene[n] = []; });
+      const bericht = planeVorschlagen(true);
+      await saveState();
+      overlay.remove();
+      renderTraining();
+      zeigePlanBericht(bericht);
+    });
+  }
+
+  function zeigePlanBericht(bericht){
+    if(!bericht || !bericht.length) return;
+    const t = tr();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Plan steht</h3>
+      <div class="modal-meta">Vorschlag für ${t.zyklus.dauer} Min je Einheit \u2014 alles nachtraeglich aenderbar</div>
+      ${bericht.map(b=>`<div class="tr-volrow"><span>${escapeHtml(zeigeName(b.name))}</span><span class="mono">${b.anzahl} Übungen \u00b7 ~${b.minuten} Min</span></div>`).join('')}
+      ${bericht.some(b=>b.knapp) ? '<div class="tr-hint">Bei dieser Trainingsdauer passt selbst das Minimum nicht ganz \u2014 rechne mit etwas Überzug oder nimm mehr Zeit.</div>' : ''}
+      <div class="tr-hint">Die Gewichte stehen noch auf 0 \u2014 trag sie bei der ersten Einheit ein, danach steigert die App selbst.</div>
+      <button class="modal-close" id="pbEdit">Plan ansehen</button>
+      <button class="modal-close" id="pbOk">Passt</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#pbOk').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#pbEdit').addEventListener('click', ()=>{
+      overlay.remove();
+      const n = bericht[0].name;
+      openPlanEdit(n, n);
+    });
+  }
+
+  // ---- Verfuegbare Gewichte -------------------------------------------
+  function openGewichte(uebungId){
+    const t = tr();
+    // Gegen versehentlich uebergebene Klick-Ereignisse absichern: nur eine
+    // bekannte Uebungs-ID schaltet auf den uebungsspezifischen Modus.
+    const proUebung = typeof uebungId === 'string' && !!UEB[uebungId];
+    if(!proUebung) uebungId = null;
+    const reihen = proUebung
+      ? (t.gewichte.proUebung[uebungId] ? JSON.parse(JSON.stringify(t.gewichte.proUebung[uebungId])) : JSON.parse(JSON.stringify(t.gewichte.global)))
+      : JSON.parse(JSON.stringify(t.gewichte.global));
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Verfügbare Gewichte</h3>
+      <div class="modal-meta">${proUebung ? escapeHtml(UEB[uebungId].name) : 'Gilt für alle Übungen ohne eigene Einstellung'}</div>
+      <div class="tr-weekinfo">Damit weiß die App, welche Gewichte es an deinen Geräten überhaupt gibt. Beim Steigern und beim Wechsel des Wiederholungsbereichs wird nur auf diese Stufen gerundet \u2014 sonst schlägt sie dir 63 kg vor, wo die Maschine nur 62,5 hergibt.<br>Beispiel: Hantelscheiben ab 20 kg in 2,5er-Schritten, Kurzhanteln 1 bis 20 kg in 1er-Schritten. Passt eine Maschine nicht ins Schema, stell sie im Plan einzeln ein.</div>
+      <div id="gwRows"></div>
+      <button class="wide-btn ghost" id="gwAdd">Reihe hinzufügen</button>
+      <div class="tr-label">Deine Gewichte</div>
+      <div class="tr-ladder" id="gwPreview"></div>
+      <button class="modal-close" id="gwSave">Speichern</button>
+      ${proUebung && t.gewichte.proUebung[uebungId] ? '<button class="modal-close" id="gwReset">Eigene Einstellung entfernen</button>' : ''}
+      <button class="modal-close" id="gwCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    const rowsEl = overlay.querySelector('#gwRows');
+    const prevEl = overlay.querySelector('#gwPreview');
+    function zeichne(){
+      rowsEl.innerHTML = reihen.map((r,i)=>`<div class="tr-gwrow">
+        <label>Von<input type="text" inputmode="decimal" data-f="von" data-i="${i}" value="${r.von}"></label>
+        <label>Bis<input type="text" inputmode="decimal" data-f="bis" data-i="${i}" value="${r.bis}"></label>
+        <label>Schritt<input type="text" inputmode="decimal" data-f="schritt" data-i="${i}" value="${r.schritt}"></label>
+        <button class="tr-del" data-del="${i}">\u2715</button>
+      </div>`).join('');
+      rowsEl.querySelectorAll('input').forEach(inp=>inp.addEventListener('input', ()=>{
+        const v = parseFloat(String(inp.value).replace(',','.'));
+        if(isFinite(v)) reihen[Number(inp.dataset.i)][inp.dataset.f] = v;
+        vorschau();
+      }));
+      rowsEl.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', ()=>{
+        reihen.splice(Number(b.dataset.del),1); zeichne(); vorschau();
+      }));
+    }
+    function vorschau(){
+      const out = [];
+      reihen.forEach(r=>{
+        const von=Number(r.von), bis=Number(r.bis), s=Number(r.schritt);
+        if(!(s>0) || !(bis>=von)) return;
+        for(let w=von; w<=bis+1e-9 && out.length<400; w+=s) out.push(Math.round(w*100)/100);
+      });
+      const uniq = [...new Set(out)].sort((a,b)=>a-b);
+      prevEl.innerHTML = uniq.length
+        ? uniq.slice(0,40).map(w=>`<span class="tr-lad">${String(w).replace('.',',')} kg</span>`).join('')
+          + (uniq.length>40 ? `<span class="tr-lad dim">+${uniq.length-40} weitere</span>` : '')
+        : '<span class="tr-lad dim">Keine gültige Reihe</span>';
+    }
+    zeichne(); vorschau();
+
+    overlay.querySelector('#gwAdd').addEventListener('click', ()=>{
+      reihen.push({von:1, bis:50, schritt:1}); zeichne(); vorschau();
+    });
+    overlay.querySelector('#gwCancel').addEventListener('click', ()=>overlay.remove());
+    const resetBtn = overlay.querySelector('#gwReset');
+    if(resetBtn) resetBtn.addEventListener('click', async ()=>{
+      delete t.gewichte.proUebung[uebungId];
+      await saveState(); overlay.remove();
+    });
+    overlay.querySelector('#gwSave').addEventListener('click', async ()=>{
+      const gueltig = reihen.filter(r=>Number(r.schritt)>0 && Number(r.bis)>=Number(r.von));
+      if(!gueltig.length){ alert('Mindestens eine gültige Reihe.'); return; }
+      if(proUebung) t.gewichte.proUebung[uebungId] = gueltig;
+      else t.gewichte.global = gueltig;
+      await saveState(); overlay.remove();
+    });
+  }
+
+  // ---- Plan bearbeiten -------------------------------------------------
+  function openPlanEdit(planId, titel){
+    const t = tr();
+    if(!t.plaene[planId]) t.plaene[planId] = [];
+    const plan = t.plaene[planId];
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>${escapeHtml(zeigeName(titel || planId))}</h3>
+      <div class="modal-meta">Übungen, Sätze und Wiederholungsbereich</div>
+      <div id="peList" class="comp-list"></div>
+      <div class="tr-volume" id="peVol"></div>
+      <button class="wide-btn ghost" id="peAdd">Übung hinzufügen</button>
+      <button class="modal-close" id="peDone">Fertig</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    function zeichne(){
+      const listEl = overlay.querySelector('#peList');
+      listEl.innerHTML = plan.length ? plan.map((p,i)=>{
+        const u = UEB[p.id];
+        return `<div class="tr-planrow">
+          <div class="tr-planhead">
+            <span class="tr-planname">${escapeHtml(u ? u.name : p.id)}</span>
+            <span class="tr-plangroup">${escapeHtml(u ? MUSKELGRUPPEN[u.g] : '')}</span>
+          </div>
+          <div class="tr-planctrl">
+            <label>Sätze<input type="text" inputmode="numeric" data-pf="sätze" data-i="${i}" value="${p.saetze}"></label>
+            ${u && u.bw ? '<span class="tr-bw">Körpergewicht</span>'
+              : `<label>kg<input type="text" inputmode="decimal" data-pf="kg" data-i="${i}" value="${String(p.kg).replace('.',',')}"></label>`}
+          </div>
+          ${(!u || !u.bw) && !(p.kg > 0) ? '<div class="tr-hint">Gewicht noch eintragen</div>' : ''}
+          <div style="display:none">
+          </div>
+          <div class="tr-ranges">${Object.keys(WDH_BEREICHE).map(k=>
+            `<button class="tr-range ${p.bereich===k?'on':''}" data-range="${k}" data-i="${i}">${k}</button>`).join('')}</div>
+          <div class="tr-planfoot">
+            <label class="tr-check"><input type="checkbox" data-pf="warm" data-i="${i}" ${p.warm?'checked':''}> Aufwärmsätze</label>
+            <button class="tr-mini" data-swap="${i}">Tauschen</button>
+            <button class="tr-mini" data-gw="${i}">Gewichte</button>
+            <button class="tr-mini del" data-rm="${i}">Entfernen</button>
+          </div>
+        </div>`;
+      }).join('') : '<p class="empty">Noch keine Übungen.</p>';
+
+      // Volumen je Muskelgruppe gegen das Wochensoll
+      const proGruppe = {};
+      Object.values(t.plaene).forEach(pl => pl.forEach(p=>{
+        const u = UEB[p.id]; if(!u) return;
+        proGruppe[u.g] = (proGruppe[u.g]||0) + Number(p.saetze||0);
+      }));
+      const soll = wochenSaetzeSoll();
+      const eintraege = Object.entries(proGruppe).sort((a,b)=>b[1]-a[1]);
+      overlay.querySelector('#peVol').innerHTML = eintraege.length
+        ? '<div class="tr-label">Wochenvolumen (alle Einheiten) — Soll ' + soll + '</div>'
+          + eintraege.map(([g,n])=>`<div class="tr-volrow ${n>soll+2?'over':(n<soll-4?'under':'')}">
+              <span>${escapeHtml(MUSKELGRUPPEN[g])}</span><span class="mono">${n}</span></div>`).join('')
+        : '';
+
+      listEl.querySelectorAll('input[data-pf]').forEach(inp=>inp.addEventListener('input', ()=>{
+        const i = Number(inp.dataset.i), f = inp.dataset.pf;
+        if(f === 'warm'){ plan[i].warm = inp.checked; }
+        else {
+          const v = parseFloat(String(inp.value).replace(',','.'));
+          if(isFinite(v)) plan[i][f === 'sätze' ? 'sätze' : 'kg'] = f === 'sätze' ? Math.max(1, Math.round(v)) : v;
+        }
+        saveState();
+      }));
+      listEl.querySelectorAll('[data-range]').forEach(b=>b.addEventListener('click', async ()=>{
+        const i = Number(b.dataset.i), neu = b.dataset.range, p = plan[i];
+        if(p.bereich !== neu && !(UEB[p.id]||{}).bw){
+          p.kg = gewichtFuerBereich(p.id, p.kg, p.bereich, neu, 1);
+        }
+        p.bereich = neu;
+        await saveState(); zeichne();
+      }));
+      listEl.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click', async ()=>{
+        plan.splice(Number(b.dataset.rm),1); await saveState(); zeichne();
+      }));
+      listEl.querySelectorAll('[data-swap]').forEach(b=>b.addEventListener('click', ()=>{
+        const i = Number(b.dataset.swap);
+        openUebungswahl(UEB[plan[i].id] ? UEB[plan[i].id].alt : null, async (id)=>{
+          plan[i].id = id;
+          const u = UEB[id];
+          plan[i].warm = !!u.warm;
+          await saveState(); zeichne();
+        });
+      }));
+      listEl.querySelectorAll('[data-gw]').forEach(b=>b.addEventListener('click', ()=>{
+        openGewichte(plan[Number(b.dataset.gw)].id);
+      }));
+    }
+    zeichne();
+
+    overlay.querySelector('#peAdd').addEventListener('click', ()=>{
+      openUebungswahl(null, async (id)=>{
+        const u = UEB[id];
+        plan.push({id, saetze:3, bereich:'8-12', kg: u.bw ? 0 : rundeGewicht(20, id, 0), warm: !!u.warm});
+        await saveState(); zeichne();
+      });
+    });
+    overlay.querySelector('#peDone').addEventListener('click', ()=>{ overlay.remove(); renderTraining(); });
+  }
+
+  // ---- Uebungswahl -----------------------------------------------------
+  function openUebungswahl(vorschlaege, cb){
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Übung wählen</h3>
+      <input type="text" id="uwSearch" class="tr-search" placeholder="Suchen...">
+      <div class="comp-list" id="uwList"></div>
+      <button class="modal-close" id="uwCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    const listEl = overlay.querySelector('#uwList');
+    function zeichne(filter){
+      const f = (filter||'').trim().toLowerCase();
+      let html = '';
+      if(!f && vorschlaege && vorschlaege.length){
+        html += '<div class="tr-label">Alternativen</div>' + vorschlaege.filter(id=>UEB[id]).map(id=>
+          `<button class="tr-pick" data-pick="${id}">${escapeHtml(UEB[id].name)}<span>${escapeHtml(MUSKELGRUPPEN[UEB[id].g])}</span></button>`).join('');
+      }
+      Object.keys(MUSKELGRUPPEN).forEach(g=>{
+        const liste = UEBUNGEN.filter(u=>u.g===g && (!f || u.name.toLowerCase().includes(f)));
+        if(!liste.length) return;
+        html += `<div class="tr-label">${escapeHtml(MUSKELGRUPPEN[g])}</div>` + liste.map(u=>
+          `<button class="tr-pick" data-pick="${u.id}">${escapeHtml(u.name)}<span>${u.rest}s</span></button>`).join('');
+      });
+      listEl.innerHTML = html || '<p class="empty">Nichts gefunden.</p>';
+      listEl.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click', ()=>{
+        overlay.remove(); cb(b.dataset.pick);
+      }));
+    }
+    zeichne('');
+    overlay.querySelector('#uwSearch').addEventListener('input', e=>zeichne(e.target.value));
+    overlay.querySelector('#uwCancel').addEventListener('click', ()=>overlay.remove());
+  }
+
+
+  // ---- Einheit durchfuehren --------------------------------------------
+  let pauseTimer = null;
+
+  function starteEinheit(planId, titel, erzwingeNeu){
+    const t = tr();
+    const heute = todayStr();
+    const woche = aktuelleZyklusWoche();
+
+    // Offene Einheit fortsetzen, sonst neue anlegen (zweite am Tag bekommt "#2").
+    let key = erzwingeNeu ? null : offeneEinheit(heute);
+    if(!key){
+      key = neuerEinheitsSchluessel(heute);
+      t.einheiten[key] = {
+        planId, titel,
+        start: Date.now(),
+        wocheNr: woche ? woche.nr : null,
+        uebungen: einheitAusPlan(planId, woche, heute),
+        aenderungen: [],
+        nachgeholt: [],
+        fertig: false
+      };
+      saveState();
+    }
+    const eh = t.einheiten[key];
+
+    // Leere Einheit aus dem Plan nachfuellen (z.B. vor dem Anlegen des Plans gestartet).
+    if(!eh.fertig && eh.uebungen.length === 0 && (t.plaene[eh.planId]||[]).length){
+      eh.uebungen = einheitAusPlan(eh.planId, woche, heute);
+      eh.wocheNr = woche ? woche.nr : eh.wocheNr;
+      saveState();
+    }
+
+    if(!eh.regen){ openRegenAbfrage(key, ()=>nachholenPruefen(key)); return; }
+    nachholenPruefen(key);
+  }
+
+  // Bietet an, Uebungen aus ausgefallenen Einheiten dieser Woche mitzunehmen.
+  function nachholenPruefen(key){
+    const t = tr();
+    const eh = t.einheiten[key];
+    if(eh.fertig || eh.nachholAbgefragt){ oeffneEinheit(key); return; }
+    eh.nachholAbgefragt = true;
+
+    const verpasst = verpassteTage(tagVonSchluessel(key));
+    const vorhanden = new Set(eh.uebungen.map(u=>u.id));
+    const kandidaten = [];
+    verpasst.forEach(v=>{
+      (t.plaene[v.planId]||[]).slice(0,3).forEach(p=>{
+        if(!vorhanden.has(p.id) && !kandidaten.some(k=>k.id===p.id)){
+          kandidaten.push({id:p.id, von:v.name, datum:v.datum, eintrag:p});
+        }
+      });
+    });
+    if(!verpasst.length || !kandidaten.length){ saveState(); oeffneEinheit(key); return; }
+
+    const woche = aktuelleZyklusWoche();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Ausgefallene Einheit</h3>
+      <div class="modal-meta">${verpasst.map(v=>escapeHtml(datumLang(v.datum))).join(', ')} \u2014 Übungen mitnehmen?</div>
+      ${kandidaten.slice(0,3).map((k,i)=>`<label class="tr-check block">
+        <input type="checkbox" data-nh="${i}" ${i<2?'checked':''}>
+        ${escapeHtml(UEB[k.id] ? UEB[k.id].name : k.id)}
+        <span class="tr-reason">aus ${escapeHtml(zeigeName(k.von))} vom ${escapeHtml(datumLang(k.datum))}</span>
+      </label>`).join('')}
+      <div class="tr-hint">Die Zykluswoche bleibt am Kalender \u2014 nachgeholt wird nur das Volumen, nicht der Plan.</div>
+      <button class="modal-close" id="nhOk">Übernehmen</button>
+      <button class="modal-close" id="nhSkip">Ohne Nachholen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#nhSkip').addEventListener('click', async ()=>{
+      await saveState(); overlay.remove(); oeffneEinheit(key);
+    });
+    overlay.querySelector('#nhOk').addEventListener('click', async ()=>{
+      overlay.querySelectorAll('[data-nh]').forEach(cb=>{
+        if(!cb.checked) return;
+        const k = kandidaten[Number(cb.dataset.nh)];
+        const a = wochenAnpassung(k.eintrag, woche);
+        const n = Math.max(1, a.saetze-1);
+        eh.uebungen.push({id:k.id, saetze:n, bereich:k.eintrag.bereich, kg:a.kg,
+                          warm:k.eintrag.warm, zielRir:a.rir, basisSaetze:k.eintrag.saetze,
+                          basisKg:k.eintrag.kg, nachgeholt:true,
+                          log: erzeugeSaetze(k.id, n, k.eintrag.bereich, a.kg, k.eintrag.warm, a.rir)});
+        eh.nachgeholt.push({id:k.id, von:k.datum});
+      });
+      await saveState(); overlay.remove(); oeffneEinheit(key);
+    });
+  }
+
+  function openRegenAbfrage(key, weiter){
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Kurz vorab</h3>
+      <div class="modal-meta">Zwei Fragen, damit die Belastung passt</div>
+      <div class="tr-label">Schlaf letzte Nacht</div>
+      <div class="size-list">${['gut','mittel','schlecht'].map((v,i)=>
+        `<button class="tr-opt ${i===0?'on':''}" data-schlaf="${v}">${v}</button>`).join('')}</div>
+      <div class="tr-label">Muskelkater</div>
+      <div class="size-list">${['keiner','leicht','stark'].map((v,i)=>
+        `<button class="tr-opt ${i===0?'on':''}" data-kater="${v}">${v}</button>`).join('')}</div>
+      <button class="modal-close" id="rgOk">Weiter</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    let schlaf='gut', kater='keiner';
+    overlay.querySelectorAll('[data-schlaf]').forEach(b=>b.addEventListener('click',()=>{
+      schlaf=b.dataset.schlaf;
+      overlay.querySelectorAll('[data-schlaf]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelectorAll('[data-kater]').forEach(b=>b.addEventListener('click',()=>{
+      kater=b.dataset.kater;
+      overlay.querySelectorAll('[data-kater]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelector('#rgOk').addEventListener('click', async ()=>{
+      const t = tr();
+      const eh = t.einheiten[key];
+      eh.regen = {schlaf, kater};
+      // Wirkung: bei schlechter Erholung einen Satz je Uebung streichen.
+      const punkte = (schlaf==='schlecht'?2:schlaf==='mittel'?1:0) + (kater==='stark'?2:kater==='leicht'?1:0);
+      eh.regenAbzug = punkte >= 3 ? 1 : 0;
+      if(eh.regenAbzug){
+        eh.uebungen.forEach(u=>{
+          if(u.saetze > 1){
+            u.saetze -= 1;
+            // letzte offene Arbeitszeile entfernen
+            for(let i = u.log.length - 1; i >= 0; i--){
+              if(!u.log[i].warmup && u.log[i].offen){ u.log.splice(i,1); break; }
+            }
+          }
+        });
+      }
+      await saveState(); overlay.remove(); weiter();
+    });
+  }
+
+  function oeffneEinheit(key){
+    const t = tr();
+    const eh = t.einheiten[key];
+    if(!eh) return;
+    const datum = tagVonSchluessel(key);
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay tr-run';
+    overlay.id = 'ehModal';
+    document.body.appendChild(overlay);
+    if(!eh.fertig) bildschirmWach(true);
+
+    function dauerMin(){ return Math.max(1, Math.round((Date.now() - eh.start)/60000)); }
+
+    function zeichne(){
+      // Scrollposition merken: der Neuaufbau ersetzt das Sheet komplett und
+      // wuerde sonst bei jedem gespeicherten Satz nach oben springen.
+      const altSheet = overlay.querySelector('.modal-sheet');
+      const merkScroll = altSheet ? altSheet.scrollTop : 0;
+      const hinweis = belastungsHinweis();
+      const fertigeUeb = eh.uebungen.filter(u=>u.log.length && u.log.every(x=>!x.offen)).length;
+      overlay.innerHTML = `<div class="modal-sheet tr-sheet">
+        <div class="tr-runhead">
+          <b>${escapeHtml(zeigeName(eh.titel))}</b>
+          <span class="mono">${eh.fertig ? eh.dauerMin : dauerMin()} Min \u00b7 ${fertigeUeb}/${eh.uebungen.length}</span>
+        </div>
+        ${(() => {
+          const teile = [];
+          const wo = eh.wocheNr ? ZYKLUS_WOCHEN[eh.wocheNr-1] : null;
+          if(wo && wo.nr > 1) teile.push(wo.label + ': ' + (wo.typ==='deload' ? 'halbes Volumen, 90 % Gewicht' : 'Soll ' + wochenSoll(wo) + ' Sätze, RIR ' + wo.rir));
+          if(eh.regenAbzug) teile.push('Erholung schwach \u2014 je Übung ein Satz weniger');
+          if((eh.nachgeholt||[]).length) teile.push((eh.nachgeholt.length) + ' Übung(en) aus einer ausgefallenen Einheit');
+          return teile.length ? '<div class="tr-weekinfo">' + teile.map(escapeHtml).join(' \u00b7 ') + '</div>' : '';
+        })()}
+        ${eh.fertig ? `<div class="tr-reopen">Abgeschlossen am ${escapeHtml(datumLang(datum))} \u00b7 RPE ${eh.rpe} \u00b7 ${eh.punkte} Punkte \u2014 Nachtraege werden gespeichert, die Gewichtsprogression bleibt unveraendert.</div>` : ''}
+        ${hinweis.stufe!=='ok' ? `<div class="tr-banner ${hinweis.stufe}"><b>${hinweis.stufe==='warn'?'Erhöhte Belastung':'Hinweis'}</b><ul>${hinweis.gruende.map(g=>'<li>'+escapeHtml(g)+'</li>').join('')}</ul></div>`:''}
+        <div id="ehList"></div>
+        <button class="wide-btn ghost" id="ehAddEx">Übung hinzufügen</button>
+        ${eh.fertig ? '<button class="wide-btn ghost" id="ehMeta">Dauer und RPE ändern</button>'
+                    : '<button class="wide-btn ghost" id="ehReload">Plan neu laden</button>'}
+        <button class="modal-close" id="ehFinish">${eh.fertig ? 'Nachtrag speichern' : 'Einheit abschließen'}</button>
+        ${eh.fertig ? '' : '<button class="modal-close" id="ehClose">Später weiter</button>'}
+        <button class="modal-close" id="ehDiscard">Einheit verwerfen</button>
+      </div>`;
+
+      const listEl = overlay.querySelector('#ehList');
+      listEl.innerHTML = eh.uebungen.map((u,ui)=>{
+        const meta = UEB[u.id] || {name:u.id, rest:120, bw:false};
+        const b = WDH_BEREICHE[u.bereich];
+        const offen = u.log.filter(x=>x.offen).length;
+        const fertig = u.log.length > 0 && offen === 0;
+        return `<div class="tr-exbox ${fertig?'done':''}">
+          <div class="tr-exhead">
+            <span>${escapeHtml(meta.name)}${u.nachgeholt ? ' <span class="tr-tag">nachgeholt</span>' : ''}</span>
+            <span class="tr-exmeta mono">${u.bereich} \u00b7 ${meta.bw ? 'KG' : String(u.kg).replace('.',',')+' kg'}${u.zielRir !== undefined ? ' \u00b7 RIR ' + u.zielRir : ''}</span>
+          </div>
+          ${(() => {
+            const l = letzteLeistung(u.id, key);
+            if(!l) return '';
+            const txt = 'Zuletzt ' + l.saetze + '\u00d7 ' + l.wdh + ' Wdh'
+              + (meta.bw ? '' : ' mit ' + String(l.kg).replace('.',',') + ' kg')
+              + (l.rir !== undefined ? ', RIR ' + l.rir : '') + ' \u00b7 ' + datumLang(l.datum);
+            return '<div class="tr-letzte">' + escapeHtml(txt) + '</div>';
+          })()}
+          <table class="tr-sets">
+            <tr><th></th><th>Satz</th><th>Wdh</th><th>kg</th><th>RIR</th><th></th></tr>
+            ${u.log.map((x,si)=>{
+              const nr = x.warmup ? 'A' : u.log.slice(0,si+1).filter(y=>!y.warmup).length;
+              return `<tr class="${x.warmup?'warm':''} ${x.offen?'offen':'fertig'}">
+                <td class="tr-haken" data-ab="${ui}-${si}">${x.offen ? '\u25cb' : '\u2713'}</td>
+                <td>${nr}</td>
+                <td>${x.wdh}</td>
+                <td>${meta.bw?'\u2014':String(x.kg).replace('.',',')}</td>
+                <td>${x.warmup?'\u2014':(x.rir!==undefined?x.rir:'\u2014')}</td>
+                <td class="tr-setedit" data-edit="${ui}-${si}">\u270e</td>
+              </tr>`;
+            }).join('')}
+          </table>
+          <div class="tr-exbtns">
+            <button class="tr-mini" data-plus="${ui}">+ Satz</button>
+            ${meta.bw ? '' : `<button class="tr-mini" data-pluswarm="${ui}">+ Aufwärmsatz</button>`}
+            <button class="tr-mini" data-swapex="${ui}">Tauschen</button>
+            <button class="tr-mini del" data-rmex="${ui}">Entfernen</button>
+          </div>
+        </div>`;
+      }).join('') || '<p class="empty">Keine Übungen in dieser Einheit.</p>';
+
+      // Abhaken: bestaetigt die Zeile wie geplant und startet die Pause.
+      listEl.querySelectorAll('[data-ab]').forEach(td=>td.addEventListener('click', async (ev)=>{
+        ev.stopPropagation();
+        const [ui, si] = td.dataset.ab.split('-').map(Number);
+        const u = eh.uebungen[ui]; const x = u.log[si];
+        if(!x) return;
+        x.offen = !x.offen;
+        if(!x.offen){
+          x.ts = Date.now();
+          if(!u.warmup) { /* nur Anzeige */ }
+          const meta = UEB[u.id] || {};
+          // Nach einem Aufwaermsatz nur die halbe Pause.
+          const basis = meta.rest || 120;
+          startePause(x.warmup ? Math.round(basis/2) : basis, u.bereich);
+        } else {
+          stopPause();
+        }
+        await saveState(); zeichne();
+      }));
+
+      // Stift: Werte korrigieren oder Zeile loeschen.
+      listEl.querySelectorAll('[data-edit]').forEach(td=>td.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        const [ui, si] = td.dataset.edit.split('-').map(Number);
+        openSatzEdit(eh, ui, si, zeichne);
+      }));
+
+      // Zusaetzliche Zeilen
+      listEl.querySelectorAll('[data-plus]').forEach(btn=>btn.addEventListener('click', async ()=>{
+        const ui = Number(btn.dataset.plus), u = eh.uebungen[ui];
+        const meta = UEB[u.id] || {};
+        const b = WDH_BEREICHE[u.bereich] || WDH_BEREICHE['8-12'];
+        u.log.push({wdh:b.ziel, kg: meta.bw?0:u.kg, rir: Math.round(u.zielRir !== undefined ? u.zielRir : 1),
+                    warmup:false, offen:true});
+        u.saetze = u.log.filter(x=>!x.warmup).length;
+        await saveState(); zeichne();
+      }));
+      listEl.querySelectorAll('[data-pluswarm]').forEach(btn=>btn.addEventListener('click', async ()=>{
+        const ui = Number(btn.dataset.pluswarm), u = eh.uebungen[ui];
+        const w = rundeGewicht(u.kg * 0.5, u.id, 0);
+        u.log.unshift({wdh:10, kg:w, warmup:true, offen:true});
+        await saveState(); zeichne();
+      }));
+
+      listEl.querySelectorAll('[data-rmex]').forEach(btn=>btn.addEventListener('click', async ()=>{
+        const ui = Number(btn.dataset.rmex);
+        eh.aenderungen.push({art:'entfernt', id:eh.uebungen[ui].id});
+        eh.uebungen.splice(ui,1);
+        await saveState(); zeichne();
+      }));
+      listEl.querySelectorAll('[data-swapex]').forEach(btn=>btn.addEventListener('click', ()=>{
+        const ui = Number(btn.dataset.swapex), alt = eh.uebungen[ui];
+        openUebungswahl(UEB[alt.id] ? UEB[alt.id].alt : null, async (id)=>{
+          eh.aenderungen.push({art:'getauscht', von:alt.id, id});
+          alt.id = id; alt.warm = !!(UEB[id]||{}).warm;
+          if((UEB[id]||{}).bw) alt.kg = 0;
+          alt.log = erzeugeSaetze(id, alt.saetze, alt.bereich, alt.kg, alt.warm,
+                                  alt.zielRir !== undefined ? alt.zielRir : 2);
+          await saveState(); zeichne();
+        });
+      }));
+
+      overlay.querySelector('#ehAddEx').addEventListener('click', ()=>{
+        openUebungswahl(null, async (id)=>{
+          const u = UEB[id];
+          const startKg = u.bw?0:rundeGewicht(20,id,0);
+          const zRir = (aktuelleZyklusWoche()||{rir:2}).rir;
+          eh.uebungen.push({id, saetze:3, bereich:'8-12', kg:startKg, warm:!!u.warm, zielRir:zRir,
+                            log: erzeugeSaetze(id, 3, '8-12', startKg, !!u.warm, zRir)});
+          eh.aenderungen.push({art:'ergaenzt', id});
+          await saveState(); zeichne();
+        });
+      });
+      const reloadBtn = overlay.querySelector('#ehReload');
+      if(reloadBtn) reloadBtn.addEventListener('click', async ()=>{
+        const quelle = t.plaene[eh.planId] || [];
+        if(!quelle.length){ alert('Für diese Einheit ist noch kein Plan hinterlegt.'); return; }
+        const schonGeloggt = eh.uebungen.some(u=>u.log.length);
+        if(schonGeloggt && !confirm('Bereits eingetragene Sätze gehen dabei verloren. Trotzdem neu laden?')) return;
+        eh.uebungen = einheitAusPlan(eh.planId, aktuelleZyklusWoche(), datum);
+        eh.aenderungen = []; eh.nachgeholt = []; eh.regenAbzug = 0;
+        await saveState(); zeichne();
+      });
+      overlay.querySelector('#ehDiscard').addEventListener('click', async ()=>{
+        if(!confirm('Einheit von heute komplett verwerfen?')) return;
+        bildschirmWach(false);
+        delete t.einheiten[key];
+        await saveState(); stopPause(); overlay.remove(); renderTraining();
+      });
+      const closeBtn = overlay.querySelector('#ehClose');
+      if(closeBtn) closeBtn.addEventListener('click', ()=>{ stopPause(); bildschirmWach(false); overlay.remove(); renderTraining(); });
+      const metaBtn = overlay.querySelector('#ehMeta');
+      if(metaBtn) metaBtn.addEventListener('click', ()=>openMetaEdit(key, zeichne));
+      const neuSheet = overlay.querySelector('.modal-sheet');
+      if(neuSheet && merkScroll) neuSheet.scrollTop = merkScroll;
+
+      overlay.querySelector('#ehFinish').addEventListener('click', async ()=>{
+        stopPause();
+        if(eh.fertig){
+          // Nachtrag: nur Kennzahlen neu rechnen, keine erneute Progression.
+          eh.saetzeGesamt = eh.uebungen.reduce((a,u)=>a + arbeitSaetze(u.log).length, 0);
+          eh.punkte = belastungspunkte(eh.dauerMin, eh.rpe);
+          await saveState(); bildschirmWach(false); overlay.remove(); renderTraining();
+          return;
+        }
+        abschluss(key, overlay);
+      });
+    }
+    zeichne();
+  }
+
+  // Kurzes deutsches Datum fuer Kopfzeilen und Listen.
+  function datumLang(key){
+    const d = new Date(key + 'T12:00:00');
+    const tage = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+    return tage[d.getDay()] + ', ' + d.getDate() + '.' + (d.getMonth()+1) + '.';
+  }
+
+  function openMetaEdit(key, danach){
+    const t = tr();
+    const eh = t.einheiten[key];
+    const datum = tagVonSchluessel(key);
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Dauer und Anstrengung</h3>
+      <div class="modal-meta">${escapeHtml(datumLang(datum))}</div>
+      <div class="tr-label">Dauer in Minuten</div>
+      <div class="tr-entry"><label><input type="text" inputmode="numeric" id="meDauer" value="${eh.dauerMin}"></label></div>
+      <div class="tr-label">Anstrengung</div>
+      <div class="tr-chips">${[4,5,6,7,8,9,10].map(r=>
+        `<button class="tr-chip ${r===eh.rpe?'on':''}" data-rpe="${r}">${r}</button>`).join('')}</div>
+      <div class="tr-volume" id="mePunkte"></div>
+      <button class="modal-close" id="meOk">Speichern</button>
+      <button class="modal-close" id="meCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    let rpe = eh.rpe;
+    const dauerEl = overlay.querySelector('#meDauer');
+    const punkteEl = overlay.querySelector('#mePunkte');
+    function dauer(){ const v = parseInt(dauerEl.value,10); return isFinite(v) && v>0 ? v : eh.dauerMin; }
+    function akt(){ punkteEl.textContent = dauer() + ' Min \u00d7 RPE ' + rpe + ' = ' + belastungspunkte(dauer(), rpe) + ' Belastungspunkte'; }
+    overlay.querySelectorAll('[data-rpe]').forEach(b=>b.addEventListener('click', ()=>{
+      rpe = Number(b.dataset.rpe);
+      overlay.querySelectorAll('[data-rpe]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      akt();
+    }));
+    dauerEl.addEventListener('input', akt); akt();
+    overlay.querySelector('#meCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#meOk').addEventListener('click', async ()=>{
+      eh.dauerMin = dauer(); eh.rpe = rpe; eh.punkte = belastungspunkte(eh.dauerMin, eh.rpe);
+      await saveState(); overlay.remove(); if(danach) danach();
+    });
+  }
+
+  // Einzelnen gespeicherten Satz aendern oder loeschen.
+  function openSatzEdit(eh, ui, si, danach){
+    const u = eh.uebungen[ui];
+    if(!u || !u.log[si]) return;
+    const satz = u.log[si];
+    const meta = UEB[u.id] || {};
+    const nr = satz.warmup ? 'Aufwärmsatz' : 'Satz ' + u.log.slice(0,si+1).filter(x=>!x.warmup).length;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>${escapeHtml(meta.name || u.id)}</h3>
+      <div class="modal-meta">${escapeHtml(nr)} bearbeiten${satz.offen ? ' \u00b7 noch offen' : ''}</div>
+      <div class="tr-entry">
+        <label>Wdh<input type="text" inputmode="numeric" id="seWdh" value="${satz.wdh}"></label>
+        ${meta.bw?'':`<label>kg<input type="text" inputmode="decimal" id="seKg" value="${String(satz.kg).replace('.',',')}"></label>`}
+        ${satz.warmup?'':`<label>RIR<input type="text" inputmode="numeric" id="seRir" value="${satz.rir}"></label>`}
+      </div>
+      <label class="tr-check block"><input type="checkbox" id="seWarm" ${satz.warmup?'checked':''}> Als Aufwärmsatz zählen
+        <span class="tr-reason">Aufwärmsätze zählen nicht ins Volumen und nicht in die Progression.</span></label>
+      <button class="modal-close" id="seOk">Speichern</button>
+      <button class="modal-close" id="seDel">Satz löschen</button>
+      <button class="modal-close" id="seCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    const zahl = (id, fallback) => {
+      const el = overlay.querySelector(id);
+      if(!el) return fallback;
+      const v = parseFloat(String(el.value).replace(',','.'));
+      return isFinite(v) ? v : fallback;
+    };
+    overlay.querySelector('#seCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#seDel').addEventListener('click', async ()=>{
+      u.log.splice(si,1);
+      u.saetze = u.log.filter(x=>!x.warmup).length;
+      await saveState(); overlay.remove(); if(danach) danach();
+    });
+    overlay.querySelector('#seOk').addEventListener('click', async ()=>{
+      const warm = overlay.querySelector('#seWarm').checked;
+      satz.wdh = Math.max(1, Math.round(zahl('#seWdh', satz.wdh)));
+      if(!meta.bw) satz.kg = zahl('#seKg', satz.kg);
+      satz.warmup = warm;
+      if(warm){ delete satz.rir; }
+      else { satz.rir = Math.max(0, Math.round(zahl('#seRir', satz.rir !== undefined ? satz.rir : 1))); }
+      satz.offen = false;              // wer Werte eintraegt, hat den Satz gemacht
+      satz.ts = satz.ts || Date.now();
+      u.saetze = u.log.filter(x=>!x.warmup).length;
+      await saveState(); overlay.remove(); if(danach) danach();
+    });
+  }
+
+  // Haelt den Bildschirm waehrend der Einheit an. Sonst schlaeft das Geraet
+  // ein und der Pausenton bleibt stumm - Browser spielen nichts im Hintergrund.
+  let wachSperre = null;
+  async function bildschirmWach(an){
+    try{
+      if(an){
+        if(wachSperre || !navigator.wakeLock) return;
+        wachSperre = await navigator.wakeLock.request('screen');
+        wachSperre.addEventListener('release', ()=>{ wachSperre = null; });
+      } else if(wachSperre){
+        await wachSperre.release();
+        wachSperre = null;
+      }
+    }catch(e){ wachSperre = null; }   // nicht unterstuetzt oder verweigert
+  }
+  // Nach dem Zurueckwechseln zur App die Sperre erneuern.
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible' && document.getElementById('ehModal')) bildschirmWach(true);
+  });
+
+  // ---- Pausentimer ------------------------------------------------------
+  function stopPause(){
+    if(pauseTimer){ clearInterval(pauseTimer); pauseTimer = null; }
+    const el = document.getElementById('pauseBar'); if(el) el.remove();
+  }
+  function startePause(basis, bereich){
+    stopPause();
+    const plus = (WDH_BEREICHE[bereich] || {}).restPlus || 0;
+    let rest = Math.max(30, basis + plus);
+    const bar = document.createElement('div');
+    bar.id = 'pauseBar';
+    bar.className = 'tr-pause';
+    bar.innerHTML = `<span class="mono" id="pauseTxt"></span><button id="pauseSkip">Weiter</button>`;
+    document.body.appendChild(bar);
+    const txt = bar.querySelector('#pauseTxt');
+    bar.querySelector('#pauseSkip').addEventListener('click', stopPause);
+    let vorgewarnt = false;
+    function tick(){
+      const m = Math.floor(rest/60), s = rest%60;
+      txt.textContent = 'Pause ' + m + ':' + String(s).padStart(2,'0');
+      if(rest === 3 && !vorgewarnt){ vorgewarnt = true; signalVorwarnung(); }
+      if(rest <= 0){ signalPauseEnde(); stopPause(); return; }
+      rest--;
+    }
+    tick();
+    pauseTimer = setInterval(tick, 1000);
+  }
+
+  // ---- Abschluss: Progression und Planuebernahme -------------------------
+  function abschluss(key, runOverlay){
+    const t = tr();
+    const eh = t.einheiten[key];
+    const woche = eh.wocheNr ? ZYKLUS_WOCHEN[eh.wocheNr-1] : aktuelleZyklusWoche();
+    const deload = !!(woche && woche.typ === 'deload') || wiedereinstiegAktiv();
+    const vorschlaege = [];
+    if(!deload){
+      eh.uebungen.forEach(u=>{
+        const zielRir = u.zielRir !== undefined ? u.zielRir : (woche ? woche.rir : 2);
+        const b = bewerteUebung(u.id, u.bereich, u.log, zielRir);
+        if(b && b.richtung !== 'halten') vorschlaege.push({id:u.id, ...b});
+      });
+    }
+
+    const nochOffen = eh.uebungen.reduce((a,u)=>a + u.log.filter(x=>x.offen && !x.warmup).length, 0);
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Einheit abschließen</h3>
+      ${nochOffen ? `<div class="tr-hint">${nochOffen} Arbeitssatz/-sätze sind noch nicht abgehakt. Sie zählen nicht mit \u2014 zurück und nachtragen, oder so abschließen.</div>` : ''}
+      <div class="modal-meta">Wie anstrengend war die Einheit insgesamt?</div>
+      <div class="tr-chips">${[4,5,6,7,8,9,10].map(r=>
+        `<button class="tr-chip ${r===7?'on':''}" data-rpe="${r}">${r}</button>`).join('')}</div>
+      ${deload ? '<div class="tr-hint">' + (wiedereinstiegAktiv() ? 'Wiedereinstieg nach Krankheit' : 'Deload-Woche') + ' \u2014 die Gewichtsprogression pausiert. Die reduzierten Gewichte werden nicht in den Plan geschrieben.</div>' : ''}
+      ${vorschlaege.length ? `<div class="tr-label">Gewichtsvorschläge für nächstes Mal</div>
+        ${vorschlaege.map((v,i)=>`<label class="tr-check block">
+          <input type="checkbox" data-vs="${i}" checked>
+          <b>${escapeHtml(UEB[v.id]?UEB[v.id].name:v.id)}</b>
+          ${v.richtung==='hoch'?'\u2191':'\u2193'} ${String(v.neu).replace('.',',')} kg
+          <span class="tr-reason">${escapeHtml(v.grund)}</span>
+        </label>`).join('')}` : ''}
+      ${eh.aenderungen.length ? `<div class="tr-label">Änderungen von heute</div>
+        <div class="modal-meta">In den Plan übernehmen oder nur für heute gelten lassen?</div>
+        ${eh.aenderungen.map((a,i)=>`<label class="tr-check block">
+          <input type="checkbox" data-ae="${i}">
+          ${a.art==='entfernt' ? 'Entfernt: ' + escapeHtml(UEB[a.id]?UEB[a.id].name:a.id)
+            : a.art==='ergaenzt' ? 'Ergaenzt: ' + escapeHtml(UEB[a.id]?UEB[a.id].name:a.id)
+            : 'Getauscht: ' + escapeHtml(UEB[a.von]?UEB[a.von].name:a.von) + ' \u2192 ' + escapeHtml(UEB[a.id]?UEB[a.id].name:a.id)}
+        </label>`).join('')}` : ''}
+      <button class="modal-close" id="abOk">Speichern</button>
+      <button class="modal-close" id="abCancel">Zurück</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    let rpe = 7;
+    overlay.querySelectorAll('[data-rpe]').forEach(b=>b.addEventListener('click', ()=>{
+      rpe = Number(b.dataset.rpe);
+      overlay.querySelectorAll('[data-rpe]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelector('#abCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#abOk').addEventListener('click', async ()=>{
+      const dauer = Math.max(1, Math.round((Date.now() - eh.start)/60000));
+      eh.fertig = true;
+      eh.rpe = rpe;
+      eh.dauerMin = dauer;
+      eh.punkte = belastungspunkte(dauer, rpe);
+      eh.saetzeGesamt = eh.uebungen.reduce((a,u)=>a + arbeitSaetze(u.log).length, 0);
+
+      // Gewichtsvorschlaege in den Plan uebernehmen
+      const plan = t.plaene[eh.planId] || [];
+      overlay.querySelectorAll('[data-vs]').forEach(cb=>{
+        if(!cb.checked) return;
+        const v = vorschlaege[Number(cb.dataset.vs)];
+        const p = plan.find(x=>x.id===v.id);
+        if(p) p.kg = v.neu;
+      });
+      // Nachgeholte Uebungen bleiben einmalig und gehen nie in den Plan.
+      // Strukturaenderungen nur auf Wunsch
+      overlay.querySelectorAll('[data-ae]').forEach(cb=>{
+        if(!cb.checked) return;
+        const a = eh.aenderungen[Number(cb.dataset.ae)];
+        if(a.art === 'entfernt'){
+          const i = plan.findIndex(x=>x.id===a.id); if(i>=0) plan.splice(i,1);
+        } else if(a.art === 'ergaenzt'){
+          const u = UEB[a.id];
+          if(u && !plan.some(x=>x.id===a.id)) plan.push({id:a.id, saetze:3, bereich:'8-12', kg:u.bw?0:rundeGewicht(20,a.id,0), warm:!!u.warm});
+        } else if(a.art === 'getauscht'){
+          const p = plan.find(x=>x.id===a.von); if(p){ p.id = a.id; p.warm = !!(UEB[a.id]||{}).warm; }
+        }
+      });
+      await saveState();
+      overlay.remove();
+      bildschirmWach(false);
+      if(runOverlay) runOverlay.remove();
+      renderTraining();
+      if(tr().prefs.autoZielstufe) setzeZielstufeAuto();
+    });
+  }
+
+  // ---- Zusaetzliche Einheit ---------------------------------------------
+  function openExtraEinheit(){
+    const t = tr();
+    const namen = SPLITS[t.zyklus.split].einheiten;
+    openAuswahl('Zusätzliche Einheit', namen, (n)=>starteEinheit(n, n + ' (zusätzlich)', true));
+  }
+  function openAuswahl(titel, optionen, cb){
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet"><h3>${escapeHtml(titel)}</h3>
+      <div class="size-list">${optionen.map(o=>`<button class="tr-opt" data-o="${escapeHtml(o)}">${escapeHtml(zeigeName(o))}</button>`).join('')}</div>
+      <button class="modal-close" id="auCancel">Abbrechen</button></div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click', ()=>{ overlay.remove(); cb(b.dataset.o); }));
+    overlay.querySelector('#auCancel').addEventListener('click', ()=>overlay.remove());
+  }
+
+  // ---- Fussball ----------------------------------------------------------
+  function openFussball(){
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Fußball erfassen</h3>
+      <div class="tr-label">Art</div>
+      <div class="size-list">
+        <button class="tr-opt on" data-art="training">Training (90 Min)</button>
+        <button class="tr-opt" data-art="spiel">Spiel</button>
+      </div>
+      <div id="fbSpiel" style="display:none">
+        <div class="tr-label">Aufwärmen</div>
+        <div class="tr-chips">${[0,10,30].map((m,i)=>
+          `<button class="tr-chip ${i===2?'on':''}" data-warm="${m}">${m===0?'keins':m+' Min'}</button>`).join('')}</div>
+        <div class="tr-label">Gespielte Minuten</div>
+        <div class="tr-entry"><label><input type="text" inputmode="numeric" id="fbMin" value="90"></label></div>
+      </div>
+      <div class="tr-label">Anstrengung (1 locker \u2013 10 alles gegeben)</div>
+      <div class="tr-chips">${[4,5,6,7,8,9,10].map(r=>
+        `<button class="tr-chip ${r===7?'on':''}" data-rpe="${r}">${r}</button>`).join('')}</div>
+      <div class="tr-volume" id="fbPunkte"></div>
+      <button class="modal-close" id="fbSave">Speichern</button>
+      <button class="modal-close" id="fbCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    let art='training', rpe=7, warm=30;
+    const spielBox = overlay.querySelector('#fbSpiel');
+    const punkteEl = overlay.querySelector('#fbPunkte');
+    function minuten(){
+      if(art === 'training') return 90;
+      const v = parseInt(overlay.querySelector('#fbMin').value, 10);
+      return (isFinite(v) ? Math.max(0,v) : 0) + warm;
+    }
+    function aktualisiere(){
+      punkteEl.textContent = minuten() + ' Min \u00d7 RPE ' + rpe + ' = ' + belastungspunkte(minuten(), rpe) + ' Belastungspunkte';
+    }
+    overlay.querySelectorAll('[data-art]').forEach(b=>b.addEventListener('click', ()=>{
+      art = b.dataset.art;
+      overlay.querySelectorAll('[data-art]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      spielBox.style.display = art==='spiel' ? 'block' : 'none';
+      aktualisiere();
+    }));
+    overlay.querySelectorAll('[data-warm]').forEach(b=>b.addEventListener('click', ()=>{
+      warm = Number(b.dataset.warm);
+      overlay.querySelectorAll('[data-warm]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      aktualisiere();
+    }));
+    overlay.querySelectorAll('[data-rpe]').forEach(b=>b.addEventListener('click', ()=>{
+      rpe = Number(b.dataset.rpe);
+      overlay.querySelectorAll('[data-rpe]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      aktualisiere();
+    }));
+    overlay.querySelector('#fbMin').addEventListener('input', aktualisiere);
+    aktualisiere();
+    overlay.querySelector('#fbCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#fbSave').addEventListener('click', async ()=>{
+      const m = minuten();
+      tr().fussball[todayStr()] = {art, minuten:m, rpe, aufwaermen: art==='spiel'?warm:0, punkte: belastungspunkte(m, rpe)};
+      await saveState(); overlay.remove(); renderTraining();
+      if(tr().prefs.autoZielstufe) setzeZielstufeAuto();
+    });
+  }
+
+  // ---- Uebungsverlauf ------------------------------------------------------
+  function openVerlauf(){
+    const t = tr();
+    const ids = [...new Set(Object.values(t.plaene || {}).flat().map(p=>p.id))];
+    if(!ids.length){ alert('Noch keine Übungen im Plan.'); return; }
+    openUebungswahl(ids, (id)=>zeigeVerlauf(id));
+  }
+
+  function zeigeVerlauf(uebungId){
+    const bf = uebungsBefund(uebungId);
+    const v = bf.verlauf;
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    const maxV = v.length ? Math.max(...v.map(x=>x.e1rm)) : 1;
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>${escapeHtml(UEB[uebungId] ? UEB[uebungId].name : uebungId)}</h3>
+      <div class="modal-meta">${v.length} ${v.length===1?'Einheit':'Einheiten'} erfasst</div>
+      ${!v.length ? '<p class="empty">Noch keine abgeschlossenen Sätze.</p>' : `
+        ${bf.best ? `<div class="tr-volrow"><span><b>Bestleistung</b></span><span class="mono"><b>${String(bf.best.kg).replace('.',',')} kg \u00d7 ${bf.best.wdh}</b> \u00b7 ${escapeHtml(datumLang(bf.best.datum))}</span></div>` : ''}
+        ${bf.stagniert ? `<div class="tr-banner info"><b>Stagnation</b><ul><li>Seit ${bf.seitEinheiten} Einheiten und ${bf.seitTagen} Tagen keine neue Bestleistung.</li></ul></div>` : ''}
+        <div class="tr-label">Geschätzte Maximalkraft</div>
+        <div class="tr-chart">${v.slice(-12).map(x=>{
+          const h = Math.max(4, Math.round(x.e1rm / maxV * 60));
+          return `<div class="tr-bar" title="${escapeHtml(x.datum)}"><span style="height:${h}px"></span></div>`;
+        }).join('')}</div>
+        <table class="tr-sets">
+          <tr><th>Datum</th><th>Sätze</th><th>Bester Satz</th><th>1RM</th></tr>
+          ${v.slice(-12).reverse().map(x=>`<tr>
+            <td>${escapeHtml(datumLang(x.datum))}</td>
+            <td>${x.saetze}</td>
+            <td>${String(x.kg).replace('.',',')}\u00d7${x.wdh}</td>
+            <td>${String(x.e1rm).replace('.',',')}</td>
+          </tr>`).join('')}
+        </table>
+        <div class="tr-hint" style="color:var(--chalk-dim)">Die Maximalkraft ist aus Gewicht, Wiederholungen und RIR geschätzt, nicht gemessen.</div>
+      `}
+      <button class="modal-close" id="vlClose">Schließen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#vlClose').addEventListener('click', ()=>overlay.remove());
+  }
+
+  // ---- Phase ---------------------------------------------------------------
+  function openPhase(){
+    const t = tr();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Phase</h3>
+      <div class="modal-meta">Bestimmt Satzobergrenze und Proteinziel</div>
+      <div class="size-list">${Object.entries(PHASEN).map(([k,p])=>
+        `<button class="tr-opt ${aktuellePhase()===k?'on':''}" data-ph="${k}">${escapeHtml(p.name)} \u00b7 max ${p.saetzeMax} Sätze \u00b7 ${p.protein[0]}\u2013${p.protein[1]} g/kg</button>`).join('')}</div>
+      <div class="tr-label">Geplanter Wechsel</div>
+      <div class="tr-entry">
+        <label>Ab<input type="text" inputmode="numeric" id="phAb" placeholder="JJJJ-MM-TT" value="${t.phasenWechsel ? t.phasenWechsel.ab : ''}"></label>
+      </div>
+      <div class="size-list">${Object.entries(PHASEN).map(([k,p])=>
+        `<button class="tr-opt ${t.phasenWechsel && t.phasenWechsel.phase===k?'on':''}" data-phw="${k}">${escapeHtml(p.name)}</button>`).join('')}</div>
+      <div class="tr-weekinfo">Zum geplanten Datum wechselt die Phase von selbst. Der laufende Zyklus läuft weiter \u2014 einen neuen startest du dann über „Zyklus neu anlegen".</div>
+      <button class="modal-close" id="phOk">Speichern</button>
+      <button class="modal-close" id="phWeg">Geplanten Wechsel entfernen</button>
+      <button class="modal-close" id="phCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    let phase = aktuellePhase();
+    let wPhase = t.phasenWechsel ? t.phasenWechsel.phase : 'aufbau';
+    overlay.querySelectorAll('[data-ph]').forEach(b=>b.addEventListener('click', ()=>{
+      phase = b.dataset.ph;
+      overlay.querySelectorAll('[data-ph]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelectorAll('[data-phw]').forEach(b=>b.addEventListener('click', ()=>{
+      wPhase = b.dataset.phw;
+      overlay.querySelectorAll('[data-phw]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelector('#phCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#phWeg').addEventListener('click', async ()=>{
+      t.phase = phase; t.phasenWechsel = null;
+      await saveState(); overlay.remove(); renderTraining();
+    });
+    overlay.querySelector('#phOk').addEventListener('click', async ()=>{
+      const ab = String(overlay.querySelector('#phAb').value).trim();
+      t.phase = phase;
+      t.phasenWechsel = /^\d{4}-\d{2}-\d{2}$/.test(ab) ? {ab, phase:wPhase} : null;
+      if(ab && !/^\d{4}-\d{2}-\d{2}$/.test(ab)){ alert('Datum bitte als JJJJ-MM-TT.'); return; }
+      await saveState(); overlay.remove(); renderTraining();
+      if(typeof renderMeals === 'function') renderMeals();
+    });
+  }
+
+  // ---- Krank melden -------------------------------------------------------
+  function openKrankMelden(){
+    const t = tr();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Krank melden</h3>
+      <div class="modal-meta">Ab wann bist du ausgefallen?</div>
+      <div class="tr-chips">${[0,1,2,3].map(d=>
+        `<button class="tr-chip ${d===0?'on':''}" data-seit="${d}">${d===0?'heute':d===1?'gestern':'vor '+d+' Tagen'}</button>`).join('')}</div>
+      <div class="tr-weekinfo">Krankheitstage zählen nicht als ausgefallenes Training und werden nicht zum Nachholen angeboten. Beim Gesundmelden passt die App den Zyklus an, je nachdem wie lange es gedauert hat.</div>
+      <div class="tr-banner warn"><b>Wichtig</b><ul>
+        <li>Bei Fieber, Gliederschmerzen oder Beschwerden im Brustkorb gar nicht trainieren, auch nicht locker.</li>
+        <li>Erst wieder einsteigen, wenn du mindestens 24 Stunden fieberfrei bist.</li>
+      </ul></div>
+      <button class="modal-close" id="kmOk">Krank melden</button>
+      <button class="modal-close" id="kmCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    let seit = 0;
+    overlay.querySelectorAll('[data-seit]').forEach(b=>b.addEventListener('click', ()=>{
+      seit = Number(b.dataset.seit);
+      overlay.querySelectorAll('[data-seit]').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    }));
+    overlay.querySelector('#kmCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#kmOk').addEventListener('click', async ()=>{
+      t.krankAktiv = {von: tagKey(null, seit)};
+      await saveState(); overlay.remove(); renderTraining();
+    });
+  }
+
+  function openGesundMelden(){
+    const t = tr();
+    if(!t.krankAktiv) return;
+    const von = t.krankAktiv.von;
+    const bis = todayStr();
+    const tage = Math.max(1, tageZwischen(von, bis));
+    const f = krankheitsFolge(tage);
+    const woche = aktuelleZyklusWoche();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Wieder fit</h3>
+      <div class="modal-meta">${tage} Tag${tage===1?'':'e'} ausgefallen, seit ${escapeHtml(datumLang(von))}</div>
+      <div class="tr-weekinfo">${escapeHtml(f.text)}</div>
+      ${f.stufe!=='kurz' ? `<div class="tr-label">Aktueller Stand</div>
+        <div class="tr-volrow"><span>Zyklus</span><span class="mono">${woche ? escapeHtml(woche.label) : 'beendet'}</span></div>
+        <div class="tr-volrow"><span>Danach</span><span class="mono">${f.zyklusZurueck ? (woche && woche.nr>1 ? ZYKLUS_WOCHEN[woche.nr-2].label : 'Woche 1') : 'Woche 1 (neuer Zyklus)'}</span></div>` : ''}
+      <label class="tr-check block"><input type="checkbox" id="kgAnwenden" checked> Anpassung übernehmen
+        <span class="tr-reason">Ohne Haken wird nur die Krankheitsphase vermerkt, der Plan bleibt wie er ist.</span></label>
+      <button class="modal-close" id="kgOk">Gesund melden</button>
+      <button class="modal-close" id="kgCancel">Abbrechen</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#kgCancel').addEventListener('click', ()=>overlay.remove());
+    overlay.querySelector('#kgOk').addEventListener('click', async ()=>{
+      const anwenden = overlay.querySelector('#kgAnwenden').checked;
+      t.krank.push({von, bis, tage, stufe:f.stufe, angewendet:anwenden});
+      t.krankAktiv = null;
+
+      if(anwenden && f.stufe !== 'kurz' && t.zyklus){
+        if(f.zyklusZurueck){
+          // Startdatum nach hinten schieben: der Zyklus rutscht eine Woche zurueck.
+          t.zyklus.start = tagKey(t.zyklus.start, -f.zyklusZurueck);
+        } else {
+          t.zyklus.start = bis;      // neuer Zyklus ab heute
+        }
+        t.wiedereinstieg = {bis: tagKey(bis, -f.dauer), faktor: f.faktor, grund:'Krankheit'};
+        t.kandidaten = {};           // Progressionszaehler zuruecksetzen
+      }
+      await saveState(); overlay.remove(); renderTraining();
+    });
+  }
+
+  // ---- Einstellungen ------------------------------------------------------
+  function openTrPrefs(){
+    const t = tr();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `<div class="modal-sheet">
+      <h3>Einstellungen</h3>
+      <label class="tr-check block"><input type="checkbox" id="prTon" ${t.prefs.ton?'checked':''}> Ton beim Pausenende</label>
+      <label class="tr-check block"><input type="checkbox" id="prVib" ${t.prefs.vibration?'checked':''}> Vibration beim Pausenende</label>
+      <label class="tr-check block"><input type="checkbox" id="prZiel" ${t.prefs.autoZielstufe?'checked':''}> Zielstufe automatisch setzen
+        <span class="tr-reason">Setzt Ruhetag / Training / Intensiv aus dem, was heute erfasst ist: Gym, Fußball, Spiel oder nichts. Von Hand umstellen geht weiterhin.</span></label>
+      <button class="wide-btn ghost" id="prTest">Ton testen</button>
+      <button class="modal-close" id="prOk">Fertig</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#prTest').addEventListener('click', ()=>{ signalPauseEnde(); });
+    overlay.querySelector('#prOk').addEventListener('click', async ()=>{
+      t.prefs.ton = overlay.querySelector('#prTon').checked;
+      t.prefs.vibration = overlay.querySelector('#prVib').checked;
+      t.prefs.autoZielstufe = overlay.querySelector('#prZiel').checked;
+      await saveState(); overlay.remove();
+      if(t.prefs.autoZielstufe) setzeZielstufeAuto();
+    });
+  }
+
+  // Setzt die Zielstufe aus dem Trainingsgeschehen. Standard: aus.
+  // Stufenschluessel aus dem, was am Tag erfasst ist. Die tatsaechlichen
+  // Kalorien hinter 1800/1950/2100 haengen an TDEE und Phase.
+  function zielstufeFuerTag(datum){
+    const t = tr();
+    const gym = einheitenAmTag(datum).length > 0;
+    const fb  = t.fussball[datum];
+    if(fb && fb.art === 'spiel') return 2100;
+    if(gym && fb) return 2100;
+    if(gym || fb) return 1950;
+    return 1800;
+  }
+
+  function setzeZielstufeAuto(){
+    const t = tr();
+    if(!t.prefs.autoZielstufe || !dayData) return;
+    const ziel = zielstufeFuerTag(todayStr());
+    if(dayData.kcalGoal !== ziel){
+      dayData.kcalGoal = ziel;
+      saveState();
+      if(typeof renderMeals === 'function') renderMeals();
+    }
+  }
+
   // ---- tabs ----
   document.querySelectorAll('nav.tabs button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -628,6 +2913,7 @@
       document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('view-'+btn.dataset.view).classList.add('active');
+      if(btn.dataset.view === 'training') renderTraining();
     });
   });
 
@@ -751,7 +3037,8 @@
     });
     const goal = dayData.kcalGoal || 1950;
     document.getElementById('kcalTxt').textContent = kcal + ' / ' + goal;
-    document.getElementById('protTxt').textContent = prot + 'g / 120–140g';
+    const pz = (typeof proteinZiel === 'function') ? proteinZiel() : {von:120, bis:140};
+    document.getElementById('protTxt').textContent = prot + 'g / ' + pz.von + '–' + pz.bis + 'g';
 
     const kcalPct = Math.max(0, Math.min(100, (kcal/goal)*100));
     const kBar = document.getElementById('kcalBar');
@@ -1251,6 +3538,8 @@
     nameEl.value=''; kcalEl.value=''; protEl.value='';
   }
   // ---- activity / calorie burn (MET-basiert, 65 kg) ----
+  // Nur Bewegung, die nicht ueber den Trainingsreiter laeuft. Gym und Fussball
+  // werden dort erfasst - doppelt zaehlen waere falsch.
   const ACT_TYPES = {
     gym:      {label:'Gym / Kraft', perMin: 6},
     lauf:     {label:'Lauf locker', perMin: 11},
@@ -1259,12 +3548,41 @@
     ebike:    {label:'E-Bike (Auto-Modus)', perMin: 5}
   };
 
+  // Was heute im Trainingsreiter steht - Gym-Einheiten und Fussball.
+  // Die Aktivitaetenkarte zeigt das mit an, damit es nicht zwei getrennte
+  // Wahrheiten ueber denselben Tag gibt.
+  function trainingHeute(){
+    if(typeof tr !== 'function') return [];
+    const t = tr();
+    const heute = todayStr();
+    const out = [];
+    (typeof einheitenAmTag === 'function' ? einheitenAmTag(heute) : []).forEach(([,e])=>{
+      out.push({quelle:'gym', label: (typeof zeigeName === 'function' ? zeigeName(e.titel || e.planId) : (e.titel||'Gym')),
+                min: e.dauerMin || null, punkte: e.punkte || 0, fertig: !!e.fertig});
+    });
+    const f = (t.fussball || {})[heute];
+    if(f) out.push({quelle:'fussball', label: f.art === 'spiel' ? 'Spiel' : 'Fußballtraining',
+                    min: f.minuten, punkte: f.punkte || 0, fertig:true});
+    return out;
+  }
+
   function renderActivities(){
     const list = document.getElementById('actList');
     const empty = document.getElementById('actEmpty');
     const acts = dayData.activities || [];
+    const tr8 = trainingHeute();
     list.innerHTML = '';
-    empty.style.display = acts.length ? 'none' : 'block';
+    empty.style.display = (acts.length || tr8.length) ? 'none' : 'block';
+
+    // Zuerst, was aus dem Trainingsreiter kommt - dort erfasst, hier nur gezeigt.
+    tr8.forEach(x=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="m-name">${escapeHtml(x.label)}${x.min ? ' \u00b7 ' + x.min + ' Min.' : ''}
+          <span class="tag-quelle">Training</span></span>
+        <span class="m-meta">${x.punkte ? x.punkte + ' Pkt' : (x.fertig ? '' : 'läuft')}</span>`;
+      list.appendChild(li);
+    });
+
     let burned = 0;
     acts.forEach((a, idx)=>{
       burned += num(a.kcal);
@@ -1273,12 +3591,13 @@
         <span class="m-meta">~${a.kcal} kcal <button class="del" data-aidx="${idx}">\u00d7</button></span>`;
       list.appendChild(li);
     });
-    document.getElementById('burnTag').textContent = '~' + burned + ' kcal verbrannt';
+    const punkte = tr8.reduce((x,y)=>x + (y.punkte||0), 0);
+    document.getElementById('burnTag').textContent =
+      punkte ? punkte + ' Belastungspunkte' : (burned ? '~' + burned + ' kcal verbrannt' : '0 kcal verbrannt');
     const intake = (dayData.meals||[]).reduce((s,m)=>s+num(m.kcal),0);
     const goal = dayData.kcalGoal || 1950;
-    const net = intake - burned;
-    document.getElementById('netLine').textContent = burned
-      ? `Netto: ${intake} gegessen \u2212 ${burned} verbrannt = ${net} kcal. Dein Ziel (${goal}) hat Training schon eingeplant \u2014 iss verbrannte Kalorien nicht 1:1 zur\u00fcck.`
+    document.getElementById('netLine').textContent = (tr8.length || burned)
+      ? `Dein Tagesziel (${goal}) hat das Training schon eingeplant \u2014 verbrannte Kalorien nicht zusätzlich essen.`
       : '';
     list.querySelectorAll('.del').forEach(b=>{
       b.addEventListener('click', async ()=>{
@@ -1493,8 +3812,12 @@
     const nMeals = Object.values(appState.days).reduce((s,d)=>s+(d.meals?d.meals.length:0),0);
     const nChecks = Object.keys(appState.checks || {}).length;
     // Haken gibt es in der App nicht mehr; aus Altbestaenden werden sie weiter gesichert
+    const t = appState.training || {};
+    const nEinh = Object.keys(t.einheiten || {}).length;
+    const nFb   = Object.keys(t.fussball || {}).length;
+    const trTxt = (nEinh || nFb) ? ', ' + nEinh + ' Gym-Einheiten, ' + nFb + ' Fussball-Eintraege' : '';
     return Object.keys(appState.days).length + ' Tage, ' + nMeals + ' Mahlzeiten, ' +
-           (nChecks ? nChecks + ' Haken, ' : '') + appState.history.length + ' abgeschlossene Tage';
+           (nChecks ? nChecks + ' Haken, ' : '') + appState.history.length + ' abgeschlossene Tage' + trTxt;
   }
 
   // Echte Datei statt Zwischenablage \u2014 die haelt, auch wenn du zwischendurch was anderes kopierst.
@@ -1587,7 +3910,9 @@
       await saveState();
       dayData = getDay(todayStr());
       renderMeals(); renderActivities(); renderHistory();
-      renderStandardMeals(); renderTdeeField(); renderBodyCard(); renderInbodyList(); renderStats();
+      tr();
+      renderTraining();
+      renderStandardMeals(); renderTdeeField(); renderBodyCard(); renderInbodyList(); renderStats(); tr(); renderTraining();
       status.style.color='var(--turf)';
       status.textContent = '\u2713 Wiederhergestellt: ' + Object.keys(appState.days).length + ' Tage, ' + appState.history.length + ' abgeschlossene Tage.';
     }catch(err){
@@ -1607,8 +3932,18 @@
     return latest.weight / first.weight;
   }
   const TDEE_DEFAULT = 2500;
-  // Verhaeltnis der drei Zielstufen zum Referenzwert bleibt unveraendert (2200/2600/2800 zu 2500).
-  const GOAL_FACTORS = {1800: 2200/2500, 1950: 2600/2500, 2100: 2800/2500};
+  // Zielstufen als Verhaeltnis zum Referenzwert. Im Defizit liegen alle drei
+  // darunter (2200/2600/2800 zu 2500), im Aufbau darueber, im Erhalt gleichauf.
+  // Die Abstufung Ruhetag < Training < Intensiv bleibt in jeder Phase erhalten.
+  const GOAL_FACTORS_PHASE = {
+    defizit: {1800: 2200/2500, 1950: 2600/2500, 2100: 2800/2500},
+    erhalt:  {1800: 2400/2500, 1950: 2800/2500, 2100: 3000/2500},
+    aufbau:  {1800: 2550/2500, 1950: 2950/2500, 2100: 3150/2500}
+  };
+  function goalFactors(){
+    const ph = (typeof aktuellePhase === 'function') ? aktuellePhase() : 'defizit';
+    return GOAL_FACTORS_PHASE[ph] || GOAL_FACTORS_PHASE.defizit;
+  }
   function tdeeBase(){
     const v = Number(appState.tdeeRef);
     return isFinite(v) && v > 0 ? v : TDEE_DEFAULT;
@@ -1616,7 +3951,8 @@
   function currentTDEERef(){ return Math.round(tdeeBase() * tdeeRatio()); }
   function currentTDEEByGoal(){
     const r = tdeeRatio() * tdeeBase();
-    return {1800: Math.round(GOAL_FACTORS[1800]*r), 1950: Math.round(GOAL_FACTORS[1950]*r), 2100: Math.round(GOAL_FACTORS[2100]*r)};
+    const f = goalFactors();
+    return {1800: Math.round(f[1800]*r), 1950: Math.round(f[1950]*r), 2100: Math.round(f[2100]*r)};
   }
 
   const INBODY_SEED = null; // keine Personendaten im öffentlichen Quellcode — jeder Nutzer trägt seinen eigenen ersten Scan in der App ein
@@ -1636,6 +3972,10 @@
 
   // EINE gemeinsame Rechenbasis fuer Koerper-Status und Erwartungs-Karte.
   // Beide Kacheln zeigen denselben Stand \u2014 kumuliertes Defizit seit dem letzten Scan.
+  // Im Ueberschuss landen rund 60 % der Zusatzenergie in Magermasse, wenn das
+  // Training passt - im Defizit gehen rund 80 % des Verlusts auf Fett.
+  const AUFBAU_FAT_FRACTION = 0.4;
+
   function projectionData(){
     const base = latestScan();
     if(!base) return null;
@@ -1649,15 +3989,19 @@
       deficit += ((tdeeMap[day.kcalGoal || 1950] || tdeeMap[1950]) - t.kcal);
     });
     const avgPerDay = deficit / days.length;
-    const fatLost = (deficit * FAT_FRACTION) / KCAL_PER_KG_FAT;
+    // deficit > 0 heisst Defizit, < 0 heisst Ueberschuss. Die Aufteilung auf
+    // Fett und Magermasse unterscheidet sich je Richtung.
+    const ueberschuss = deficit < 0;
+    const anteilFett = ueberschuss ? AUFBAU_FAT_FRACTION : FAT_FRACTION;
+    const fatLost = (deficit * anteilFett) / KCAL_PER_KG_FAT;
     // Der Rest des Defizits geht auf Magermasse \u2014 zaehlt beim Gewicht mit, nicht beim Fett.
-    const leanLost = (deficit * (1 - FAT_FRACTION)) / KCAL_PER_KG_FAT;
+    const leanLost = (deficit * (1 - anteilFett)) / KCAL_PER_KG_FAT;
     const weight = base.weight - fatLost - leanLost;
     const fatKg = Math.max(0, base.fatKg - fatLost);
     const fatPct = weight > 0 ? (fatKg / weight * 100) : 0;
     const muscle = base.muscle ? Math.max(0, base.muscle - leanLost) : null;
     return {base, deficit, avgPerDay, days:days.length, fatLost, leanLost,
-            weight, fatKg, fatPct, muscle};
+            ueberschuss, weight, fatKg, fatPct, muscle};
   }
 
   function renderTdeeField(){
@@ -1978,11 +4322,20 @@
     const muscleTxt = p.muscle != null
       ? ' \u00b7 Muskel ~<b style="color:var(--chalk)">' + p.muscle.toFixed(1) + ' kg</b>'
       : '';
+    const ue = p.ueberschuss;
+    const bilanzTxt = ue
+      ? 'Kumulierter \u00dcberschuss: <b style="color:var(--chalk)">~' + Math.abs(Math.round(p.deficit)) + ' kcal</b> \u2192 <b style="color:var(--turf)">+' + Math.abs(p.leanLost).toFixed(2) + ' kg Magermasse</b> und +' + Math.abs(p.fatLost).toFixed(2) + ' kg Fett'
+      : 'Kumuliertes Defizit: <b style="color:var(--chalk)">~' + Math.round(p.deficit) + ' kcal</b> \u2192 <b style="color:var(--turf)">\u2212' + p.fatLost.toFixed(2) + ' kg Fett</b> und \u2212' + p.leanLost.toFixed(2) + ' kg Magermasse';
+    const phaseTxt = (typeof aktuellePhase === 'function' && typeof PHASEN === 'object')
+      ? ' \u00b7 Phase ' + PHASEN[aktuellePhase()].name : '';
     el.innerHTML =
-      'Basis: Scan vom ' + fmtDate(base.date) + ' \u00b7 ' + p.days + ' abgeschlossene Tage seither<br>' +
-      'Kumuliertes Defizit: <b style="color:var(--chalk)">~' + Math.round(p.deficit) + ' kcal</b> \u2192 <b style="color:var(--turf)">\u2212' + p.fatLost.toFixed(2) + ' kg Fett</b> und \u2212' + p.leanLost.toFixed(2) + ' kg Magermasse<br>' +
+      'Basis: Scan vom ' + fmtDate(base.date) + ' \u00b7 ' + p.days + ' abgeschlossene Tage seither' + phaseTxt + '<br>' +
+      bilanzTxt + '<br>' +
       'Erwartung n\u00e4chster Scan: <b style="color:var(--chalk)">~' + p.weight.toFixed(1) + ' kg</b> \u00b7 Fettmasse ~' + p.fatKg.toFixed(1) + ' kg \u00b7 KFA ~<b style="color:var(--chalk)">' + p.fatPct.toFixed(1) + '%</b>' + muscleTxt + '<br>' +
-      '<span style="font-size:11px;">Sch\u00e4tzung mit ' + Math.round(FAT_FRACTION*100) + ' % Fettanteil am Defizit \u2014 Wasser/Glykogen schwanken zus\u00e4tzlich \u00b11 kg. Krafttraining und hohes Protein verschieben den Fettanteil nach oben.</span>';
+      '<span style="font-size:11px;">' + (ue
+        ? 'Sch\u00e4tzung mit ' + Math.round(AUFBAU_FAT_FRACTION*100) + ' % Fettanteil am \u00dcberschuss \u2014 im Aufbau geht der gr\u00f6\u00dfere Teil in Magermasse, sofern das Training passt. Wasser und Glykogen schwanken zus\u00e4tzlich \u00b11 kg.'
+        : 'Sch\u00e4tzung mit ' + Math.round(FAT_FRACTION*100) + ' % Fettanteil am Defizit \u2014 Wasser/Glykogen schwanken zus\u00e4tzlich \u00b11 kg. Krafttraining und hohes Protein verschieben den Fettanteil nach oben.')
+        + '</span>';
   }
 
   // ---- init ----
